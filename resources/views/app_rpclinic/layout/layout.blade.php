@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <link href="{{ asset('assets/plugins/fontawesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('app/assets/css/style.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('app/assets/css/dark-theme.css') }}" rel="stylesheet"/>
+    <!-- <link href="{{ asset('app/assets/css/dark-theme.css') }}" rel="stylesheet"/> -->
  
     <link href="{{ asset('app/assets/css/toastr.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
@@ -494,20 +494,26 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%); /* Crucial for perfect centering */
-            width: 100%;
-            height: 100%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.05; /* Make it subtle */
+            opacity: 0.05; 
         }
         
         .bg-watermark i {
-             font-size: 50vh; /* Responsive size */
-             color: #0f172a; /* Dark color for watermark on light bg */
+             font-size: 50vh; 
+             color: #0f172a; 
+        }
+
+        /* FORCE WHITE BACKGROUND - CRITICAL OVERRIDE */
+        html, body, .wrapper, .page-content {
+            background-color: #ffffff !important;
+            background: #ffffff !important;
         }
     </style>
 
