@@ -8,7 +8,7 @@
 
 @section('button_add')
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('app.paciente.add') }}"><i style="font-size: 1.8rem;" class="bi bi-person-plus-fill"></i></a>
+        <a class="nav-link text-slate-700 hover:text-teal-600 transition-colors" href="{{ route('app.paciente.add') }}"><i style="font-size: 1.8rem;" class="bi bi-person-plus-fill"></i></a>
     </li>
 @endsection
 

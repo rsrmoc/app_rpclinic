@@ -505,25 +505,28 @@
         </div>
 
        <!--start to header-->
-       <header class="top-header fixed-top border-bottom d-flex align-items-center">
-        <nav class="navbar navbar-expand w-100 p-0 gap-3 align-items-center px-3">
-            <div class="nav-button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidenav" style="padding: 10px; cursor: pointer;">
-                <a href="javascript:;" class="text-white hover:text-teal-400">
+       <!--start to header-->
+       <header class="top-header fixed-top border-bottom d-flex align-items-center shadow-sm" style="background: #ffffff !important; height: 65px !important;">
+        <nav class="navbar navbar-expand w-100 p-0 align-items-center px-3 position-relative">
+            <!-- Left: Menu Toggle -->
+            <div class="nav-button me-auto" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidenav" style="cursor: pointer;">
+                <a href="javascript:;" class="text-slate-700 hover:text-teal-600 transition-colors">
                     <i class="bi bi-list" style="font-size: 2rem;"></i>
                 </a>
             </div>
 
+            <!-- Center: Logo -->
+            <div class="position-absolute top-50 start-50 translate-middle d-flex justify-content-center align-items-center">
+                @yield('button_left')
+            </div>
 
-            @yield('button_left')
-
-
-            <ul class="navbar-nav ms-auto d-flex align-items-center top-right-menu">
-
+            <!-- Right: Actions -->
+            <ul class="navbar-nav ms-auto d-flex align-items-center gap-2">
                 @yield('button_add')
-
             </ul>
         </nav>
        </header>
+        <!--end to header-->
         <!--end to header-->
 
         <!-- cRoute::get('/', function () {
