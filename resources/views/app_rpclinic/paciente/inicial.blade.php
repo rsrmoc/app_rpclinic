@@ -18,11 +18,11 @@
 
         <form x-on:submit.prevent="getPacientes">
             <div class="position-relative">
-                <input type="text" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-slate-900 placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all shadow-sm" style="font-size: 1.1rem;" placeholder="Pesquisar Paciente..."
+                <input type="text" class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-5 py-3 text-slate-900 font-bold placeholder-slate-600 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all shadow-md" style="font-size: 1.1rem; font-weight: 600;" placeholder="Pesquisar Paciente..."
                     x-model.debounce="search">
-                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500">
+                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600">
                     <template x-if="!loading">
-                        <i class="bi bi-search text-xl"></i>
+                        <i class="bi bi-search text-xl font-bold"></i>
                     </template>
                     <template x-if="loading">
                         <span class="spinner-border spinner-border-sm text-teal-600" aria-hidden="true"></span>
@@ -36,8 +36,8 @@
         <div>
             <template x-if="pacientes.length==0">
                 <div class="mb-3">
-                    <div style="text-align: center; margin-top: 30px;" >
-                        <img src="{{ asset('app/assets/images/multidao.png') }}" class="img-fluid" style="opacity: 0.6;" alt="">
+                    <div class="flex items-center justify-center min-h-[60vh] w-full">
+                        <img src="{{ asset('app/assets/images/multidao.png') }}" class="img-fluid max-w-[80%] opacity-80" alt="Nenhum paciente encontrado">
                     </div>
                 </div>
             </template>
@@ -47,26 +47,26 @@
             <template x-for="paciente, index in pacientes" x-bind:key="index">
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 mb-4 p-4 transition-all duration-300 hover:shadow-md">
                      <div class="flex flex-row gap-4">
-                         <div class="flex-grow text-slate-600">
-                                  <span class="font-bold text-lg text-slate-900 block mb-1" x-text="paciente.nm_paciente"></span>
-                                  <div class="text-sm space-y-1">
-                                      <div><strong class="text-teal-600">Mãe:</strong> <span x-text="paciente.nm_mae"></span></div>
-                                      <div><strong class="text-teal-600">Pai:</strong> <span x-text="paciente.nm_pai"></span></div>
-                                      <div><strong class="text-teal-600">Nascimento:</strong> <span x-text="formatDate(paciente.dt_nasc)"></span></div>
-                                      <div><strong class="text-teal-600">Celular:</strong> <span class="font-bold" x-text="paciente.celular"></span></div>
+                         <div class="flex-grow text-slate-700">
+                                  <span class="font-extrabold text-lg text-slate-900 block mb-1" x-text="paciente.nm_paciente"></span>
+                                  <div class="text-sm space-y-1 font-semibold">
+                                      <div><strong class="text-teal-700 font-bold">Mãe:</strong> <span x-text="paciente.nm_mae"></span></div>
+                                      <div><strong class="text-teal-700 font-bold">Pai:</strong> <span x-text="paciente.nm_pai"></span></div>
+                                      <div><strong class="text-teal-700 font-bold">Nascimento:</strong> <span x-text="formatDate(paciente.dt_nasc)"></span></div>
+                                      <div><strong class="text-teal-700 font-bold">Celular:</strong> <span class="font-bold text-slate-900" x-text="paciente.celular"></span></div>
                                   </div>
                          </div>
                          
                          <div class="flex flex-col gap-2 justify-start">
-                             <a x-bind:href="`/app_rpclinic/paciente-edit/${paciente.cd_paciente}`" class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center hover:bg-sky-100 transition-colors border border-sky-100">
+                             <a x-bind:href="`/app_rpclinic/paciente-edit/${paciente.cd_paciente}`" class="w-10 h-10 rounded-xl bg-sky-50 text-sky-700 flex items-center justify-center hover:bg-sky-100 transition-colors border border-sky-200 font-bold">
                                  <i class="bi bi-pencil"></i>
                              </a>
      
-                             <a x-bind:href="`/app_rpclinic/paciente-doc/${paciente.cd_paciente}`" class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center hover:bg-teal-100 transition-colors border border-teal-100">
-                                 <img src="{{ asset('app/assets/images/af_evolution.svg') }}" class="w-5 h-5 opacity-80" style="filter: brightness(0) saturate(100%) invert(29%) sepia(35%) saturate(3015%) hue-rotate(159deg) brightness(95%) contrast(92%);">
+                             <a x-bind:href="`/app_rpclinic/paciente-doc/${paciente.cd_paciente}`" class="w-10 h-10 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center hover:bg-teal-100 transition-colors border border-teal-200 font-bold">
+                                 <img src="{{ asset('app/assets/images/af_evolution.svg') }}" class="w-5 h-5" style="filter: brightness(0) saturate(100%) invert(23%) sepia(35%) saturate(3015%) hue-rotate(159deg) brightness(95%) contrast(92%);">
                              </a>
      
-                             <a x-bind:href="`/app_rpclinic/paciente-hist/${paciente.cd_paciente}`" class="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center hover:bg-orange-100 transition-colors border border-orange-100">
+                             <a x-bind:href="`/app_rpclinic/paciente-hist/${paciente.cd_paciente}`" class="w-10 h-10 rounded-xl bg-orange-50 text-orange-700 flex items-center justify-center hover:bg-orange-100 transition-colors border border-orange-200 font-bold">
                                  <i class="bi bi-search-heart"></i>
                              </a>
                          </div>

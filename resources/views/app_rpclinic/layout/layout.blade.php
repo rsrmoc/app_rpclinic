@@ -510,10 +510,19 @@
              color: #0f172a; 
         }
 
+        /* LOGO CENTERING FIX */
+        .brand-logo img {
+            max-height: 35px; /* Restrict height to fit header */
+            width: auto;
+            display: block; 
+            margin: 0 auto;
+        }
+
         /* FORCE WHITE BACKGROUND - CRITICAL OVERRIDE */
         html, body, .wrapper, .page-content {
             background-color: #ffffff !important;
             background: #ffffff !important;
+            font-weight: 500 !important; /* Global Bold */
         }
     </style>
 
