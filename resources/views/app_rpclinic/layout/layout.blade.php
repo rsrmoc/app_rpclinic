@@ -500,9 +500,10 @@
     <div class="wrapper" style="background: #0f172a; min-height: 100vh;">
        <!--start to page content-->
        <div class="page-content bg-transparent">
-          <div class="login-body p-4">
- stethoscope"></i>
-        </div>
+             <!-- Background Stethoscope Watermark -->
+             <div class="bg-watermark">
+                <i class="fa fa-stethoscope"></i>
+            </div>
 
        <!--start to header-->
        <!--start to header-->
@@ -529,9 +530,6 @@
         <!--end to header-->
         <!--end to header-->
 
-        <!-- cRoute::get('/', function () {
-    return redirect()->route('app.inicial');
-});
         <!-- conteudo da pagina -->
            @yield('content')
         <!-- conteudo da pagina -->
