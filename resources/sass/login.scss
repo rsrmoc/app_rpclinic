@@ -1,0 +1,39 @@
+#container-page-login {
+    height: 100vh;
+    display: flex;
+
+    > div:nth-child(1) {
+        width: 38%;
+
+        .page-content .page-inner {
+            padding: 28px;
+        }
+
+        #main-wrapper {
+            max-width: 300px;
+            margin: auto;
+        }
+    }
+
+    > div:nth-child(2) {
+        flex: 1;
+        background-color: #1DB198;
+        background-image: url(/images/medico-pc.jpg);
+        background-blend-mode: multiply;
+        background-repeat: no-repeat;
+        background-size: cover;
+        
+        
+        > div {
+            padding: 20px;
+            max-width: 600px;
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            
+            h3, p, li {
+                color: white;
+                text-shadow: 0 0 5px rgba(0,0,0,.5);
+            }
+        }
+    }
+}

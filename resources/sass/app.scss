@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@page { size: auto;  margin: 0mm; }
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+
+.line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.loading {
+    height: 30px;
+    width: 30px;
+    border: 6px solid;
+    border-color: #1DB198;
+    border-top-color: #01fdd2;
+    border-radius: 100%;
+    animation: spinner 1s linear infinite;
+
+    &.loading-sm {
+        height: 15px;
+        width: 15px;
+        border: 3px solid;
+        border-color: #1DB198;
+        border-top-color: #01fdd2;
+    }
+}
+
+.absolute-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, .5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+}
+
+.absolute-loading-pag {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, .5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes spinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.fs-3 {
+    font-size: 1.2em;
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+}
+
+table {
+    tr td, tr th {
+        vertical-align: middle !important;
+
+        div.btn-group {
+            button.btn, a.btn {
+                font-size: 1.5rem !important;
+                padding: 4px 8px !important;
+            }
+        }
+    }
+}
+
+#rpclinica-loader {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 99999;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &-loader {
+        height: 180px;
+        width: 180px;
+        border: 6px solid;
+        border-color: #1DB198;
+        border-top-color: #01fdd2;
+        border-radius: 100%;
+        animation: spinner 1s linear infinite;
+        position: absolute;
+        top: calc(50% - 90px);
+    }
+
+    &.rpclinica-loader-hide {
+        display: none;
+    }
+}
+
+.list-paciente-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.2rem;
+    margin-bottom: 2rem;
+    padding: 0;
+}
+
+.list-paciente-info li {
+    list-style-type: none;
+    font-size: 1.3rem;
+    white-space: nowrap;
+}
+
+.avatar-rpclinica {
+    width: 126px;
+    height: 126px;
+}
+
+
+.modal-fullscreen {
+    position: fixed;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}

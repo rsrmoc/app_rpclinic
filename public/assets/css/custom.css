@@ -1,0 +1,809 @@
+/* Write your custom CSS here */
+
+/* ============ FIX Z-INDEX E POSICIONAMENTO ============ */
+/* Garantir que sidebar fique ACIMA do conteúdo */
+
+.page-sidebar {
+    z-index: 9999 !important;
+}
+
+.page-content {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* ============ FIM FIX ============ */
+
+/* Note: Universal * shadow removal was removed as it caused issues */
+/* Box shadows are now removed only on specific sidebar elements */
+
+.menu.accordion-menu>li.active>a,
+.menu.accordion-menu>li.active.open>a,
+.menu.accordion-menu>li>a:hover,
+.menu.accordion-menu li.open>a {
+    background: rgba(45, 212, 191, 0.1) !important;
+    color: #2dd4bf !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+}
+
+.menu.accordion-menu ul,
+.menu.accordion-menu {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Remove qualquer sombra do item ativo */
+.accordion-menu li.active,
+.accordion-menu li.active>a,
+.menu li.active,
+.menu li.active>a,
+.sidebar-menu li.active,
+.sidebar-menu li.active>a {
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+}
+
+/* ============ DESABILITAR WAVES EFFECT NA SIDEBAR ============ */
+/* O efeito Waves está causando a sombra/overlay */
+
+.page-sidebar .waves-effect,
+.page-sidebar .waves-button,
+.page-sidebar .waves-effect.waves-button,
+.waves-effect,
+.waves-button {
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+}
+
+.page-sidebar .waves-effect .waves-ripple,
+.page-sidebar .waves-ripple,
+.waves-ripple {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    background: transparent !important;
+}
+
+/* Remover efeito waves completamente */
+.page-sidebar .waves-effect::after,
+.page-sidebar .waves-effect::before,
+.page-sidebar .waves-button::after,
+.page-sidebar .waves-button::before,
+.waves-effect::after,
+.waves-effect::before {
+    display: none !important;
+    content: none !important;
+}
+
+/* ============ FIM WAVES FIX ============ */
+
+/* ========================================
+GLASSMORPHISM THEME - RPclinic Desktop========================================*/
+
+/* Base Body */
+body.page-header-fixed {
+    background: radial-gradient(circle at top right, #0f172a, #111827, #010b13) !important;
+    background-attachment: fixed !important;
+    color: #cbd5e1 !important;
+}
+
+/* Page Content Area */
+.page-content {
+    background: transparent !important;
+    margin-left: 220px !important;
+}
+
+.page-content.content-wrap {
+    background: transparent !important;
+}
+
+.page-inner {
+    background: transparent !important;
+    border: none !important;
+    padding: 30px !important;
+}
+
+/* Sidebar */
+.page-sidebar {
+    background: #0f172a !important;
+    width: 220px !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 60px !important;
+    height: calc(100% - 60px) !important;
+    z-index: 9999 !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.page-sidebar-inner {
+    background: transparent !important;
+}
+
+.page-sidebar .sidebar-menu,
+.page-sidebar .menu,
+.page-sidebar .accordion-menu {
+    background: transparent !important;
+}
+
+.page-sidebar .sidebar-menu li a,
+.page-sidebar .menu li a,
+.page-sidebar .accordion-menu li a {
+    color: #94a3b8 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 14px 20px !important;
+    box-shadow: none !important;
+}
+
+.page-sidebar .sidebar-menu li a:hover,
+.page-sidebar .menu li a:hover,
+.page-sidebar .accordion-menu li a:hover,
+.page-sidebar .sidebar-menu li.active>a,
+.page-sidebar .menu li.active>a,
+.page-sidebar .accordion-menu li.active>a {
+    color: #2dd4bf !important;
+    background: rgba(45, 212, 191, 0.1) !important;
+    border-left: 3px solid #2dd4bf !important;
+    box-shadow: none !important;
+}
+
+.sub-menu {
+    background: rgba(0, 0, 0, 0.3) !important;
+    box-shadow: none !important;
+}
+
+/* Remove all sidebar shadows */
+.page-sidebar,
+.page-sidebar-inner,
+.page-sidebar .sidebar-menu,
+.page-sidebar .menu,
+.page-sidebar .accordion-menu,
+.page-sidebar .sidebar-menu li,
+.page-sidebar .menu li {
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+}
+
+/* Remove pseudo-elements that may create shadows */
+.page-sidebar::before,
+.page-sidebar::after,
+.page-sidebar-inner::before,
+.page-sidebar-inner::after,
+.page-sidebar .sidebar-menu::before,
+.page-sidebar .sidebar-menu::after,
+.page-sidebar .sidebar-menu li::before,
+.page-sidebar .sidebar-menu li::after,
+.page-sidebar .sidebar-menu li a::before,
+.page-sidebar .sidebar-menu li a::after,
+.page-sidebar .menu li::before,
+.page-sidebar .menu li::after,
+.page-sidebar .menu li a::before,
+.page-sidebar .menu li a::after {
+    display: none !important;
+    content: none !important;
+    box-shadow: none !important;
+}
+
+/* Remove sidebar overlay only - do not affect modal backdrops */
+.page-sidebar .overlay,
+.sidebar .overlay {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/* Ensure sidebar has no extra visual effects */
+.page-sidebar .slimScrollDiv {
+    box-shadow: none !important;
+}
+
+.page-sidebar .slimscroll {
+    box-shadow: none !important;
+}
+
+/* Navbar */
+.navbar {
+    background: #0f172a !important;
+    background-color: #0f172a !important;
+    height: 60px !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 1001 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+.navbar-inner {
+    background: transparent !important;
+    background-color: transparent !important;
+    height: 60px !important;
+    width: 100% !important;
+}
+
+.logo-box {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+.topmenu-outer {
+    background: transparent !important;
+    flex: 1 !important;
+}
+
+.top-menu {
+    background: transparent !important;
+    width: 100% !important;
+}
+
+.top-menu .navbar-nav.navbar-right {
+    float: right !important;
+    margin-right: 20px !important;
+}
+
+.top-menu .navbar-nav.navbar-left {
+    float: left !important;
+}
+
+.top-menu .navbar-nav li a {
+    color: #e2e8f0 !important;
+    background: transparent !important;
+}
+
+.top-menu .navbar-nav li a:hover {
+    color: #2dd4bf !important;
+    background: rgba(45, 212, 191, 0.1) !important;
+}
+
+.user-name {
+    color: #e2e8f0 !important;
+}
+
+/* Cards/Panels */
+.panel-white,
+.panel.panel-white {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 16px !important;
+    color: white !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+.panel-heading {
+    background: transparent !important;
+    border: none !important;
+}
+
+.panel-title {
+    color: #2dd4bf !important;
+    font-weight: 600 !important;
+}
+
+.panel-body {
+    color: #cbd5e1 !important;
+    background: transparent !important;
+}
+
+/* Aggressive Panel Overrides */
+.panel,
+.panel-default,
+.panel-primary,
+.panel-success,
+.panel-info,
+.panel-warning,
+.panel-danger,
+.portlet {
+    background: rgba(30, 41, 59, 0.75) !important;
+    background-color: rgba(30, 41, 59, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #cbd5e1 !important;
+}
+
+.panel-heading,
+.portlet-title {
+    background: transparent !important;
+    color: #fff !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Chart/Graph Container */
+#flot1,
+#flot2,
+#flot3 {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border-radius: 8px !important;
+}
+
+.flot-chart {
+    background: transparent !important;
+}
+
+/* Page Title Bar */
+.page-title {
+    background: transparent !important;
+    margin-bottom: 20px !important;
+}
+
+.page-title h3 {
+    color: white !important;
+}
+
+.breadcrumb {
+    background: transparent !important;
+}
+
+.breadcrumb li,
+.breadcrumb li a {
+    color: #94a3b8 !important;
+}
+
+.breadcrumb li.active {
+    color: #2dd4bf !important;
+}
+
+/* Info Boxes */
+.info-box {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 16px !important;
+}
+
+.info-box-title {
+    color: #94a3b8 !important;
+}
+
+.counter {
+    color: white !important;
+}
+
+/* Forms */
+.form-control {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    border-radius: 8px !important;
+}
+
+.form-control:focus {
+    border-color: #2dd4bf !important;
+    box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.2) !important;
+}
+
+/* Modal */
+.modal-content {
+    background: rgba(15, 23, 42, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 16px !important;
+    color: white !important;
+}
+
+/* Dropdown */
+.dropdown-menu {
+    background: rgba(15, 23, 42, 0.98) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+}
+
+.dropdown-menu li a {
+    color: #94a3b8 !important;
+}
+
+.dropdown-menu li a:hover {
+    background: rgba(45, 212, 191, 0.1) !important;
+    color: #2dd4bf !important;
+}
+
+/* Small Sidebar Mode */
+.small-sidebar .page-sidebar {
+    width: 70px !important;
+    overflow: hidden !important;
+}
+
+.small-sidebar .page-sidebar .sidebar-menu li a p,
+.small-sidebar .page-sidebar .menu li a p,
+.small-sidebar .page-sidebar .accordion-menu li a p,
+.small-sidebar .page-sidebar .sidebar-menu li a span.menu-text,
+.small-sidebar .page-sidebar .menu li a span.menu-text {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.small-sidebar .page-sidebar .sidebar-menu li a .arrow,
+.small-sidebar .page-sidebar .menu li a .arrow {
+    display: none !important;
+}
+
+.small-sidebar .page-sidebar .sub-menu {
+    display: none !important;
+}
+
+.small-sidebar .page-sidebar .sidebar-menu li a,
+.small-sidebar .page-sidebar .menu li a,
+.small-sidebar .page-sidebar .accordion-menu li a {
+    text-align: center !important;
+    padding: 15px 10px !important;
+    justify-content: center !important;
+}
+
+.small-sidebar .page-sidebar .sidebar-menu li a .menu-icon,
+.small-sidebar .page-sidebar .menu li a .menu-icon,
+.small-sidebar .page-sidebar .sidebar-menu li a i,
+.small-sidebar .page-sidebar .menu li a i {
+    margin-right: 0 !important;
+    font-size: 18px !important;
+}
+
+.small-sidebar .page-content {
+    margin-left: 70px !important;
+}
+
+/* ========================================
+   END GLASSMORPHISM THEME
+   ======================================== */
+
+
+.textarea-box textarea {
+    min-width: 438px;
+    min-height: 71px;
+    max-width: 438px;
+    max-height: 71px;
+}
+
+.textarea-box label {
+    vertical-align: top;
+    float: left;
+}
+
+.textarea-box {
+    margin-top: 21px;
+    margin-bottom: 21px;
+    text-align: left;
+}
+
+.textarea-content {
+    width: 85%;
+    margin-left: auto;
+}
+
+.bg-block {
+    position: relative;
+    background-image: url('../images/01.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50%;
+}
+
+.bg-block::before,
+.bg-block::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    /* largura das linhas do X */
+    height: 2px;
+    /* altura das linhas do X */
+    background-color: black;
+    /* cor das linhas do X */
+}
+
+.bg-block::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.bg-block::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+@media (max-width: 768px) {
+
+    .bg-block::before,
+    .bg-block::after {
+        width: 40px;
+        /* ajuste para telas menores */
+    }
+}
+
+@media (max-width: 576px) {
+
+    .bg-block::before,
+    .bg-block::after {
+        width: 30px;
+        /* ajuste para telas menores ainda */
+    }
+}
+
+/*  */
+
+.bg-block-oldgame {
+    position: relative;
+    background-image: url('../images/05.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50%;
+}
+
+.bg-block-oldgame::before,
+.bg-block-oldgame::after {
+    /* content: ''; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 140px;
+    /* largura das linhas do X */
+    height: 2px;
+    /* altura das linhas do X */
+    background-color: black;
+    /* cor das linhas do X */
+    z-index: 0;
+}
+
+.bg-block-oldgame::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.bg-block-oldgame::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.bg-block-oldgame .select2-container {
+    width: 40px !important;
+    margin-left: 1.5vw;
+    margin-right: 1.5vw;
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+}
+
+@media (max-width: 768px) {
+
+    .bg-block-oldgame::before,
+    .bg-block-oldgame::after {
+        width: 40px;
+        /* ajuste para telas menores */
+    }
+}
+
+@media (max-width: 576px) {
+
+    .bg-block-oldgame::before,
+    .bg-block-oldgame::after {
+        width: 30px;
+        /* ajuste para telas menores ainda */
+    }
+}
+
+/*  */
+
+.bg-block-oldgame-plus {
+    position: absolute;
+    width: 90%;
+    height: 78%;
+}
+
+.bg-block-oldgame-plus::before,
+.bg-block-oldgame-plus::after {
+    /* content: ''; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    /* largura das linhas verticais */
+    height: 60%;
+    /* altura das linhas verticais */
+    background-color: black;
+    /* cor das linhas verticais */
+    transform-origin: center;
+}
+
+.bg-block-oldgame-plus::before {
+    transform: translate(-50%, -50%);
+}
+
+.bg-block-oldgame-plus::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.bg-block-oldgame-plus .select2-container {
+    width: 40px !important;
+    margin-left: 1.5vw;
+    margin-right: 1.5vw;
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+}
+
+@media (max-width: 768px) {
+
+    .bg-block-oldgame-plus::before,
+    .bg-block-oldgame-plus::after {
+        width: 1px;
+        /* ajuste para telas menores */
+    }
+}
+
+@media (max-width: 576px) {
+
+    .bg-block-oldgame-plus::before,
+    .bg-block-oldgame-plus::after {
+        width: 1px;
+        /* ajuste para telas menores ainda */
+    }
+}
+
+/*  */
+
+.bg-block-oldgame .form-control {
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
+    position: relative;
+}
+
+/*  */
+
+.bg-block-others {
+    background-image: url('../images/04.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50%;
+}
+
+.bg-block-others-plus {
+    position: absolute;
+    width: 90%;
+    height: 78%;
+}
+
+.bg-block-others-plus::before,
+.bg-block-others-plus::after {
+    /* content: ''; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    /* largura das linhas verticais */
+    height: 60%;
+    /* altura das linhas verticais */
+    background-color: black;
+    /* cor das linhas verticais */
+    transform-origin: center;
+}
+
+.bg-block-others-plus::before {
+    transform: translate(-50%, -50%);
+}
+
+.bg-block-others-plus::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.bg-block-others-plus .select2-container {
+    width: 40px !important;
+    margin-left: 1.5vw;
+    margin-right: 1.5vw;
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+}
+
+@media (max-width: 768px) {
+
+    .bg-block-others-plus::before,
+    .bg-block-others-plus::after {
+        width: 1px;
+        /* ajuste para telas menores */
+    }
+}
+
+@media (max-width: 576px) {
+
+    .bg-block-others-plus::before,
+    .bg-block-others-plus::after {
+        width: 1px;
+        /* ajuste para telas menores ainda */
+    }
+}
+
+/*  */
+
+.bg-block-others .form-control {
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
+    position: relative;
+}
+
+/*  */
+
+/*  */
+
+.bg-block-bin {
+    background-image: url('../images/03.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35%;
+}
+
+/*  */
+
+.bg-block-bin .form-control {
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
+    position: relative;
+}
+
+
+.bg-block-bin .select2-hidden-accessible {
+    display: none;
+}
+
+.bg-block-bin .select2-container {
+    width: 60px !important;
+}
+
+/*  */
+
+
+
+/*  */
+
+.label-textarea {
+    vertical-align: top;
+    float: left;
+    transform: translate(-14px, 7px);
+}
+
+.form-content label.control-label {
+    padding-bottom: 21px;
+}
+
+/*  */
+
+.bg-block-plus::before,
+.bg-block-plus::after {
+    /* content: ''; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 140px;
+    height: 4px;
+    background-color: black;
+}
+
+.bg-block-plus::before {
+    transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.bg-block-plus::after {
+    transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+/*  */
+
+.form-control-double {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+label.title-block-plus {
+    position: absolute;
+    transform: translate(-180px, 4px);
+}
+
+.bg-block-plus {
+    transform: translateY(35px);
+    background-image: url(assets/images/02.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50%;
+}

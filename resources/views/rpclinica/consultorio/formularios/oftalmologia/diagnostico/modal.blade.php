@@ -1,0 +1,50 @@
+    
+       
+            <div class="panel-body">
+ 
+                <div role="tabpanel">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active" class=""><a href="#tabCadModal" style="border-bottom:0px; margin-right: 0px;" role="tab" data-toggle="tab" aria-expanded="false">Cadastro do Exame</a></li> 
+                        <li role="presentation" ><a href="#tabLauModal" style="border-bottom:0px; margin-right: 0px;" class="OpTab" role="tab" data-toggle="tab" aria-expanded="true">Laudo</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content" style="padding: 0px;">
+
+                        <div role="tabpanel" class="tab-pane fade  active in" id="tabCadModal">
+                
+                            <form > 
+                                <div class="form-group " style="margin-bottom: 5px;">
+                                    <div class="col-sm-12"  >
+                                        <label for="input-help-block" class="control-label">Profissional:</label>
+                                        <select class="form-control " name="cd_profissional">
+                                            <option value="">SELECIONE</option>
+                                        </select>
+                                        @if($errors->has('cd_profissional'))
+                                        <div class="error">{{ $errors->first('cd_profissional') }}</div>
+                                        @endif
+                                    </div>
+                                </div>
+                    
+                        
+                    
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="col-md-12">
+                                        <label for="input-placeholder" class=" control-label"
+                                            style="  padding-top: 0px;">Comentário:</label>
+                                        <textarea rows="4" class="form-control" name="comentario">{{ old('comentario') }}</textarea>
+                                    </div>
+                                </div> 
+                    
+                            </form>
+
+                        </div>
+                    
+                        
+                        <div role="tabpanel" class="tab-pane fade  " id="tabLauModal">
+                           #Laudo
+                        </div>
+                    </div> 
+                </div>
+
+            </div>
