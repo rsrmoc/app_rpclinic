@@ -1,14 +1,19 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-    <div class="brand-logo">
-        <a href="javascript:;"><img src="{{ asset('app/assets/images/logo_menu.svg') }}" width="190" alt=""></a>
+    <div class="brand-logo" style="width: auto;">
+        <a href="javascript:;" class="d-flex justify-content-center align-items-center">
+            <img src="{{ asset('app/assets/images/logo_horizontal.svg') }}" 
+                 alt="Logo" 
+                 style="height: 60px; width: auto;" 
+                 class="">
+        </a>
     </div>
 @endsection
 
 @section('content')
     <!--start to page content-->
-    <div class="page-content" x-data="appAgendamento">
+    <div class="page-content" x-data="appProducao">
         <div class="card-body">
             <form x-on:submit.prevent="saveProfile" class="row g-3 needs-validation"
              id="formProfile">
@@ -26,8 +31,8 @@
               </template>
       
               <button type="submit"
-              class="btn btn-ecomm rounded-3 btn-dark flex-fill"
-              style="height: 60px; font-weight: 600; padding: 1.2rem 1.5rem;"
+              class="btn btn-ecomm rounded-3 flex-fill text-white"
+              style="height: 60px; font-weight: 600; padding: 1.2rem 1.5rem; background-color: #0d9488; border-color: #0d9488;"
               x-bind:disabled="loading">
                 <template x-if="loading">
                   <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
@@ -49,58 +54,60 @@
     <style>
         .datePickerAgendamento {
             width: 100% !important;
-            background: rgba(255, 255, 255, 0.05) !important;
-            backdrop-blur: 10px !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            background: #ffffff !important;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+            border: 1px solid #e2e8f0 !important;
             border-radius: 20px !important;
             padding: 15px !important;
-            color: white !important;
+            color: #0f172a !important;
             font-family: inherit !important;
         }
         
         .air-datepicker-nav {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-bottom: 1px solid rgba(15, 23, 42, 0.1) !important;
             background: transparent !important;
             margin-bottom: 15px !important;
         }
 
         .air-datepicker-nav--title, .air-datepicker-nav--action {
-            color: white !important;
-            font-weight: bold !important;
+            color: #0f172a !important; /* Dark text */
+            font-weight: 800 !important;
+            font-size: 1.1rem !important;
         }
         
         .air-datepicker-nav--action:hover {
-            background: rgba(255, 255, 255, 0.1) !important;
+            background: rgba(15, 23, 42, 0.05) !important;
         }
 
         .air-datepicker-body--day-name {
-            color: #2dd4bf !important; /* teal-400 */
-            font-weight: bold !important;
+            color: #0f766e !important; /* teal-700 - Much Darker for contrast */
+            font-weight: 800 !important;
             text-transform: uppercase !important;
-            font-size: 0.8rem !important;
+            font-size: 0.9rem !important;
         }
 
         .air-datepicker-cell {
-            color: #cbd5e1 !important; /* slate-300 */
-            font-size: 1.1rem !important; /* Larger numbers */
+            color: #0f172a !important; /* Dark Slate - High Contrast */
+            font-size: 1.2rem !important; 
+            font-weight: 700 !important; /* Bold */
             height: 45px !important;
             border-radius: 12px !important;
         }
 
         .air-datepicker-cell.-current- {
             color: #2dd4bf !important;
-            font-weight: bold !important;
+            font-weight: 800 !important;
         }
 
         .air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-current- {
             background: #2dd4bf !important;
-            color: #0f172a !important;
-            font-weight: bold !important;
+            color: #ffffff !important;
+            font-weight: 800 !important;
         }
 
         .air-datepicker-cell:hover {
-            background: rgba(255, 255, 255, 0.1) !important;
-            color: white !important;
+            background: rgba(15, 23, 42, 0.1) !important;
+            color: #0f172a !important;
         }
 
         .air-datepicker-cell.-other-month- {
@@ -135,6 +142,8 @@
 @push('scripts')
     <script>
         const cdProfissional = {{ auth()->guard('rpclinica')->user()->cd_profissional ?? 'null' }};
+        const routeAgendamentos = @js(url('app_rpclinic/api/agendamentos'));
+        const routeAgendamentosDatas = @js(url('app_rpclinic/api/agendamentos-datas'));
     </script>
-    <script src="{{ asset('/js/app_rpclinica/disponibilidade.js') }}"></script>
+    <script src="{{ asset('/js/app_rpclinica/producao.js') }}"></script>
 @endpush

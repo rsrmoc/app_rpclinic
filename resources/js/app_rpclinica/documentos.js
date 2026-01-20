@@ -44,7 +44,7 @@ Alpine.data('appDocumentos', () => ({
     },
 
     getDatesWithEvents(month, year) {
-        axios.post('/app_rpclinic/api/agendamentos-datas', {
+        axios.post(routeAgendamentosDatas, {
             cd_profissional: cdProfissional,
             month: month,
             year: year
@@ -60,7 +60,7 @@ Alpine.data('appDocumentos', () => ({
     getDocumentos(data) {
         this.loading = true;
 
-        axios.post('/app_rpclinic/api/documentos', {
+        axios.post(routeDocumentos, {
             cd_profissional: cdProfissional,
             data
         })
@@ -74,6 +74,27 @@ Alpine.data('appDocumentos', () => ({
 
     formatDate(date) {
         return moment(date).lang('pt-BR').format('LLL');
+    },
+
+    compartilharDoc(documento) {
+        const url = `/rpclinica/json/imprimirDocumentoGeral/${documento.agendamento.cd_agendamento}/${documento.cd_documento}`;
+        const fullUrl = window.location.origin + url;
+
+        if (navigator.share) {
+            navigator.share({
+                title: documento.nm_formulario,
+                text: `Documento: ${documento.nm_formulario} - Paciente: ${documento.agendamento.paciente.nm_paciente}`,
+                url: fullUrl
+            })
+                .then(() => console.log('Compartilhado com sucesso'))
+                .catch((error) => console.log('Erro ao compartilhar', error));
+        } else {
+            navigator.clipboard.writeText(fullUrl).then(() => {
+                alert('Link do documento copiado para a área de transferência!');
+            }).catch(err => {
+                console.error('Erro ao copiar link: ', err);
+            });
+        }
     },
 
     downloadPDF(name, content) {

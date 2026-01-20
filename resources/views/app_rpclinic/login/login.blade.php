@@ -84,8 +84,8 @@
                  <div class=""><a href="#" class="forgot-link text-teal-600 text-sm font-bold no-underline">Esqueceu?</a></div>
                </div>
 
-               <div class="mb-0 d-grid">
-                 <button type="submit" class="btn btn2 py-3 rounded-2xl font-bold shadow-lg shadow-teal-500/20 text-white">ENTRAR NO SISTEMA</button>
+               <div class="mb-0 w-100">
+                 <button type="submit" class="btn btn2 w-100 py-3 rounded-2xl font-bold shadow-lg shadow-teal-500/20 text-white border-0">ENTRAR NO SISTEMA</button>
                </div>
              </form>
           </div>
@@ -115,9 +115,11 @@
             }
 
             .btn2 {
-                display: block;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
                 width: 100%;
-                height: 50px;
+                min-height: 55px;
                 border-radius: 25px;
                 outline: none;
                 border: none;
@@ -126,10 +128,17 @@
                 color: #fff;
                 font-family: 'Poppins', sans-serif;
                 text-transform: uppercase;
-                --bs-btn-padding-y: 0.575rem;
-                --bs-btn-font-size: 1.3rem;
+                font-size: 1.1rem; /* Reduzido levemente de 1.3rem para caber melhor */
+                font-weight: 700;
                 cursor: pointer;
                 transition: .5s;
+                background-position: right;
+            }
+
+            .btn2:hover {
+                background-position: left;
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             }
         </style>
 

@@ -1,8 +1,17 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-    <div class="brand-logo">
-        <a href="javascript:;"><img src="{{ asset('app/assets/images/logo_menu.svg') }}" width="190" alt=""></a>
+    <div class="d-flex align-items-center gap-3">
+        <div class="brand-logo" style="width: auto;">
+            <a href="javascript:;" class="d-flex justify-content-center align-items-center">
+                <img src="{{ asset('app/assets/images/logo_horizontal.svg') }}" 
+                     alt="Logo" 
+                     style="height: 60px; width: auto;" 
+                     class="">
+            </a>
+        </div>
+        <div class="border-start border-slate-300 h-6 mx-1"></div>
+        <h6 class="mb-0 text-slate-700 font-bold uppercase tracking-tight">Agenda</h6>
     </div>
 @endsection
 
@@ -52,19 +61,42 @@
  
         <div>
             <template x-for="agendamento, index in agendamentos" x-bind:key="index">
-                <div class="bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border border-white/10 mb-4 p-4 transition-all duration-300 hover:bg-white/15">
+                <div class="bg-white rounded-2xl shadow-md border border-slate-100 mb-4 p-5 transition-all duration-300 hover:shadow-lg hover:border-teal-200">
                      <div class="flex flex-row gap-4">
-                         <div class="flex-grow text-slate-200">
-                                 <span class="font-bold text-lg text-white block mb-1" x-text="agendamento.paciente.nm_paciente"></span>
-                                 <div class="text-sm space-y-1">
-                                     <div><strong class="text-teal-400">Data:</strong> <span x-text="agendamento.data_agenda+' as '+agendamento.hr_agenda"></span></div>
-                                     <div><strong class="text-teal-400">Profissional:</strong> <span x-text="agendamento.profissional.nm_profissional"></span></div>
-                                     <div><strong class="text-teal-400">Especialidade:</strong> <span x-text="agendamento.especialidade.nm_especialidade"></span></div>
-                                     <div><strong class="text-teal-400">Telefone:</strong> <span x-text="agendamento.celular"></span></div>
+                         <div class="flex-grow">
+                                 <!-- Nome do Paciente -->
+                                 <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2">
+                                     <div class="w-10 h-10 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center font-bold text-lg">
+                                         <span x-text="agendamento.paciente.nm_paciente.charAt(0)"></span>
+                                     </div>
+                                     <span class="font-extrabold text-lg text-slate-800 leading-tight" x-text="agendamento.paciente.nm_paciente"></span>
+                                 </div>
+
+                                 <div class="space-y-2 text-sm">
+                                     <div class="flex flex-col">
+                                         <span class="text-teal-600 font-bold text-xs uppercase tracking-wide">Data & Hora</span>
+                                         <span class="text-slate-800 font-bold text-base" x-text="agendamento.data_agenda+' às '+agendamento.hr_agenda"></span>
+                                     </div>
+
+                                     <div class="grid grid-cols-2 gap-2">
+                                         <div class="flex flex-col">
+                                             <span class="text-teal-600 font-bold text-xs uppercase tracking-wide">Profissional</span>
+                                             <span class="text-slate-700 font-bold truncate" x-text="agendamento.profissional.nm_profissional"></span>
+                                         </div>
+                                         <div class="flex flex-col">
+                                             <span class="text-teal-600 font-bold text-xs uppercase tracking-wide">Especialidade</span>
+                                             <span class="text-slate-700 font-bold truncate" x-text="agendamento.especialidade.nm_especialidade"></span>
+                                         </div>
+                                     </div>
                                      
-                                     <div class="mt-2 flex gap-2">
-                                          <span class="px-2 py-1 rounded text-xs font-bold" x-bind:class="agendamento.tipo_atend.cor" x-text="capitalizeFirstLetter(agendamento.tipo_atend.nm_tipo_atendimento)"></span>
-                                          <span class="px-2 py-1 rounded text-xs font-bold bg-slate-700 text-slate-200 border border-slate-600" x-bind:class="classLabelSituacao[agendamento.situacao.toLocaleLowerCase()]" x-text="capitalizeFirstLetter(agendamento.situacao)"></span>
+                                     <div class="flex flex-col">
+                                         <span class="text-teal-600 font-bold text-xs uppercase tracking-wide">Telefone</span>
+                                         <span class="text-slate-900 font-bold" x-text="agendamento.celular"></span>
+                                     </div>
+                                     
+                                     <div class="mt-3 flex flex-wrap gap-2 pt-2">
+                                          <span class="px-3 py-1.5 rounded-lg text-xs font-bold border" x-bind:class="agendamento.tipo_atend.cor" style="border-width: 1px;" x-text="capitalizeFirstLetter(agendamento.tipo_atend.nm_tipo_atendimento)"></span>
+                                          <span class="px-3 py-1.5 rounded-lg text-xs font-bold border" x-bind:class="classLabelSituacao[agendamento.situacao.toLocaleLowerCase()]" style="background-color: #f1f5f9; color: #334155; border-color: #cbd5e1;" x-text="capitalizeFirstLetter(agendamento.situacao)"></span>
                                      </div>
                                  </div>
                          </div>
@@ -78,87 +110,79 @@
 
 @push('styles')
     <style>
+        /* Ajuste do DatePicker para Fundo Branco e Texto Escuro */
         .datePickerAgendamento {
             width: 100% !important;
-            background: rgba(255, 255, 255, 0.05) !important;
-            backdrop-blur: 10px !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important; /* slate-200 */
             border-radius: 20px !important;
             padding: 15px !important;
-            color: white !important;
+            color: #1e293b !important; /* slate-800 */
             font-family: inherit !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
         
         .air-datepicker-nav {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-bottom: 1px solid #f1f5f9 !important;
             background: transparent !important;
             margin-bottom: 15px !important;
         }
 
         .air-datepicker-nav--title, .air-datepicker-nav--action {
-            color: white !important;
-            font-weight: bold !important;
+            color: #334155 !important; /* slate-700 */
+            font-weight: 800 !important;
         }
         
         .air-datepicker-nav--action:hover {
-            background: rgba(255, 255, 255, 0.1) !important;
+            background: #f8fafc !important;
         }
 
         .air-datepicker-body--day-name {
-            color: #2dd4bf !important; /* teal-400 */
-            font-weight: bold !important;
+            color: #0d9488 !important; /* teal-600 */
+            font-weight: 800 !important;
             text-transform: uppercase !important;
             font-size: 0.8rem !important;
         }
 
         .air-datepicker-cell {
-            color: #cbd5e1 !important; /* slate-300 */
-            font-size: 1.1rem !important; /* Larger numbers */
+            color: #64748b !important; /* slate-500 */
+            font-size: 1.1rem !important;
             height: 45px !important;
             border-radius: 12px !important;
+            font-weight: 600 !important;
         }
 
         .air-datepicker-cell.-current- {
-            color: #2dd4bf !important;
-            font-weight: bold !important;
+            color: #0d9488 !important;
+            font-weight: 900 !important;
+            background: #f0fdfa !important; /* teal-50 */
         }
 
         .air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-current- {
-            background: #2dd4bf !important;
-            color: #0f172a !important;
+            background: #0d9488 !important; /* teal-600 */
+            color: #ffffff !important;
             font-weight: bold !important;
+            box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.3);
         }
 
         .air-datepicker-cell:hover {
-            background: rgba(255, 255, 255, 0.1) !important;
-            color: white !important;
-        }
-
-        .air-datepicker-cell.-other-month- {
-            color: rgba(255, 255, 255, 0.15) !important;
-        }
-
-        /* Marcador de evento (Ponto) */
-        .has-event-dot {
-            position: relative !important;
+            background: #f1f5f9 !important; /* slate-100 */
+            color: #0f172a !important;
         }
         
-        .has-event-dot::after {
-            content: '' !important;
-            position: absolute !important;
-            bottom: 6px !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            width: 5px !important;
-            height: 5px !important;
-            background-color: #2dd4bf !important; /* teal dot */
-            border-radius: 50% !important;
-            box-shadow: 0 0 8px #2dd4bf !important;
+        .air-datepicker-cell.-other-month- {
+            color: #cbd5e1 !important; /* slate-300 */
         }
 
-        .air-datepicker-cell.-selected-.has-event-dot::after {
-            background-color: #0f172a !important; /* Dark dot if cell is teal */
+        /* Ponto indicador de evento */
+        .has-event-dot::after {
+            background-color: #0d9488 !important;
             box-shadow: none !important;
+            bottom: 4px !important;
+        }
+        
+        .air-datepicker-cell.-selected-.has-event-dot::after {
+            background-color: #ffffff !important;
         }
     </style>
 @endpush
@@ -166,6 +190,8 @@
 @push('scripts')
     <script>
         const cdProfissional = {{ $cd_profissional ?? auth()->guard('rpclinica')->user()->cd_profissional ?? 'null' }};
+        const routeAgendamentos = @js(url('app_rpclinic/api/agendamentos'));
+        const routeAgendamentosDatas = @js(url('app_rpclinic/api/agendamentos-datas'));
     </script>
     <script src="{{ asset('/js/app_rpclinica/agendamento.js') }}"></script>
 @endpush

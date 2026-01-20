@@ -7,10 +7,9 @@ Alpine.data('appPacienteList', () => ({
     nextPage: null,
 
     init() {
-         
-        this.$watch('search', (value) => {
-            if (!value || value.trim() == '') return;
+        this.getPacientes();
 
+        this.$watch('search', (value) => {
             this.nextPage = null;
             this.getPacientes();
         });
@@ -19,11 +18,11 @@ Alpine.data('appPacienteList', () => ({
     getPacientes() {
         this.loading = true;
 
-        let url = this.nextPage ? this.nextPage : `/app_rpclinic/api/paciente-list?search=${this.search}`;
+        let url = this.nextPage ? this.nextPage : `${routePacienteList}?search=${this.search}`;
 
         axios.get(url)
             .then((res) => {
-                this.pacientes = this.nextPage ? this.pacientes.concat(res.data.data): res.data.data;
+                this.pacientes = this.nextPage ? this.pacientes.concat(res.data.data) : res.data.data;
                 this.nextPage = res.data.next_page_url;
             })
             .catch((err) => parseErrorsAPI(err))

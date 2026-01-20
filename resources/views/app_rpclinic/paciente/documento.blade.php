@@ -3,9 +3,18 @@
 
 
 @section('button_left')
-    <div class="nav-button" onclick="history.back()"><a href="javascript:;"><i class="bi bi-arrow-left"></i></a></div>
-    <div class="account-my-addresses">
-        <h6 class="mb-0 fw-bold text-dark">Documento do Paciente</h6>
+    <div class="d-flex align-items-center gap-3">
+        <a href="{{ url('app_rpclinic/paciente') }}" class="text-slate-500 hover:text-teal-600 transition-colors p-1">
+            <i class="bi bi-arrow-left text-2xl"></i>
+        </a>
+        <div class="brand-logo" style="width: auto;">
+            <a href="javascript:;" class="d-flex justify-content-center align-items-center">
+                <img src="{{ asset('app/assets/images/logo_horizontal.svg') }}" 
+                     alt="Logo" 
+                     style="height: 60px; width: auto;" 
+                     class="">
+            </a>
+        </div>
     </div>
 @endsection
 
@@ -40,14 +49,20 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-ecomm rounded-3 btn-dark flex-fill"
-                        style="  height: 60px; font-weight: 600; padding: 1.2rem 1.5rem;"
+                    <button type="submit" class="btn btn-ecomm rounded-3 flex-fill text-white"
+                        style="height: 60px; font-weight: 600; padding: 1.2rem 1.5rem; background-color: #0d9488; border-color: #0d9488;"
                         x-bind:disabled="loading">
                         <template x-if="loading">
                           <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
                         </template>
-                        <span>Salvar</span>
+                        <span>Salvar Documento</span>
                     </button>
+                    
+                    <div class="mt-3 text-center">
+                         <a href="{{ url('app_rpclinic/paciente-hist/'.$paciente->cd_paciente) }}" class="text-teal-600 font-bold text-sm hover:underline">
+                            <i class="bi bi-clock-history me-1"></i> Ver documentos anteriores
+                         </a>
+                    </div>
                 </form><!--end form-->
             </div>
         </div>
@@ -60,6 +75,7 @@
     <script>
       const cdPaciente = {{ $paciente->cd_paciente }};
       const formularios = @js($formularios);
+      const routePacienteAddDoc = @js(url('app_rpclinic/api/paciente-add-doc'));
     </script>
     <script src="{{ asset('js/app_rpclinica/paciente-add-doc.js') }}"></script>
 @endpush

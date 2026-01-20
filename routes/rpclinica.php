@@ -341,7 +341,7 @@ Route::get('comunicacao-hook', 'Comunicacoes@hook')->name('comunicacao.hook');
         Route::post('json-escala-medica-check', 'EscalasMedica@checkEscala')->name('escala.medica.json.check'); 
 
         // Escala Medica
-        Route::get('producao-medica', 'ProducaoMedica@index')->name('producao.medica');
+// Route::get('producao-medica', 'ProducaoMedica@index')->name('producao.medica');
         
         // recepção
         Route::any('recepcao', 'Recepcao@index')->name('recepcao');

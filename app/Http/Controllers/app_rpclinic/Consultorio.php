@@ -13,6 +13,7 @@ use App\Model\rpclinica\Formulario;
 use App\Model\rpclinica\LogProblemasPaciente;
 use App\Model\rpclinica\Paciente;
 use App\Model\rpclinica\Procedimento;
+use App\Model\rpclinica\Especialidade;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -67,13 +68,33 @@ class Consultorio extends Controller
             'data' => 'required|string|date_format:Y-m-d'
         ]);
        
-        $documentos = AgendamentoDocumentos::with('agendamento')->whereHas('agendamento', function(Builder $query) use ($request) {
-            $query->where('dt_agenda', $request->data)
-                ->where('cd_profissional', $request->cd_profissional);
-        })->get();
+        // Alterado para buscar pela data de CRIAÇÃO do documento, abrangendo avulsos
+        $documentos = AgendamentoDocumentos::with(['agendamento.paciente', 'agendamento.especialidade', 'agendamento.profissional'])
+            ->whereDate('created_at', $request->data)
+            ->where('cd_prof', $request->cd_profissional)
+            ->orderBy('created_at', 'desc')
+            ->get();
  
         foreach ($documentos as $documento) {
-            $documento->agendamento->load('paciente', 'especialidade', 'profissional');
+            // Se tiver agendamento, garante o load (caso o with tenha falhado em algum nível ou para consistência)
+            if ($documento->agendamento) {
+                // Relações já carregadas pelo with
+            } else {
+                // Se NÃO tem agendamento (doc avulso), monta estrutura para o front não quebrar
+                $paciente = Paciente::find($documento->cd_pac);
+                $profissional = Profissional::find($documento->cd_prof);
+                
+                $fakeAgendamento = new Agendamento();
+                $fakeAgendamento->setRelation('paciente', $paciente);
+                $fakeAgendamento->setRelation('profissional', $profissional);
+                
+                // Mock de especialidade
+                $fakeEsp = new \App\Model\rpclinica\Especialidade();
+                $fakeEsp->nm_especialidade = 'Documento Avulso';
+                $fakeAgendamento->setRelation('especialidade', $fakeEsp);
+
+                $documento->setRelation('agendamento', $fakeAgendamento);
+            }
         }
 
         return response()->json(['documentos' => $documentos]);

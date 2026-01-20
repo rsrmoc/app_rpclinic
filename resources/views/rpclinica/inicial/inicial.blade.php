@@ -418,8 +418,14 @@
 
     <script> 
 
+
         const data = @js($request['data']);
         const msgWhast = @js($msgZap);
+        
+        // Define routes for JS use
+        const routePanelCompromisso = @js(url('rpclinica/json/panel-dashboard-compromisso'));
+        const routePanelConsultorio = @js(url('rpclinica/json/panel-dashboard-consultorio'));
+        const routePanelExames = @js(url('rpclinica/json/panel-dashboard'));
 
     </script>
 

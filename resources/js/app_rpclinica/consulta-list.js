@@ -69,7 +69,7 @@ Alpine.data('appConsulta', () => ({
     },
 
     getDatesWithEvents(month, year) {
-        axios.post('/app_rpclinic/api/agendamentos-datas', {
+        axios.post(routeAgendamentosDatas, {
             cd_profissional: cdProfissional,
             month: month,
             year: year
@@ -85,7 +85,7 @@ Alpine.data('appConsulta', () => ({
     getAgendamentos(date) {
         this.loading = true;
 
-        axios.post('/app_rpclinic/api/agendamentos', {
+        axios.post(routeAgendamentos, {
             cd_profissional: cdProfissional,
             data: date
         })

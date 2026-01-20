@@ -9,16 +9,48 @@ document.addEventListener("DOMContentLoaded", (e) => {
     document.querySelector('#rpclinica-loader')?.classList?.add('rpclinica-loader-hide');
 });
 
-window.parseErrorsAPI = (error) => {
-    if (error.response.data.errors) {
-        Object.keys(error.response.data.errors).forEach((keyError) => {
-            error.response.data.errors[keyError].forEach((error) => toastr['error'](error));
-        });
+// Configuração global do Toastr para aparecer embaixo
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-bottom-full-width", // Força aparecer embaixo
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+};
 
+window.parseErrorsAPI = (error) => {
+    // Caso 1: Erro de Validação do Laravel (422) com lista de erros
+    if (error.response && error.response.data && error.response.data.errors) {
+        Object.keys(error.response.data.errors).forEach((keyError) => {
+            error.response.data.errors[keyError].forEach((msg) => toastr['error'](msg));
+        });
         return;
     }
 
-    toastr['error'](error.response.data.message);
+    // Caso 2: Erro com mensagem definida pelo backend (Ex: Exception manual)
+    if (error.response && error.response.data && error.response.data.message) {
+        toastr['error'](error.response.data.message);
+        return;
+    }
+
+    // Caso 3: Erro genérico do Axios ou JavaScript (sem response do backend)
+    if (error.message) {
+        toastr['error'](error.message);
+        return;
+    }
+
+    // Caso 4: Fallback final
+    toastr['error']('Ocorreu um erro desconhecido na requisição.');
 };
 
 

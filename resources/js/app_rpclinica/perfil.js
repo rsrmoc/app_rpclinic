@@ -6,7 +6,7 @@ Alpine.data('appPerfil', () => ({
 
         const form = new FormData(document.querySelector('#formProfile'));
 
-        axios.post('/app_rpclinic/api/perfil-update', form)
+        axios.post(routePerfilUpdate, form)
             .then((res) => toastr.success(res.data.message))
             .catch((err) => toastr.success(err.response.data.message))
             .finally(() => this.loading = false);

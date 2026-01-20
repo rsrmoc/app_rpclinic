@@ -398,7 +398,7 @@
             backdrop-filter: blur(15px) !important;
             -webkit-backdrop-filter: blur(15px) !important;
             z-index: 10001; 
-            height: 60px !important;
+            height: 80px !important;
         }
 
         /* Bottom Nav Sustainability - KEPT DARK AS REQUESTED */
@@ -487,6 +487,7 @@
         .page-content {
             position: relative;
             z-index: 1;
+            padding-top: 90px !important; /* Adjusted for larger header */
         }
 
         /* Background Stethoscope Watermark - Centered */
@@ -512,7 +513,8 @@
 
         /* LOGO CENTERING FIX */
         .brand-logo img {
-            max-height: 35px; /* Restrict height to fit header */
+            max-height: none !important; /* Allow logo to grow */
+            height: auto;
             width: auto;
             display: block; 
             margin: 0 auto;
@@ -553,7 +555,7 @@
 
        <!--start to header-->
        <!--start to header-->
-       <header class="top-header fixed-top border-bottom d-flex align-items-center shadow-sm" style="background: #ffffff !important; height: 65px !important;">
+       <header class="top-header fixed-top border-bottom d-flex align-items-center shadow-sm" style="background: #ffffff !important; height: 80px !important;">
         <nav class="navbar navbar-expand w-100 p-0 align-items-center px-3 position-relative">
             <!-- Left: Menu Toggle -->
             <div class="nav-button me-auto" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidenav" style="cursor: pointer;">

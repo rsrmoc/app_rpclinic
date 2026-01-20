@@ -1,8 +1,17 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-    <div class="brand-logo">
-        <a href="javascript:;"><img src="{{ asset('app/assets/images/logo_menu.svg') }}" width="190" alt=""></a>
+    <div class="d-flex align-items-center gap-3">
+        <div class="brand-logo" style="width: auto;">
+            <a href="javascript:;" class="d-flex justify-content-center align-items-center">
+                <img src="{{ asset('app/assets/images/logo_horizontal.svg') }}" 
+                     alt="Logo" 
+                     style="height: 60px; width: auto;" 
+                     class="">
+            </a>
+        </div>
+        <div class="border-start border-slate-300 h-6 mx-1"></div>
+        <h6 class="mb-0 text-slate-700 font-bold uppercase tracking-tight">Disponibilidade</h6>
     </div>
 @endsection
 
@@ -26,8 +35,8 @@
               </template>
       
               <button type="submit"
-              class="btn btn-ecomm rounded-3 btn-dark flex-fill"
-              style="height: 60px; font-weight: 600; padding: 1.2rem 1.5rem;"
+              class="btn btn-ecomm rounded-3 flex-fill text-white"
+              style="height: 60px; font-weight: 600; padding: 1.2rem 1.5rem; background-color: #0d9488; border-color: #0d9488;"
               x-bind:disabled="loading">
                 <template x-if="loading">
                   <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
@@ -47,87 +56,79 @@
 
 @push('styles')
     <style>
+        /* Ajuste do DatePicker para Fundo Branco e Texto Escuro */
         .datePickerAgendamento {
             width: 100% !important;
-            background: rgba(255, 255, 255, 0.05) !important;
-            backdrop-blur: 10px !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important; /* slate-200 */
             border-radius: 20px !important;
             padding: 15px !important;
-            color: white !important;
+            color: #1e293b !important; /* slate-800 */
             font-family: inherit !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
         
         .air-datepicker-nav {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-bottom: 1px solid #f1f5f9 !important;
             background: transparent !important;
             margin-bottom: 15px !important;
         }
 
         .air-datepicker-nav--title, .air-datepicker-nav--action {
-            color: white !important;
-            font-weight: bold !important;
+            color: #334155 !important; /* slate-700 */
+            font-weight: 800 !important;
         }
         
         .air-datepicker-nav--action:hover {
-            background: rgba(255, 255, 255, 0.1) !important;
+            background: #f8fafc !important;
         }
 
         .air-datepicker-body--day-name {
-            color: #2dd4bf !important; /* teal-400 */
-            font-weight: bold !important;
+            color: #0d9488 !important; /* teal-600 */
+            font-weight: 800 !important;
             text-transform: uppercase !important;
             font-size: 0.8rem !important;
         }
 
         .air-datepicker-cell {
-            color: #cbd5e1 !important; /* slate-300 */
-            font-size: 1.1rem !important; /* Larger numbers */
+            color: #64748b !important; /* slate-500 */
+            font-size: 1.1rem !important;
             height: 45px !important;
             border-radius: 12px !important;
+            font-weight: 600 !important;
         }
 
         .air-datepicker-cell.-current- {
-            color: #2dd4bf !important;
-            font-weight: bold !important;
+            color: #0d9488 !important;
+            font-weight: 900 !important;
+            background: #f0fdfa !important; /* teal-50 */
         }
 
         .air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-current- {
-            background: #2dd4bf !important;
-            color: #0f172a !important;
+            background: #0d9488 !important; /* teal-600 */
+            color: #ffffff !important;
             font-weight: bold !important;
+            box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.3);
         }
 
         .air-datepicker-cell:hover {
-            background: rgba(255, 255, 255, 0.1) !important;
-            color: white !important;
-        }
-
-        .air-datepicker-cell.-other-month- {
-            color: rgba(255, 255, 255, 0.15) !important;
-        }
-
-        /* Marcador de evento (Ponto) */
-        .has-event-dot {
-            position: relative !important;
+            background: #f1f5f9 !important; /* slate-100 */
+            color: #0f172a !important;
         }
         
-        .has-event-dot::after {
-            content: '' !important;
-            position: absolute !important;
-            bottom: 6px !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            width: 5px !important;
-            height: 5px !important;
-            background-color: #2dd4bf !important; /* teal dot */
-            border-radius: 50% !important;
-            box-shadow: 0 0 8px #2dd4bf !important;
+        .air-datepicker-cell.-other-month- {
+            color: #cbd5e1 !important; /* slate-300 */
         }
 
-        .air-datepicker-cell.-selected-.has-event-dot::after {
-            background-color: #0f172a !important; /* Dark dot if cell is teal */
+        /* Ponto indicador de evento */
+        .has-event-dot::after {
+            background-color: #0d9488 !important;
             box-shadow: none !important;
+            bottom: 4px !important;
+        }
+        
+        .air-datepicker-cell.-selected-.has-event-dot::after {
+            background-color: #ffffff !important;
         }
     </style>
 @endpush
@@ -135,6 +136,8 @@
 @push('scripts')
     <script>
         const cdProfissional = {{ auth()->guard('rpclinica')->user()->cd_profissional ?? 'null' }};
+        const routeAgendamentos = @js(url('app_rpclinic/api/agendamentos'));
+        const routeAgendamentosDatas = @js(url('app_rpclinic/api/agendamentos-datas'));
     </script>
     <script src="{{ asset('/js/app_rpclinica/disponibilidade.js') }}"></script>
 @endpush

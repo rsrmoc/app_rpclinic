@@ -1,16 +1,20 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-
-<div class="nav-button" onclick="history.back()"><a href="javascript:;"><i class="bi bi-arrow-left"></i></a></div>
-<div class="account-my-addresses">
-  <h6 class="mb-0 fw-bold text-dark">Editar  Paciente [ {{ $paciente->cd_paciente }} ]</h6>
-</div>
-
+    <div class="d-flex align-items-center gap-3">
+        <a href="{{ url('app_rpclinic/paciente') }}" class="text-slate-500 hover:text-teal-600 transition-colors p-1">
+            <i class="bi bi-arrow-left text-2xl"></i>
+        </a>
+        <div class="brand-logo" style="width: auto;">
+            <a href="javascript:;" class="d-flex justify-content-center align-items-center">
+                <img src="{{ asset('app/assets/images/logo_horizontal.svg') }}" 
+                     alt="Logo" 
+                     style="height: 60px; width: auto;" 
+                     class="">
+            </a>
+        </div>
+    </div>
 @endsection
-
-
-
 
 @section('content')
 
@@ -79,8 +83,8 @@
                    </div>
 
                    <button type="submit"
-                    class="btn btn-ecomm rounded-3 btn-dark flex-fill"
-                    style="  height: 60px; font-weight: 600; padding: 1.2rem 1.5rem;">
+                    class="btn btn-ecomm rounded-3 flex-fill text-white"
+                    style="height: 60px; font-weight: 600; padding: 1.2rem 1.5rem; background-color: #0d9488; border-color: #0d9488;">
                       <span>Salvar</span>
                     </button>
              </form><!--end form-->
@@ -96,6 +100,7 @@
 @push('scripts')
     <script>
       const cdPaciente = '{{ $paciente->cd_paciente }}';
+      const routePacienteEditBase = @js(url('app_rpclinic/api/paciente-edit'));
     </script>
     <script src="{{ asset('js/app_rpclinica/paciente-edit.js') }}"></script>
 @endpush

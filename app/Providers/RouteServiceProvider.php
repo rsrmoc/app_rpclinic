@@ -48,7 +48,7 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::middleware(['web'])
         ->prefix('faturamento')
-        ->namespace('App\\Http\\Controllers\\faturamento')
+        ->namespace('App\\Http\\Controllers\\rpclinica')
         ->group(base_path('routes/faturamento.php'));
 
         Route::middleware(['web'])

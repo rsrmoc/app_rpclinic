@@ -15,7 +15,7 @@ Alpine.data('app', () => ({
     loadListaExame: false,
     dt: '',
     dt_extenso: '',
- 
+
     classLabelSituacao: {
         livre: 'label-success',
         agendado: 'label-primary',
@@ -26,7 +26,7 @@ Alpine.data('app', () => ({
         aguardando: 'label-aguardando',
         atendimento: 'label-aguardando'
     },
-    
+
     chart1: null,
     chart2: null,
     chart3: null,
@@ -38,17 +38,17 @@ Alpine.data('app', () => ({
 
     loadingChart1: false,
     nmProfissional: '',
- 
+
     optionsChart: {
         legend: { display: false },
         title: {
             display: true,
             text: "World Wine Production 2018"
         }
-    }, 
+    },
     init() {
 
-        if(msgWhast){
+        if (msgWhast) {
             Swal.fire({
                 title: "Atenção!",
                 html: msgWhast,
@@ -64,8 +64,8 @@ Alpine.data('app', () => ({
     },
 
     getCompromisso() {
-        this.loadingPanel=true;
-        axios.get('/rpclinica/json/panel-dashboard-compromisso')
+        this.loadingPanel = true;
+        axios.get(routePanelCompromisso)
             .then((res) => {
                 console.log(res.data);
                 this.panelComp = res.data.retorno;
@@ -78,36 +78,36 @@ Alpine.data('app', () => ({
     },
 
     getDataPanel() {
-        
- 
-       document.getElementById('flot1').innerHTML =this.graficoAtendimento;
-       document.getElementById('flot3').innerHTML =this.graficoAtendimento;
-       this.headerAtendimento= this.graficoHeader;
-       this.headerExame= this.graficoHeader;
-       this.headerPendente= this.graficoHeader;
-       this.headerLaudado= this.graficoHeader;
-       this.loadingPanel = true;
-       this.loadListaExame = true;
 
-        axios.get(`/rpclinica/json/panel-dashboard/${this.data}`)
-            .then((res) => { 
+
+        document.getElementById('flot1').innerHTML = this.graficoAtendimento;
+        document.getElementById('flot3').innerHTML = this.graficoAtendimento;
+        this.headerAtendimento = this.graficoHeader;
+        this.headerExame = this.graficoHeader;
+        this.headerPendente = this.graficoHeader;
+        this.headerLaudado = this.graficoHeader;
+        this.loadingPanel = true;
+        this.loadListaExame = true;
+
+        axios.get(`${routePanelExames}/${this.data}`)
+            .then((res) => {
                 this.panel = res.data;
-                this.dt=res.data.request.dt;
-                this.dt_extenso=res.data.request.dt_extenso;
+                this.dt = res.data.request.dt;
+                this.dt_extenso = res.data.request.dt_extenso;
                 console.log(res.data);
-                this.headerAtendimento= res.data.header.atendimento;
-                this.nmProfissional=res.data.request.profissional;
-                this.headerExame= res.data.header.exame;
-                this.headerPendente= res.data.header.pendente;
-                this.headerLaudado= res.data.header.laudado;
-                this.exameLaudado= res.data.exameLaudado;
-                this.examePendente= res.data.examePendente;
+                this.headerAtendimento = res.data.header.atendimento;
+                this.nmProfissional = res.data.request.profissional;
+                this.headerExame = res.data.header.exame;
+                this.headerPendente = res.data.header.pendente;
+                this.headerLaudado = res.data.header.laudado;
+                this.exameLaudado = res.data.exameLaudado;
+                this.examePendente = res.data.examePendente;
                 this.getChartAtendimentos(res.data.grafico);
-                this.getChartExames(res.data.pizza); 
-   
+                this.getChartExames(res.data.pizza);
+
             })
             .catch((err) => toastr['error']('Houve um erro ao obter os dados do painel'))
-            .finally(() => { 
+            .finally(() => {
                 this.loadingPanel = false
                 this.loadListaExame = false;
             });
@@ -129,9 +129,9 @@ Alpine.data('app', () => ({
         }, 5000);
     },
 
-    getChartAtendimentos(dados){
+    getChartAtendimentos(dados) {
         document.getElementById('flot1').innerHTML = null;
- 
+
         var data = dados.atend;
         var dataset = [{
             data: data,
@@ -169,48 +169,48 @@ Alpine.data('app', () => ({
         };
         $.plot($("#flot1"), dataset, options);
     },
-    
-    getChartExames(dados){
- 
-            document.getElementById('flot3').innerHTML = null; 
-            /*
-            var data = [{
-                label: "Pendentes",
-                data: dados.pendente,
-                color: "#f25656",
-            }, {
-                label: "Realizados",
-                data: dados.laudado,
-                color: "#22baa0",
-            }];
-            */
-            var data = dados;
-            var options = {
-                series: {
-                    pie: {
-                        show: true
-                    }
-                },
-                legend: {
-                    labelFormatter: function(label, series) {
-                        return '<span class="pie-chart-legend">' + label + '</span>';
-                    }
-                },
-                grid: {
-                    hoverable: true
-                }, 
-                tooltip: true,
-                tooltipOpts: {
-                    content: "%p.0%, %s",
-                    shifts: {
-                        x: 20,
-                        y: 0
-                    },
-                    defaultTheme: false
+
+    getChartExames(dados) {
+
+        document.getElementById('flot3').innerHTML = null;
+        /*
+        var data = [{
+            label: "Pendentes",
+            data: dados.pendente,
+            color: "#f25656",
+        }, {
+            label: "Realizados",
+            data: dados.laudado,
+            color: "#22baa0",
+        }];
+        */
+        var data = dados;
+        var options = {
+            series: {
+                pie: {
+                    show: true
                 }
-            };
-            $.plot($("#flot3"), data, options);
-     
+            },
+            legend: {
+                labelFormatter: function (label, series) {
+                    return '<span class="pie-chart-legend">' + label + '</span>';
+                }
+            },
+            grid: {
+                hoverable: true
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: "%p.0%, %s",
+                shifts: {
+                    x: 20,
+                    y: 0
+                },
+                defaultTheme: false
+            }
+        };
+        $.plot($("#flot3"), data, options);
+
 
     }
 }));

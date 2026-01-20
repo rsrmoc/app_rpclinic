@@ -13,7 +13,7 @@ Alpine.data('appPacienteAdd', () => ({
     createPaciente() {
         this.loading = true;
 
-        axios.post('/app_rpclinic/api/paciente-add', this.pacienteData)
+        axios.post(routePacienteAdd, this.pacienteData)
             .then((res) => {
                 toastr.success(res.data.message);
 

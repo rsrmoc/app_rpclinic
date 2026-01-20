@@ -95,11 +95,16 @@ class Paciente extends Controller
 
     public function pacientesLista(Request $request) {
         $request->validate([
-            'search' => 'required|string'
+            'search' => 'nullable|string'
         ]);
 
-        $pacientes = RpclinicaPaciente::where('nm_paciente', 'LIKE', "{$request->search}%")
-            ->orderBy('created_at', 'DESC')->paginate(25)->appends(['search' => $request->search]);
+        $query = RpclinicaPaciente::orderBy('created_at', 'DESC');
+
+        if ($request->filled('search')) {
+            $query->where('nm_paciente', 'LIKE', "{$request->search}%");
+        }
+
+        $pacientes = $query->paginate(25)->appends(['search' => $request->search]);
 
         return response()->json($pacientes);
     }

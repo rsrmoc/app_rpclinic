@@ -1,8 +1,13 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-    <div class="brand-logo">
-        <a href="javascript:;"><img src="{{ asset('app/assets/images/logo_menu.svg') }}" width="190" alt=""></a>
+    <div class="brand-logo" style="width: auto;">
+        <a href="javascript:;" class="d-flex justify-content-center align-items-center">
+            <img src="{{ asset('app/assets/images/logo_horizontal.svg') }}" 
+                 alt="Logo" 
+                 style="height: 60px; width: auto;" 
+                 class="">
+        </a>
     </div>
 @endsection
 
@@ -21,7 +26,7 @@
                     <i class="bi bi-calendar-check text-4xl text-teal-600"></i>
                  </div>
                 <div class="flex flex-col items-center justify-center">
-                    <div class="text-3xl font-bold text-slate-900 mb-1">365</div>
+                    <div class="text-2xl font-bold text-slate-900 mb-1">365</div>
                     <p class="text-sm text-teal-600 font-bold">Agendamentos</p>
                 </div>
               </div>
@@ -32,7 +37,7 @@
                     <i class="bi bi-people text-4xl text-purple-600"></i>
                  </div>
                 <div class="flex flex-col items-center justify-center">
-                    <div class="text-3xl font-bold text-slate-900 mb-1">3443</div>
+                    <div class="text-2xl font-bold text-slate-900 mb-1">3443</div>
                     <p class="text-sm text-purple-600 font-bold">Atendimentos</p>
                 </div>
               </div>

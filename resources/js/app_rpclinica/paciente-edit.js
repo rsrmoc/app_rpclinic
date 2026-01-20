@@ -6,7 +6,7 @@ Alpine.data('appPacienteEdit', () => ({
 
         let form = new FormData(document.querySelector('#formPaciente'));
 
-        axios.post(`/app_rpclinic/api/paciente-edit/${cdPaciente}`, form)
+        axios.post(`${routePacienteEditBase}/${cdPaciente}`, form)
             .then((res) => {
                 toastr.success(res.data.message);
             })

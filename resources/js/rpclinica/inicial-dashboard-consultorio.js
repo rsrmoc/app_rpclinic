@@ -65,7 +65,7 @@ Alpine.data('app', () => ({
 
     getCompromisso() {
         this.loadingPanel = true;
-        axios.get('/rpclinica/json/panel-dashboard-compromisso')
+        axios.get(routePanelCompromisso)
             .then((res) => {
                 console.log(res.data);
                 this.panelComp = res.data.retorno;
@@ -89,7 +89,7 @@ Alpine.data('app', () => ({
         this.loadingPanel = true;
         this.loadListaExame = true;
 
-        axios.get(`/rpclinica/json/panel-dashboard-consultorio/${this.data}`)
+        axios.get(`${routePanelConsultorio}/${this.data}`)
             .then((res) => {
                 this.panel = res.data;
                 this.dt = res.data.request.dt;

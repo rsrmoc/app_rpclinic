@@ -42,50 +42,50 @@ Alpine.data('appConsultaPaciente', () => ({
     init() {
         this.getDocs();
         this.getHistorico();
-        
+
         this.editor = CKEDITOR.replace('editor', {
             toolbar: [
-                { name: 'clipboard', items: [ 'Undo', 'Redo' ] },
-                { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', '-', 'RemoveFormat' ] },
-                { name: 'paragraph', items: [ 'NumberedList', 'BulletedList'] },
-                { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-                { name: 'tools', items: [ 'Maximize' ] },
+                { name: 'clipboard', items: ['Undo', 'Redo'] },
+                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', '-', 'RemoveFormat'] },
+                { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+                { name: 'colors', items: ['TextColor', 'BGColor'] },
+                { name: 'tools', items: ['Maximize'] },
             ],
             removeButtons: 'Subscript,Superscript,',
-            resize_enabled : false,
-            height:['200px'],
+            resize_enabled: false,
+            height: ['200px'],
             removePlugins: 'elementspath',
             enterMode: CKEDITOR.ENTER_BR, // Define Enter como <br>
             shiftEnterMode: CKEDITOR.ENTER_BR // Define Shift+Enter como <br>
         });
-        
+
         this.editor_alertas = CKEDITOR.replace('editor-alertas', {
             toolbar: [
-                { name: 'clipboard', items: [ 'Undo', 'Redo' ] },
-                { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', '-', 'RemoveFormat' ] },
-                { name: 'paragraph', items: [ 'NumberedList', 'BulletedList'] },
-                { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-                { name: 'tools', items: [ 'Maximize' ] },
+                { name: 'clipboard', items: ['Undo', 'Redo'] },
+                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', '-', 'RemoveFormat'] },
+                { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+                { name: 'colors', items: ['TextColor', 'BGColor'] },
+                { name: 'tools', items: ['Maximize'] },
             ],
             removeButtons: 'Subscript,Superscript,',
-            resize_enabled : false,
-            height:['200px'],
+            resize_enabled: false,
+            height: ['200px'],
             removePlugins: 'elementspath',
             enterMode: CKEDITOR.ENTER_BR, // Define Enter como <br>
             shiftEnterMode: CKEDITOR.ENTER_BR // Define Shift+Enter como <br>
         });
-         
+
         this.editor_anamnese = CKEDITOR.replace('editor-anamnese', {
             toolbar: [
-                { name: 'clipboard', items: [ 'Undo', 'Redo' ] },
-                { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', '-', 'RemoveFormat' ] },
-                { name: 'paragraph', items: [ 'NumberedList', 'BulletedList'] },
-                { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-                { name: 'tools', items: [ 'Maximize' ] },
+                { name: 'clipboard', items: ['Undo', 'Redo'] },
+                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', '-', 'RemoveFormat'] },
+                { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+                { name: 'colors', items: ['TextColor', 'BGColor'] },
+                { name: 'tools', items: ['Maximize'] },
             ],
             removeButtons: 'Subscript,Superscript,',
-            resize_enabled : false,
-            height:['200px'],
+            resize_enabled: false,
+            height: ['200px'],
             removePlugins: 'elementspath',
             enterMode: CKEDITOR.ENTER_BR, // Define Enter como <br>
             shiftEnterMode: CKEDITOR.ENTER_BR // Define Shift+Enter como <br>
@@ -103,7 +103,7 @@ Alpine.data('appConsultaPaciente', () => ({
     finalizarConsulta() {
         this.loadingFinalizar = true;
 
-        axios.post(`/app_rpclinic/api/consulta-finalizar/${this.cdAgendamento}`)
+        axios.post(`${routeConsultaFinalizar}/${this.cdAgendamento}`)
             .then((res) => {
                 toastr.success(res.data.message);
                 modal.hide();
@@ -116,7 +116,7 @@ Alpine.data('appConsultaPaciente', () => ({
     getDocs() {
         this.loadingDocs = true;
 
-        axios.get(`/app_rpclinic/api/consulta-docs/${this.cdAgendamento}`)
+        axios.get(`${routeConsultaDocs}/${this.cdAgendamento}`)
             .then((res) => {
                 this.docs = res.data.documentos;
             })
@@ -127,7 +127,7 @@ Alpine.data('appConsultaPaciente', () => ({
     getHistorico() {
         this.loadingHistorico = true;
 
-        axios.post('/app_rpclinic/api/consulta-paciente-historico', {
+        axios.post(routeConsultaHistorico, {
             cd_paciente: this.cdPaciente
         })
             .then((res) => {
@@ -141,8 +141,8 @@ Alpine.data('appConsultaPaciente', () => ({
         this.loadingSaveAnamnese = true;
 
         let form = new FormData(document.querySelector('#formAnamnese'));
-        form.set('conteudo', this.editor_anamnese.getData()); 
-        axios.post('/app_rpclinic/api/consulta-paciente-anamnese', form)
+        form.set('conteudo', this.editor_anamnese.getData());
+        axios.post(routeConsultaAnamnese, form)
             .then((res) => {
                 toastr.success(res.data.message)
             })
@@ -153,9 +153,9 @@ Alpine.data('appConsultaPaciente', () => ({
     saveAlertas() {
         this.loadingSaveAlertas = true;
 
-        let form = new FormData(document.querySelector('#formAlertas')); 
+        let form = new FormData(document.querySelector('#formAlertas'));
         form.set('conteudo', this.editor_alertas.getData());
-        axios.post('/app_rpclinic/api/consulta-paciente-alertas', form)
+        axios.post(routeConsultaAlertas, form)
             .then((res) => {
                 toastr.success(res.data.message)
             })
@@ -170,7 +170,7 @@ Alpine.data('appConsultaPaciente', () => ({
         let form = new FormData(formElement);
         form.set('conteudo', this.editor.getData());
 
-        axios.post('/app_rpclinic/api/consulta-paciente-doc', form)
+        axios.post(routeConsultaDoc, form)
             .then((res) => {
                 this.docs.unshift(res.data.doc);
 
@@ -191,7 +191,7 @@ Alpine.data('appConsultaPaciente', () => ({
         let doc = new jsPDF();
 
         doc.html(
-            content, 
+            content,
             {
                 callback: function (doc) {
                     doc.save(name);
