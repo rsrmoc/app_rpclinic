@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('app.inicial');
 });
 
 Route::get('login', 'Login@index')->name('app.login')

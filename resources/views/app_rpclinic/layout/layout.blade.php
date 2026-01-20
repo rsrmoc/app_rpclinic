@@ -288,7 +288,7 @@
             transform: translateZ(0); 
         }
 
-        /* Prevent unwanted mobile behaviors */
+        /* Full Width App Container */
         body {
             background-color: #0f172a !important;
             overscroll-behavior: none !important;
@@ -298,19 +298,17 @@
             touch-action: manipulation;
         }
 
-        .app-wrapper {
-            max-width: 480px;
-            margin: 0 auto;
+        .wrapper {
+            width: 100% !important;
             min-height: 100vh;
             position: relative;
             background: #0f172a;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            padding-bottom: 90px;
+            padding-bottom: 120px; /* Space for footer */
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
         }
 
-        /* Select Legibility & iOS Fixes */
+        /* Fix Select and Options for Native Feel */
         select {
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -330,20 +328,77 @@
             padding: 15px;
         }
 
-        /* Bottom Nav Stability */
+        /* Dark Theme Overrides for Cards */
+        .card {
+            background-color: transparent !important;
+            border: none !important;
+        }
+
+        .card-body {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            color: #f1f5f9 !important;
+        }
+
+        /* Fix invisible text in headers */
+        .text-dark {
+            color: #cbd5e1 !important;
+        }
+
+        .form-floating label {
+            color: #94a3b8 !important;
+        }
+
+        .form-control {
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
+        }
+
+        /* Full-width Modal Overrides (Tema Dark) */
+        .modal-content {
+            background-color: #0f172a !important;
+            color: #e2e8f0 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 20px !important;
+        }
+
+        .modal-header, .modal-footer {
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            background: transparent !important;
+        }
+
+        .modal-body label, .modal-body span, .modal-body p {
+            color: #cbd5e1 !important;
+        }
+
+        /* Fixed Top Header Stability */
+        .top-header {
+            width: 100% !important;
+            left: 0 !important;
+            right: 0 !important;
+            background: rgba(15, 23, 42, 0.98) !important;
+            backdrop-filter: blur(15px) !important;
+            -webkit-backdrop-filter: blur(15px) !important;
+            z-index: 10001; 
+            height: 60px !important;
+        }
+
+        /* Bottom Nav Sustainability */
         .bottom-nav-container {
             position: fixed;
             bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 0;
+            right: 0;
             width: 100%;
-            max-width: 480px;
             z-index: 10000;
-            padding: 0 12px 12px 12px;
+            padding: 0 10px 10px 10px;
+            pointer-events: none; /* Crucial: Allows clicking through empty space to fields behind */
         }
 
         .bottom-nav-card {
-            background: rgba(30, 41, 59, 0.98); /* Near solid for stability */
+            background: rgba(30, 41, 59, 0.98); 
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             display: flex;
@@ -351,6 +406,9 @@
             align-items: center;
             height: 70px;
             box-shadow: 0 -5px 25px rgba(0,0,0,0.5);
+            max-width: 600px;
+            margin: 0 auto;
+            pointer-events: auto; /* Re-enable for the buttons */
         }
 
         .nav-btn {
@@ -409,25 +467,16 @@
             color: #94a3b8;
         }
 
-        /* Fixed Header Stability */
-        .top-header {
-            max-width: 480px; 
-            left: 50%; 
-            transform: translateX(-50%); 
-            background: rgba(15, 23, 42, 0.95); 
-            z-index: 9999;
-        }
-
         /* Background Stethoscope Watermark */
         .bg-watermark {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 70vw;
+            font-size: 80vw;
             color: rgba(255, 255, 255, 0.03);
             pointer-events: none;
-            z-index: 0;
+            z-index: -1;
         }
     </style>
 
@@ -437,26 +486,27 @@
   </head>
   <body class="bg-gradient-to-br from-slate-900 via-sky-900 to-teal-900 min-h-screen bg-fixed">
 
-   <!--page loader-->
-    <div class="loader-wrapper">
+    <!--page loader-->
+    <div class="loader-wrapper" style="background: #0f172a; z-index: 10005;">
       <div class="d-flex justify-content-center align-items-center position-absolute top-50 start-50 translate-middle">
-        <div class="spinner-border text-white" role="status">
-          <span class="visually-hidden">Loading...</span>
+        <div class="spinner-border text-teal-400" role="status">
+          <span class="visually-hidden">Carregando...</span>
         </div>
       </div>
     </div>
    <!--end loader-->
 
    <!--start wrapper-->
-    <div class="app-wrapper">
-        <!-- Background Stethoscope Watermark -->
-        <div class="bg-watermark">
-            <i class="fa fa-stethoscope"></i>
+    <div class="wrapper" style="background: #0f172a; min-height: 100vh;">
+       <!--start to page content-->
+       <div class="page-content bg-transparent">
+          <div class="login-body p-4">
+ stethoscope"></i>
         </div>
 
        <!--start to header-->
        <header class="top-header fixed-top border-bottom d-flex align-items-center">
-        <nav class="navbar navbar-expand w-100 p-0 gap-3 align-items-center">
+        <nav class="navbar navbar-expand w-100 p-0 gap-3 align-items-center px-3">
             <div class="nav-button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidenav" style="padding: 10px; cursor: pointer;">
                 <a href="javascript:;" class="text-white hover:text-teal-400">
                     <i class="bi bi-list" style="font-size: 2rem;"></i>
@@ -476,6 +526,9 @@
        </header>
         <!--end to header-->
 
+        <!-- cRoute::get('/', function () {
+    return redirect()->route('app.inicial');
+});
         <!-- conteudo da pagina -->
            @yield('content')
         <!-- conteudo da pagina -->
