@@ -15,19 +15,27 @@
 
 
         @isset($profissionais)
-        <div class="mb-4 p-4 rounded-xl border border-white/10" style="background: rgba(255, 255, 255, 0.05);">
-            <label class="block text-slate-300 mb-2 font-bold">Visualizar Consultório de:</label>
-            <select class="w-full bg-slate-800 border-slate-700 text-slate-200 rounded-lg p-2" 
-                    onchange="if(this.value) window.location.search = '?cd_profissional='+this.value">
-                <option value="">Selecione um Profissional...</option>
-                @foreach($profissionais as $p)
-                    <option value="{{ $p->cd_profissional }}" {{ ($cd_profissional ?? null) == $p->cd_profissional ? 'selected' : '' }}>
-                        {{ $p->nm_profissional }}
-                    </option>
-                @endforeach
-            </select>
+        <div class="mb-6 p-5 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md shadow-xl">
+            <label class="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Profissional Responsável</label>
+            <div class="relative">
+                <select class="w-full bg-slate-800 border-slate-700 text-white rounded-2xl p-4 shadow-lg focus:ring-2 focus:ring-teal-500 transition-all cursor-pointer appearance-none" 
+                        onchange="if(this.value) window.location.search = '?cd_profissional='+this.value">
+                    <option value="" class="bg-slate-800 text-slate-400">Selecione um Profissional...</option>
+                    @foreach($profissionais as $p)
+                        <option value="{{ $p->cd_profissional }}" {{ ($cd_profissional ?? null) == $p->cd_profissional ? 'selected' : '' }} class="bg-slate-800 text-white">
+                            {{ $p->nm_profissional }}
+                        </option>
+                    @endforeach
+                </select>
+                <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                    <i class="bi bi-chevron-down"></i>
+                </div>
+            </div>
             @if(empty($cd_profissional) && empty(auth()->guard('rpclinica')->user()->cd_profissional))
-                <div class="text-amber-400 text-sm mt-2">⚠ Por favor, selecione um profissional para visualizar o consultório.</div>
+                <div class="text-amber-400 text-xs mt-3 flex items-center gap-2 bg-amber-400/10 p-2 rounded-lg border border-amber-400/20">
+                    <i class="bi bi-info-circle-fill"></i>
+                    <span>Selecione um profissional para carregar a agenda.</span>
+                </div>
             @endif
         </div>
         @endisset
@@ -41,7 +49,7 @@
             <template x-if="agendamentos.length==0">
                 <div class="mb-3">
                     <div style="text-align: center; margin-top: 10px;" >
-                        <img src="{{ asset('app/assets/images/historico-medico.png') }}" style="max-width: 65%;" class="img-fluid" alt="">
+                        <img src="{{ asset('app/assets/images/historico-medico.png') }}" style="max-width: 65%; opacity: 0.15; filter: grayscale(1);" class="img-fluid" alt="">
                     </div>
                 </div>
             </template>

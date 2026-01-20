@@ -2,7 +2,7 @@
 <html lang="en" class="light-theme">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>RPclinic - Consultório</title>
 
      <!-- Plugins -->
@@ -270,6 +270,165 @@
              box-sizing: border-box !important;
         }
 
+        /* Global Select Styles for Dark Mode */
+        select, option {
+            background-color: #1e293b !important; /* slate-800 */
+            color: #f1f5f9 !important; /* slate-100 */
+        }
+
+        select:focus {
+            outline: 2px solid #2dd4bf !important; /* teal-400 */
+        }
+
+        /* GPU Acceleration for Flickering Fix */
+        .bottom-nav-card, .top-header, .app-wrapper {
+            will-change: transform;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            transform: translateZ(0); 
+        }
+
+        /* Prevent unwanted mobile behaviors */
+        body {
+            background-color: #0f172a !important;
+            overscroll-behavior: none !important;
+            -webkit-tap-highlight-color: transparent;
+            margin: 0;
+            padding: 0;
+            touch-action: manipulation;
+        }
+
+        .app-wrapper {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            background: #0f172a;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            padding-bottom: 90px;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Select Legibility & iOS Fixes */
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            font-size: 16px !important;
+            color: white !important;
+            background-color: #1e293b !important;
+        }
+
+        select option {
+            background-color: #1e293b;
+            color: #ffffff;
+            padding: 15px;
+        }
+
+        /* Bottom Nav Stability */
+        .bottom-nav-container {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            z-index: 10000;
+            padding: 0 12px 12px 12px;
+        }
+
+        .bottom-nav-card {
+            background: rgba(30, 41, 59, 0.98); /* Near solid for stability */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 70px;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.5);
+        }
+
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            color: #94a3b8;
+            text-decoration: none !important;
+            height: 100%;
+        }
+
+        .nav-btn.active {
+            color: #2dd4bf;
+        }
+
+        .nav-btn i {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        .nav-btn span {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .home-btn-wrap {
+            position: relative;
+            width: 60px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .home-btn {
+            position: absolute;
+            top: -25px;
+            width: 52px;
+            height: 52px;
+            background: #14b8a6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(20, 184, 166, 0.5);
+            border: 4px solid #0f172a;
+            color: white !important;
+        }
+
+        .home-label {
+            position: absolute;
+            bottom: 8px;
+            font-size: 9px;
+            font-weight: 700;
+            color: #94a3b8;
+        }
+
+        /* Fixed Header Stability */
+        .top-header {
+            max-width: 480px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background: rgba(15, 23, 42, 0.95); 
+            z-index: 9999;
+        }
+
+        /* Background Stethoscope Watermark */
+        .bg-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 70vw;
+            color: rgba(255, 255, 255, 0.03);
+            pointer-events: none;
+            z-index: 0;
+        }
     </style>
 
     @stack('styles')
@@ -289,12 +448,20 @@
    <!--end loader-->
 
    <!--start wrapper-->
-    <div class="wrapper">
+    <div class="app-wrapper">
+        <!-- Background Stethoscope Watermark -->
+        <div class="bg-watermark">
+            <i class="fa fa-stethoscope"></i>
+        </div>
 
        <!--start to header-->
        <header class="top-header fixed-top border-bottom d-flex align-items-center">
         <nav class="navbar navbar-expand w-100 p-0 gap-3 align-items-center">
-            <div class="nav-button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidenav"><a href="javascript:;"><i class="bi bi-list"></i></a></div>
+            <div class="nav-button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidenav" style="padding: 10px; cursor: pointer;">
+                <a href="javascript:;" class="text-white hover:text-teal-400">
+                    <i class="bi bi-list" style="font-size: 2rem;"></i>
+                </a>
+            </div>
 
 
             @yield('button_left')
@@ -320,43 +487,45 @@
     <!--end wrapper-->
 
     <!--start to footer-->
-    <div class="fixed bottom-0 w-full z-50 px-4 pb-4" style="position: fixed; bottom: 0; left: 0; right: 0;">
-           <nav class="flex justify-between items-center px-4 h-[4.5rem] max-w-lg mx-auto relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl">
+    <div class="bottom-nav-container no-print">
+           <nav class="bottom-nav-card shadow-2xl">
              
                <!-- Paciente -->
-               <a href="{{ route('app.paciente') }}" class="flex flex-col items-center justify-center w-full py-2 rounded-xl transition-all duration-300 group hover:no-underline hover:bg-white/5">
-                 <i class="bi bi-people text-2xl mb-1 {{ request()->routeIs('app.paciente') ? 'text-sky-400' : 'text-slate-300' }}"></i>
-                 <span class="text-[0.65rem] font-bold {{ request()->routeIs('app.paciente') ? 'text-sky-400' : 'text-slate-300' }}">Paciente</span>
+               <a href="{{ route('app.paciente') }}" class="nav-btn {{ request()->routeIs('app.paciente') ? 'active' : '' }}">
+                 <i class="bi bi-people"></i>
+                 <span>Paciente</span>
                </a>
 
                <!-- Agenda -->
-               <a href="{{ route('app.agendamento') }}" class="flex flex-col items-center justify-center w-full py-2 rounded-xl transition-all duration-300 group hover:no-underline hover:bg-white/5">
-                 <i class="bi bi-calendar3 text-2xl mb-1 {{ request()->routeIs('app.agendamento') ? 'text-teal-400' : 'text-slate-300' }}"></i>
-                 <span class="text-[0.65rem] font-bold {{ request()->routeIs('app.agendamento') ? 'text-teal-400' : 'text-slate-300' }}">Agenda</span>
+               <a href="{{ route('app.agendamento') }}" class="nav-btn {{ request()->routeIs('app.agendamento') ? 'active' : '' }}">
+                 <i class="bi bi-calendar3"></i>
+                 <span>Agenda</span>
                </a>
 
                <!-- Home (Floating) -->
-               <div class="relative w-full flex justify-center group pointer-events-none">
-                 <a href="{{ route('app.inicial') }}" class="pointer-events-auto absolute -top-8 w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(45,212,191,0.5)] border-[4px] border-slate-900 transform transition-all duration-300 hover:scale-105 hover:no-underline bg-gradient-to-br from-teal-500 to-emerald-500">
-                   <i class="bi bi-house-fill text-xl text-white"></i>
+               <div class="home-btn-wrap">
+                 <a href="{{ route('app.inicial') }}" class="home-btn hover:scale-105 transition-transform">
+                   <i class="bi bi-house-fill text-xl"></i>
                  </a>
-                 <span class="absolute bottom-2 text-[0.65rem] font-bold {{ request()->routeIs('app.inicial') ? 'text-emerald-400' : 'text-slate-300' }} pt-7">Home</span>
+                 <span class="home-label {{ request()->routeIs('app.inicial') ? 'text-teal-400' : '' }}">Home</span>
                </div>
 
                <!-- Consulta -->
-               <a href="{{ route('app.consultorio') }}" class="flex flex-col items-center justify-center w-full py-2 rounded-xl transition-all duration-300 group hover:no-underline hover:bg-white/5">
-                 <i class="bi bi-calendar2-heart text-2xl mb-1 {{ request()->routeIs('app.consultorio') ? 'text-rose-400' : 'text-slate-300' }}"></i>
-                 <span class="text-[0.65rem] font-bold {{ request()->routeIs('app.consultorio') ? 'text-rose-400' : 'text-slate-300' }}">Consulta</span>
+               <a href="{{ route('app.consultorio') }}" class="nav-btn {{ request()->routeIs('app.consultorio') ? 'active' : '' }}">
+                 <i class="bi bi-calendar2-heart"></i>
+                 <span>Consulta</span>
                </a>
 
                <!-- Perfil -->
-               <a href="{{ route('app.perfil') }}" class="flex flex-col items-center justify-center w-full py-2 rounded-xl transition-all duration-300 group hover:no-underline hover:bg-white/5">
-                 <i class="bi bi-person-rolodex text-2xl mb-1 {{ request()->routeIs('app.perfil') ? 'text-orange-400' : 'text-slate-300' }}"></i>
-                 <span class="text-[0.65rem] font-bold {{ request()->routeIs('app.perfil') ? 'text-orange-400' : 'text-slate-300' }}">Perfil</span>
+               <a href="{{ route('app.perfil') }}" class="nav-btn {{ request()->routeIs('app.perfil') ? 'active' : '' }}">
+                 <i class="bi bi-person-rolodex"></i>
+                 <span>Perfil</span>
                </a>
 
            </nav>
         </div>
+        <!--end to footer-->
+
         <!--end to footer-->
 
 

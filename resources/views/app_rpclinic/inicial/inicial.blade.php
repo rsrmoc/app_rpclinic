@@ -17,7 +17,7 @@
           <div class="grid grid-cols-2 gap-4">
             <div class="flex">
               <div class="w-full bg-white/10 backdrop-blur-md rounded-2xl shadow-xl p-4 border border-white/20 relative overflow-hidden group">
-                 <div class="absolute top-0 right-0 p-3 opacity-20">
+                 <div class="absolute top-0 right-0 p-3 opacity-10">
                     <i class="bi bi-calendar-check text-4xl text-teal-300"></i>
                  </div>
                 <div class="flex flex-col items-center justify-center">
@@ -28,7 +28,7 @@
             </div>
             <div class="flex">
               <div class="w-full bg-white/10 backdrop-blur-md rounded-2xl shadow-xl p-4 border border-white/20 relative overflow-hidden group">
-                 <div class="absolute top-0 right-0 p-3 opacity-20">
+                 <div class="absolute top-0 right-0 p-3 opacity-10">
                     <i class="bi bi-people text-4xl text-purple-300"></i>
                  </div>
                 <div class="flex flex-col items-center justify-center">
