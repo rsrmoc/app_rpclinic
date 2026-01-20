@@ -288,89 +288,105 @@
             transform: translateZ(0); 
         }
 
-        /* Full Width App Container */
+        /* Full Width App Container - WHITE THEME UPDATE */
         body {
-            background-color: #0f172a !important;
+            background-color: #f8fafc !important; /* Slate-50 - very light grey/white */
             overscroll-behavior: none !important;
             -webkit-tap-highlight-color: transparent;
             margin: 0;
             padding: 0;
             touch-action: manipulation;
+            color: #1e293b; /* Slate-800 - Dark text */
         }
 
         .wrapper {
             width: 100% !important;
             min-height: 100vh;
             position: relative;
-            background: #0f172a;
+            background: #f8fafc;
             padding-bottom: 120px; /* Space for footer */
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
         }
 
-        /* Fix Select and Options for Native Feel */
+        /* Fix Select and Options for Native Feel - Light Theme */
         select {
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23334155' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
             background-position: right 0.75rem center;
             background-repeat: no-repeat;
             background-size: 1.5em 1.5em;
             font-size: 16px !important;
-            color: white !important;
-            background-color: #1e293b !important;
+            color: #1e293b !important;
+            background-color: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
         }
 
         select option {
-            background-color: #1e293b;
-            color: #ffffff;
+            background-color: #ffffff;
+            color: #1e293b;
             padding: 15px;
         }
 
-        /* Dark Theme Overrides for Cards */
+        /* Light Theme Cards */
         .card {
-            background-color: transparent !important;
-            border: none !important;
+            background-color: white !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
         }
 
         .card-body {
-            background-color: rgba(255, 255, 255, 0.05) !important;
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            color: #f1f5f9 !important;
+            background-color: transparent !important;
+            color: #1e293b !important;
         }
 
-        /* Fix invisible text in headers */
+        /* Fix text colors for Light Theme */
         .text-dark {
-            color: #cbd5e1 !important;
+            color: #1e293b !important;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            color: #0f172a !important;
         }
 
         .form-floating label {
-            color: #94a3b8 !important;
+            color: #64748b !important;
         }
 
         .form-control {
-            background: rgba(15, 23, 42, 0.6) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            color: white !important;
+            background: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #1e293b !important;
+        }
+        
+        .form-control:focus {
+            border-color: #0d9488 !important; /* Teal-600 */
+            box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2) !important;
         }
 
-        /* Full-width Modal Overrides (Tema Dark) */
+        /* Full-width Modal Overrides (Tema Light) */
         .modal-content {
-            background-color: #0f172a !important;
-            color: #e2e8f0 !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            background-color: #ffffff !important;
+            color: #1e293b !important;
+            border: none !important;
             border-radius: 20px !important;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
 
         .modal-header, .modal-footer {
-            border-color: rgba(255, 255, 255, 0.05) !important;
+            border-color: #e2e8f0 !important;
             background: transparent !important;
         }
 
+        .modal-title {
+            color: #0f172a !important;
+            font-weight: 600;
+        }
+
         .modal-body label, .modal-body span, .modal-body p {
-            color: #cbd5e1 !important;
+            color: #334155 !important;
         }
 
         /* Fixed Top Header Stability */
@@ -378,14 +394,14 @@
             width: 100% !important;
             left: 0 !important;
             right: 0 !important;
-            background: rgba(15, 23, 42, 0.98) !important;
+            background: rgba(255, 255, 255, 0.95) !important;
             backdrop-filter: blur(15px) !important;
             -webkit-backdrop-filter: blur(15px) !important;
             z-index: 10001; 
             height: 60px !important;
         }
 
-        /* Bottom Nav Sustainability */
+        /* Bottom Nav Sustainability - KEPT DARK AS REQUESTED */
         .bottom-nav-container {
             position: fixed;
             bottom: 0;
@@ -394,21 +410,21 @@
             width: 100%;
             z-index: 10000;
             padding: 0 10px 10px 10px;
-            pointer-events: none; /* Crucial: Allows clicking through empty space to fields behind */
+            pointer-events: none; 
         }
 
         .bottom-nav-card {
-            background: rgba(30, 41, 59, 0.98); 
+            background: rgba(30, 41, 59, 0.98); /* Keeping this Dark Slate */
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             display: flex;
             justify-content: space-around;
             align-items: center;
             height: 70px;
-            box-shadow: 0 -5px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.2);
             max-width: 600px;
             margin: 0 auto;
-            pointer-events: auto; /* Re-enable for the buttons */
+            pointer-events: auto; 
         }
 
         .nav-btn {
@@ -454,8 +470,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 8px 20px rgba(20, 184, 166, 0.5);
-            border: 4px solid #0f172a;
+            box-shadow: 0 8px 20px rgba(20, 184, 166, 0.3);
+            border: 4px solid #f8fafc; /* Updated border to match light bg */
             color: white !important;
         }
 
@@ -466,17 +482,32 @@
             font-weight: 700;
             color: #94a3b8;
         }
+        
+        /* Centralized Layout for Watermark */
+        .page-content {
+            position: relative;
+            z-index: 1;
+        }
 
-        /* Background Stethoscope Watermark */
+        /* Background Stethoscope Watermark - Centered */
         .bg-watermark {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 80vw;
-            color: rgba(255, 255, 255, 0.03);
+            transform: translate(-50%, -50%); /* Crucial for perfect centering */
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             pointer-events: none;
-            z-index: -1;
+            z-index: 0;
+            opacity: 0.05; /* Make it subtle */
+        }
+        
+        .bg-watermark i {
+             font-size: 50vh; /* Responsive size */
+             color: #0f172a; /* Dark color for watermark on light bg */
         }
     </style>
 
@@ -484,7 +515,7 @@
 
      
   </head>
-  <body class="bg-gradient-to-br from-slate-900 via-sky-900 to-teal-900 min-h-screen bg-fixed">
+  <body class="min-h-screen bg-fixed">
 
     <!--page loader-->
     <div class="loader-wrapper" style="background: #0f172a; z-index: 10005;">

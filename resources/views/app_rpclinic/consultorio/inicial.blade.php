@@ -15,14 +15,14 @@
 
 
         @isset($profissionais)
-        <div class="mb-6 p-5 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md shadow-xl">
-            <label class="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Profissional Responsável</label>
+        <div class="mb-6 p-5 rounded-3xl border border-slate-200 bg-white shadow-sm">
+            <label class="block text-slate-500 text-xs font-bold uppercase tracking-wider mb-2">Profissional Responsável</label>
             <div class="relative">
-                <select class="w-full bg-slate-800 border-slate-700 text-white rounded-2xl p-4 shadow-lg focus:ring-2 focus:ring-teal-500 transition-all cursor-pointer appearance-none" 
+                <select class="w-full bg-slate-50 border-slate-300 text-slate-900 rounded-2xl p-4 shadow-sm focus:ring-2 focus:ring-teal-500 transition-all cursor-pointer appearance-none" 
                         onchange="if(this.value) window.location.search = '?cd_profissional='+this.value">
-                    <option value="" class="bg-slate-800 text-slate-400">Selecione um Profissional...</option>
+                    <option value="" class="bg-white text-slate-400">Selecione um Profissional...</option>
                     @foreach($profissionais as $p)
-                        <option value="{{ $p->cd_profissional }}" {{ ($cd_profissional ?? null) == $p->cd_profissional ? 'selected' : '' }} class="bg-slate-800 text-white">
+                        <option value="{{ $p->cd_profissional }}" {{ ($cd_profissional ?? null) == $p->cd_profissional ? 'selected' : '' }} class="bg-white text-slate-900">
                             {{ $p->nm_profissional }}
                         </option>
                     @endforeach
@@ -32,7 +32,7 @@
                 </div>
             </div>
             @if(empty($cd_profissional) && empty(auth()->guard('rpclinica')->user()->cd_profissional))
-                <div class="text-amber-400 text-xs mt-3 flex items-center gap-2 bg-amber-400/10 p-2 rounded-lg border border-amber-400/20">
+                <div class="text-amber-600 text-xs mt-3 flex items-center gap-2 bg-amber-50 p-2 rounded-lg border border-amber-200">
                     <i class="bi bi-info-circle-fill"></i>
                     <span>Selecione um profissional para carregar a agenda.</span>
                 </div>
@@ -49,15 +49,15 @@
             <template x-if="agendamentos.length==0">
                 <div class="mb-3">
                     <div style="text-align: center; margin-top: 10px;" >
-                        <img src="{{ asset('app/assets/images/historico-medico.png') }}" style="max-width: 65%; opacity: 0.15; filter: grayscale(1);" class="img-fluid" alt="">
+                        <img src="{{ asset('app/assets/images/historico-medico.png') }}" style="max-width: 65%; opacity: 0.5; filter: grayscale(1);" class="img-fluid" alt="">
                     </div>
                 </div>
             </template>
         </div>
 
         <template x-if="loading">
-            <div class="mb-3">
-                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>&ensp;
+            <div class="mb-3 text-slate-600 flex items-center justify-center">
+                <span class="spinner-border spinner-border-sm text-primary" aria-hidden="true"></span>&ensp;
                 <span>Carregando...</span>
             </div>
         </template>
@@ -66,25 +66,25 @@
 
         <div>
             <template x-for="agendamento, index in agendamentos" x-bind:key="index">
-                <div class="bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border border-white/10 mb-4 p-4 transition-all duration-300 hover:bg-white/15">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 mb-4 p-4 transition-all duration-300 hover:shadow-md">
                      <div class="flex flex-row gap-4">
-                         <div class="flex-grow text-slate-200">
-                                  <span class="font-bold text-lg text-white block mb-1" x-text="agendamento.paciente.nm_paciente"></span>
+                         <div class="flex-grow text-slate-600">
+                                  <span class="font-bold text-lg text-slate-900 block mb-1" x-text="agendamento.paciente.nm_paciente"></span>
                                   <div class="text-sm space-y-1">
-                                      <div><strong class="text-teal-400">Data:</strong> <span x-text="agendamento.data_agenda+' as '+agendamento.hr_agenda"></span></div>
-                                      <div><strong class="text-teal-400">Profissional:</strong> <span x-text="agendamento.profissional.nm_profissional"></span></div>
-                                      <div><strong class="text-teal-400">Especialidade:</strong> <span x-text="agendamento.especialidade.nm_especialidade"></span></div>
-                                      <div><strong class="text-teal-400">Número:</strong> <span x-text="agendamento.celular"></span></div>
+                                      <div><strong class="text-teal-600">Data:</strong> <span x-text="agendamento.data_agenda+' as '+agendamento.hr_agenda"></span></div>
+                                      <div><strong class="text-teal-600">Profissional:</strong> <span x-text="agendamento.profissional.nm_profissional"></span></div>
+                                      <div><strong class="text-teal-600">Especialidade:</strong> <span x-text="agendamento.especialidade.nm_especialidade"></span></div>
+                                      <div><strong class="text-teal-600">Número:</strong> <span x-text="agendamento.celular"></span></div>
                                       
                                       <div class="mt-2 flex gap-2">
                                            <span class="px-2 py-1 rounded text-xs font-bold" x-bind:class="agendamento.tipo_atend.cor" x-text="capitalizeFirstLetter(agendamento.tipo_atend.nm_tipo_atendimento)"></span>
-                                           <span class="px-2 py-1 rounded text-xs font-bold bg-slate-700 text-slate-200 border border-slate-600" x-bind:class="classLabelSituacao[agendamento.situacao.toLocaleLowerCase()]" x-text="capitalizeFirstLetter(agendamento.situacao)"></span>
+                                           <span class="px-2 py-1 rounded text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200" x-bind:class="classLabelSituacao[agendamento.situacao.toLocaleLowerCase()]" x-text="capitalizeFirstLetter(agendamento.situacao)"></span>
                                       </div>
                                   </div>
                          </div>
                          
                          <div class="flex flex-col gap-2 justify-center">
-                             <a x-bind:href="`/app_rpclinic/consultorio-consulta/${agendamento.cd_agendamento}`" class="w-12 h-12 rounded-xl bg-teal-500/20 text-teal-300 flex items-center justify-center hover:bg-teal-500/30 transition-colors border border-teal-500/30">
+                             <a x-bind:href="`/app_rpclinic/consultorio-consulta/${agendamento.cd_agendamento}`" class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center hover:bg-teal-100 transition-colors border border-teal-100">
                                  <i class="fa fa-stethoscope text-xl"></i>
                              </a>
                          </div>
