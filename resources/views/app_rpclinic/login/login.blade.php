@@ -43,7 +43,6 @@
           <div class="login-body p-4" style="max-width: 450px; margin: 0 auto;">
              <!-- Background Stethoscope Watermark -->
              <div class="bg-watermark">
-                <i class="fa fa-stethoscope"></i>
             </div>
              
              <form action="{{ route('app.login.action') }}" method="POST" class="mt-4 bg-white p-5 rounded-3xl border border-slate-200 shadow-xl position-relative z-10">
@@ -96,24 +95,45 @@
 
        <style>
             /* Copied Watermark Style from Global */
+             /* Background Image Style */
             .bg-watermark {
                 position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
+                top: 0;
+                left: 0;
                 width: 100%;
                 height: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                pointer-events: none;
                 z-index: 0;
-                opacity: 0.05;
             }
             
-            .bg-watermark i {
-                 font-size: 50vh;
-                 color: #0f172a;
+            .bg-watermark::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url('{{ asset("app/assets/images/splash-screen-1.webp") }}');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            .bg-watermark::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.85); /* White overlay for Pure White theme */
+                backdrop-filter: blur(2px);
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .bg-watermark::before {
+                    background-position: top center; /* Focus on face for mobile */
+                }
             }
 
             .btn2 {
