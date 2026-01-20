@@ -60,19 +60,21 @@
                  </div>
                @enderror
 
-               <div class="form-floating mb-3">
-                 <input type="email" class="form-control rounded-2xl bg-slate-50 border-slate-200 text-slate-900" id="floatingInputEmail" placeholder="name@example.com" value="{{ old('email') }}"
-                   name="email" required style="height: 65px;">
-                 <label for="floatingInputEmail" class="text-slate-500">Email de Acesso</label>
+               <div class="form-floating mb-4">
+                 <input type="email" class="form-control rounded-2xl bg-white border border-slate-200 text-slate-800 shadow-sm focus:border-teal-500 focus:ring-teal-500" id="floatingInputEmail" placeholder="name@example.com" value="{{ old('email') }}"
+                   name="email" required style="height: 58px;">
+                 <label for="floatingInputEmail" class="text-slate-500 bg-transparent">Email de Acesso</label>
                </div>
 
-               <div class="input-group mb-4" id="show_hide_password">
-                 <div class="form-floating flex-grow-1">
-                   <input type="password" class="form-control rounded-start-2xl bg-slate-50 border-slate-200 text-slate-900 border-end-0" id="floatingInputPassword" placeholder="Senha" 
-                     name="password" required minlength="2" style="height: 65px;">
-                   <label for="floatingInputPassword" class="text-slate-500">Senha</label>
+               <div class="position-relative mb-5">
+                 <div class="form-floating">
+                   <input type="password" class="form-control rounded-2xl bg-white border border-slate-200 text-slate-800 shadow-sm focus:border-teal-500 focus:ring-teal-500" id="floatingInputPassword" placeholder="Senha" 
+                     name="password" required minlength="2" style="height: 58px; padding-right: 50px;">
+                   <label for="floatingInputPassword" class="text-slate-500 bg-transparent">Senha</label>
                  </div>
-                 <span class="input-group-text bg-slate-50 border-slate-200 border-start-0 rounded-end-2xl text-slate-500"><i class="bi bi-eye-slash"></i></span>
+                 <span class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer text-slate-400 hover:text-teal-600 transition-colors" id="togglePassword" style="z-index: 10;">
+                    <i class="bi bi-eye-slash text-xl" id="iconEye"></i>
+                 </span>
                </div>
 
                <div class="d-flex align-items-center justify-content-between mb-5">
@@ -152,7 +154,26 @@
     <!--JS Files-->
     <script src="{{ asset('app/assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('app/assets/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('app/assets/js/show-hide-password.js') }}"></script>
+    <script>
+        // Toggle Password Visibility
+        document.getElementById('togglePassword').addEventListener('click', function (e) {
+            const passwordInput = document.getElementById('floatingInputPassword');
+            const icon = document.getElementById('iconEye');
+            
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            if (type === 'text') {
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+                icon.classList.replace('text-slate-400', 'text-teal-600');
+            } else {
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+                icon.classList.replace('text-teal-600', 'text-slate-400');
+            }
+        });
+    </script>
     <script src="{{ asset('app/assets/js/loader.js') }}"></script>
 
 
