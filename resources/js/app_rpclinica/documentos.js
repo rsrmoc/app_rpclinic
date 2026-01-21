@@ -76,19 +76,43 @@ Alpine.data('appDocumentos', () => ({
         return moment(date).lang('pt-BR').format('LLL');
     },
 
-    compartilharDoc(documento) {
+    async compartilharDoc(documento) {
         const url = `/rpclinica/json/imprimirDocumentoGeral/${documento.agendamento.cd_agendamento}/${documento.cd_documento}`;
         const fullUrl = window.location.origin + url;
 
-        if (navigator.share) {
-            navigator.share({
-                title: documento.nm_formulario,
-                text: `Documento: ${documento.nm_formulario} - Paciente: ${documento.agendamento.paciente.nm_paciente}`,
-                url: fullUrl
-            })
-                .then(() => console.log('Compartilhado com sucesso'))
-                .catch((error) => console.log('Erro ao compartilhar', error));
+        if (navigator.share && navigator.canShare) {
+            try {
+                // Buscar o PDF
+                const response = await fetch(fullUrl);
+                const blob = await response.blob();
+
+                // Criar arquivo do blob
+                const fileName = `${documento.nm_formulario}_${documento.agendamento.paciente.nm_paciente}.pdf`;
+                const file = new File([blob], fileName, { type: 'application/pdf' });
+
+                // Verificar se pode compartilhar arquivos
+                if (navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        title: documento.nm_formulario,
+                        text: `Documento: ${documento.nm_formulario} - Paciente: ${documento.agendamento.paciente.nm_paciente}`,
+                        files: [file]
+                    });
+                    console.log('PDF compartilhado com sucesso');
+                } else {
+                    // Fallback para URL se não puder compartilhar arquivo
+                    await navigator.share({
+                        title: documento.nm_formulario,
+                        text: `Documento: ${documento.nm_formulario} - Paciente: ${documento.agendamento.paciente.nm_paciente}`,
+                        url: fullUrl
+                    });
+                    console.log('Link compartilhado com sucesso');
+                }
+            } catch (error) {
+                console.log('Erro ao compartilhar', error);
+                alert('Erro ao compartilhar documento');
+            }
         } else {
+            // Fallback: copiar link
             navigator.clipboard.writeText(fullUrl).then(() => {
                 alert('Link do documento copiado para a área de transferência!');
             }).catch(err => {
