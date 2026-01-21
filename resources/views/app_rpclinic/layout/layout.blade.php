@@ -500,7 +500,7 @@
             pointer-events: none;
             z-index: 0;
             opacity: 0.15;
-            background-image: url('/app/assets/images/doctor_bg.png'); /* Using /app path matching file location */
+            background-image: url('{{ asset("app/assets/images/doctor_bg.png") }}');
             background-size: cover;
             background-position: center top;
             background-repeat: no-repeat;
