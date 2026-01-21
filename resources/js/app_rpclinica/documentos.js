@@ -10,6 +10,7 @@ Alpine.data('appDocumentos', () => ({
     datesWithEvents: [],
 
     init() {
+        console.log('🚀 appDocumentos inicializado');
         this.getDatesWithEvents(new Date().getMonth(), new Date().getFullYear());
 
         this.datepicker = new AirDatepicker('#documentosDatePicker', {
@@ -18,7 +19,11 @@ Alpine.data('appDocumentos', () => ({
             selectedDates: [new Date()],
             dateFormat: 'yyyy-MM-dd',
             onSelect: ({ formattedDate }) => {
-                if (!formattedDate) return;
+                console.log('📅 Data selecionada:', formattedDate);
+                if (!formattedDate) {
+                    console.warn('⚠️ formattedDate está vazio!');
+                    return;
+                }
                 this.getDocumentos(formattedDate);
             },
             onRenderCell: ({ date, cellType }) => {
@@ -39,7 +44,8 @@ Alpine.data('appDocumentos', () => ({
         });
 
         let dt = new Date();
-        let formattedDate = `${dt.getFullYear()}-${(dt.getMonth() + 1).toString().padStart(2, 0)}-${dt.getDate().toString().padStart(2, 0)}`;
+        let formattedDate = `${dt.getFullYear()}-${(dt.getMonth() + 1).toString().padStart(2, '0')}-${dt.getDate().toString().padStart(2, '0')}`;
+        console.log('📅 Buscando documentos da data inicial:', formattedDate);
         this.getDocumentos(formattedDate);
     },
 
@@ -58,29 +64,38 @@ Alpine.data('appDocumentos', () => ({
     },
 
     getDocumentos(data) {
+        console.log('🔍 Buscando documentos para data:', data);
+        console.log('👤 cd_profissional:', cdProfissional);
+
         this.loading = true;
+        this.documentos = []; // Limpar documentos anteriores
 
         axios.post(routeDocumentos, {
             cd_profissional: cdProfissional,
             data
         })
             .then((res) => {
-                console.log('Resposta da API documentos:', res.data);
+                console.log('✅ Resposta da API documentos:', res.data);
 
                 // Verificar se a resposta tem documentos
                 if (res.data && res.data.documentos) {
                     this.documentos = res.data.documentos;
-                    console.log('Documentos carregados:', this.documentos.length);
+                    console.log('📄 Documentos carregados:', this.documentos.length);
+                    console.log('📋 Documentos:', this.documentos);
                 } else {
                     this.documentos = [];
-                    console.log('Nenhum documento encontrado na resposta');
+                    console.log('⚠️ Nenhum documento encontrado na resposta');
                 }
             })
             .catch((err) => {
-                console.error('Erro ao buscar documentos:', err);
+                console.error('❌ Erro ao buscar documentos:', err);
+                console.error('📄 Detalhes do erro:', err.response?.data);
                 parseErrorsAPI(err);
             })
-            .finally(() => this.loading = false);
+            .finally(() => {
+                this.loading = false;
+                console.log('🏁 Loading finalizado. Total documentos:', this.documentos.length);
+            });
     },
 
     formatDate(date) {

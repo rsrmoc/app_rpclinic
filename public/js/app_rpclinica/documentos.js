@@ -24638,6 +24638,7 @@ Alpine.data('appDocumentos', function () {
     init: function init() {
       var _this = this;
 
+      console.log('🚀 appDocumentos inicializado');
       this.getDatesWithEvents(new Date().getMonth(), new Date().getFullYear());
       this.datepicker = new air_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"]('#documentosDatePicker', {
         classes: 'datePickerAgendamento',
@@ -24646,7 +24647,12 @@ Alpine.data('appDocumentos', function () {
         dateFormat: 'yyyy-MM-dd',
         onSelect: function onSelect(_ref) {
           var formattedDate = _ref.formattedDate;
-          if (!formattedDate) return;
+          console.log('📅 Data selecionada:', formattedDate);
+
+          if (!formattedDate) {
+            console.warn('⚠️ formattedDate está vazio!');
+            return;
+          }
 
           _this.getDocumentos(formattedDate);
         },
@@ -24674,7 +24680,8 @@ Alpine.data('appDocumentos', function () {
         }
       });
       var dt = new Date();
-      var formattedDate = "".concat(dt.getFullYear(), "-").concat((dt.getMonth() + 1).toString().padStart(2, 0), "-").concat(dt.getDate().toString().padStart(2, 0));
+      var formattedDate = "".concat(dt.getFullYear(), "-").concat((dt.getMonth() + 1).toString().padStart(2, '0'), "-").concat(dt.getDate().toString().padStart(2, '0'));
+      console.log('📅 Buscando documentos da data inicial:', formattedDate);
       this.getDocumentos(formattedDate);
     },
     getDatesWithEvents: function getDatesWithEvents(month, year) {
@@ -24695,25 +24702,34 @@ Alpine.data('appDocumentos', function () {
     getDocumentos: function getDocumentos(data) {
       var _this3 = this;
 
+      console.log('🔍 Buscando documentos para data:', data);
+      console.log('👤 cd_profissional:', cdProfissional);
       this.loading = true;
+      this.documentos = []; // Limpar documentos anteriores
+
       axios.post(routeDocumentos, {
         cd_profissional: cdProfissional,
         data: data
       }).then(function (res) {
-        console.log('Resposta da API documentos:', res.data); // Verificar se a resposta tem documentos
+        console.log('✅ Resposta da API documentos:', res.data); // Verificar se a resposta tem documentos
 
         if (res.data && res.data.documentos) {
           _this3.documentos = res.data.documentos;
-          console.log('Documentos carregados:', _this3.documentos.length);
+          console.log('📄 Documentos carregados:', _this3.documentos.length);
+          console.log('📋 Documentos:', _this3.documentos);
         } else {
           _this3.documentos = [];
-          console.log('Nenhum documento encontrado na resposta');
+          console.log('⚠️ Nenhum documento encontrado na resposta');
         }
       })["catch"](function (err) {
-        console.error('Erro ao buscar documentos:', err);
+        var _err$response;
+
+        console.error('❌ Erro ao buscar documentos:', err);
+        console.error('📄 Detalhes do erro:', (_err$response = err.response) === null || _err$response === void 0 ? void 0 : _err$response.data);
         parseErrorsAPI(err);
       })["finally"](function () {
-        return _this3.loading = false;
+        _this3.loading = false;
+        console.log('🏁 Loading finalizado. Total documentos:', _this3.documentos.length);
       });
     },
     formatDate: function formatDate(date) {

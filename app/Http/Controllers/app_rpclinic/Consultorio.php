@@ -68,10 +68,17 @@ class Consultorio extends Controller
             'data' => 'required|string|date_format:Y-m-d'
         ]);
        
-        // Alterado para buscar pela data de CRIAÇÃO do documento, abrangendo avulsos
+        // Buscar documentos pela data de criação OU pela data do agendamento
         $documentos = AgendamentoDocumentos::with(['agendamento.paciente', 'agendamento.especialidade', 'agendamento.profissional'])
-            ->whereDate('created_at', $request->data)
             ->where('cd_prof', $request->cd_profissional)
+            ->where(function($query) use ($request) {
+                // Documentos criados nesta data
+                $query->whereDate('created_at', $request->data)
+                      // OU documentos de agendamentos desta data
+                      ->orWhereHas('agendamento', function($q) use ($request) {
+                          $q->whereDate('dt_agenda', $request->data);
+                      });
+            })
             ->orderBy('created_at', 'desc')
             ->get();
  
