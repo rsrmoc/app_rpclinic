@@ -257,6 +257,7 @@
     <script>
         const cdAgendamento = {{ $agendamento->cd_agendamento }};
         const cdPaciente = '{{ $agendamento->paciente->cd_paciente }}';
+        const initialAtendido = {{ $agendamento->situacao == 'atendido' ? 'true' : 'false' }};
         const formularios = @js($formularios);
         
         const routeConsultaFinalizar = @js(url('app_rpclinic/api/consulta-finalizar'));

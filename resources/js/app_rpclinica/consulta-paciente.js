@@ -33,7 +33,7 @@ Alpine.data('appConsultaPaciente', () => ({
         aguardando: 'text-bg-secondary',
         atendimento: 'text-bg-secondary'
     },
-    atendido: false,
+    atendido: window.initialAtendido || false,
     editor: null,
     editor_alertas: null,
     editor_anamnese: null,
