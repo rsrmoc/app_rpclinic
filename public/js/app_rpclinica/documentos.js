@@ -24700,9 +24700,18 @@ Alpine.data('appDocumentos', function () {
         cd_profissional: cdProfissional,
         data: data
       }).then(function (res) {
-        _this3.documentos = res.data.documentos;
+        console.log('Resposta da API documentos:', res.data); // Verificar se a resposta tem documentos
+
+        if (res.data && res.data.documentos) {
+          _this3.documentos = res.data.documentos;
+          console.log('Documentos carregados:', _this3.documentos.length);
+        } else {
+          _this3.documentos = [];
+          console.log('Nenhum documento encontrado na resposta');
+        }
       })["catch"](function (err) {
-        return parseErrorsAPI(err);
+        console.error('Erro ao buscar documentos:', err);
+        parseErrorsAPI(err);
       })["finally"](function () {
         return _this3.loading = false;
       });

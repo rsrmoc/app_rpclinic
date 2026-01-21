@@ -65,10 +65,21 @@ Alpine.data('appDocumentos', () => ({
             data
         })
             .then((res) => {
-                this.documentos = res.data.documentos;
+                console.log('Resposta da API documentos:', res.data);
 
+                // Verificar se a resposta tem documentos
+                if (res.data && res.data.documentos) {
+                    this.documentos = res.data.documentos;
+                    console.log('Documentos carregados:', this.documentos.length);
+                } else {
+                    this.documentos = [];
+                    console.log('Nenhum documento encontrado na resposta');
+                }
             })
-            .catch((err) => parseErrorsAPI(err))
+            .catch((err) => {
+                console.error('Erro ao buscar documentos:', err);
+                parseErrorsAPI(err);
+            })
             .finally(() => this.loading = false);
     },
 
