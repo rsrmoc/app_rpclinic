@@ -22,7 +22,7 @@
 
 @section('content')
     <!--start to page content-->
-    <div class="px-4 pt-1 pb-6 min-h-screen" x-data="appPacienteList">
+    <div class="px-3 pt-1 pb-6 min-h-screen" x-data="appPacienteList">
 
         <form x-on:submit.prevent="getPacientes">
             <div class="position-relative">
@@ -51,7 +51,7 @@
             </template>
         </div>
 
-        <div class="space-y-3 max-w-md mx-auto">
+        <div class="space-y-3">
             <template x-for="paciente, index in pacientes" x-bind:key="index">
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden group">
                      
