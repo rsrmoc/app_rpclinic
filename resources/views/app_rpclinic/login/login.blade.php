@@ -39,8 +39,8 @@
    <!--start wrapper-->
     <div class="wrapper" style="background: #cbd5e1; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
        <!--start to page content-->
-       <div class="page-content bg-transparent w-100">
-          <div class="login-body p-4" style="max-width: 450px; margin: 0 auto;">
+       <div class="page-content bg-transparent w-100 px-3">
+          <div class="login-body" style="width: 100%; max-width: 100%; margin: 0 auto;">
              <!-- Background Doctor Image -->
              <div class="bg-watermark"></div>
              <form action="{{ route('app.login.action') }}" method="POST" class="mt-4 bg-transparent p-0 position-relative z-10">
@@ -57,16 +57,16 @@
                  </div>
                @enderror
 
-               <div class="form-floating mb-4">
-                 <input type="email" class="form-control rounded-2xl bg-white border border-slate-200 text-slate-800 shadow-sm focus:border-teal-500 focus:ring-teal-500" id="floatingInputEmail" placeholder="name@example.com" value="{{ old('email') }}"
-                   name="email" required style="height: 58px;">
+               <div class="form-floating mb-3 w-100">
+                 <input type="email" class="form-control rounded bg-slate-50 border-slate-300 text-slate-900 shadow-none" id="floatingInputEmail" placeholder="name@example.com" value="{{ old('email') }}"
+                   name="email" required>
                  <label for="floatingInputEmail" class="text-slate-500 bg-transparent">Email de Acesso</label>
                </div>
 
-               <div class="position-relative mb-5">
+               <div class="position-relative mb-4 w-100">
                  <div class="form-floating">
-                   <input type="password" class="form-control rounded-2xl bg-white border border-slate-200 text-slate-800 shadow-sm focus:border-teal-500 focus:ring-teal-500" id="floatingInputPassword" placeholder="Senha" 
-                     name="password" required minlength="2" style="height: 58px; padding-right: 50px;">
+                   <input type="password" class="form-control rounded bg-slate-50 border-slate-300 text-slate-900 shadow-none" id="floatingInputPassword" placeholder="Senha" 
+                     name="password" required minlength="2" style="padding-right: 50px;">
                    <label for="floatingInputPassword" class="text-slate-500 bg-transparent">Senha</label>
                  </div>
                  <span class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer text-slate-400 hover:text-teal-600 transition-colors" id="togglePassword" style="z-index: 10;">
@@ -124,14 +124,19 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(255, 255, 255, 0.7); /* Lighter overlay to see the doctor better */
-                backdrop-filter: blur(2px);
+                background: rgba(255, 255, 255, 0.2); /* Reduced opacity to show doctor clearly */
+                backdrop-filter: blur(0px); /* Removed blur for clarity */
             }
 
             /* Responsive adjustments */
             @media (max-width: 768px) {
                 .bg-watermark::before {
-                    background-position: top center; /* Focus on face for mobile */
+                    background-position: center center;
+                    background-attachment: scroll; /* Better for mobile performance */
+                }
+                
+                .login-body {
+                    padding: 20px;
                 }
             }
 
