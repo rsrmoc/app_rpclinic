@@ -13,7 +13,7 @@
 
 @section('content')
     <!--start to page content-->
-    <div class="page-content" x-data="appIndicadores" style="padding-bottom: 80px;">
+    <div class="page-content" x-data="appIndicadores" style="padding-bottom: 80px; padding-top: 0px !important; margin-top: -30px !important;">
         
         <!-- Header da Página -->
         <div class="d-flex align-items-center justify-content-between mb-4 px-2">
