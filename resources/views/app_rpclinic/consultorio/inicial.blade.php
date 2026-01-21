@@ -67,7 +67,7 @@
                          </div>
                          
                          <div class="flex flex-col gap-2 justify-center">
-                             <a x-bind:href="`${routeConsultaBase}/${agendamento.cd_agendamento}`" class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center hover:bg-teal-100 transition-colors border border-teal-100">
+                             <a x-bind:href="routeConsultaBase.replace('/0', '/' + agendamento.cd_agendamento)" class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center hover:bg-teal-100 transition-colors border border-teal-100">
                                  <i class="fa fa-stethoscope text-xl"></i>
                              </a>
                          </div>
@@ -178,7 +178,7 @@
         const cdProfissional = {{ $cd_profissional ?? auth()->guard('rpclinica')->user()->cd_profissional ?? 'null' }};
         const routeAgendamentos = @js(route('app.api.agendamentos'));
         const routeAgendamentosDatas = @js(route('app.api.agendamentos-datas'));
-        const routeConsultaBase = @js(route('app.consultorio.consulta', ['idAgendamento' => '']));
+        const routeConsultaBase = @js(route('app.consultorio.consulta', ['idAgendamento' => 0]));
     </script>
     <script src="{{ asset('js/app_rpclinica/consulta-list.js') }}"></script>
 @endpush

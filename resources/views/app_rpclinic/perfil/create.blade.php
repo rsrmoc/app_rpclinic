@@ -1,17 +1,15 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-    <div class="d-flex align-items-center gap-3">
-        <div class="brand-logo" style="width: auto;">
+    <div class="d-flex flex-column align-items-center">
+        <div class="brand-logo">
             <a href="javascript:;" class="d-flex justify-content-center align-items-center">
                 <img src="{{ asset('assets/images/logo_menu.svg') }}" 
                      alt="Logo" 
-                     style="height: 60px; width: auto;" 
-                     class="">
+                     style="height: 45px; width: auto;">
             </a>
         </div>
-        <div class="border-start border-slate-300 h-6 mx-1"></div>
-        <h6 class="mb-0 text-slate-700 font-bold uppercase tracking-tight">Perfil</h6>
+        <h6 class="mb-0 text-slate-700 font-bold uppercase tracking-tight" style="font-size: 11px; margin-top: -5px;">Perfil</h6>
     </div>
 @endsection
 
@@ -86,7 +84,7 @@
 
 @push('scripts')
     <script>
-        const routePerfilUpdate = @js(url('app_rpclinic/api/perfil-update'));
+        const routePerfilUpdate = @js(route('app.api.perfil-update'));
     </script>
     <script src="{{ asset('js/app_rpclinica/perfil.js') }}"></script>
 @endpush

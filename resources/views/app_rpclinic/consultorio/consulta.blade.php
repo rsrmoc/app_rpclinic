@@ -21,7 +21,7 @@
 
 @section('content')
     <!--start to page content-->
-    <div class="page-content" x-data="appConsultaPaciente" style="padding-bottom: 80px;">
+    <div class="page-content" x-data="appConsultaPaciente" style="padding-bottom: 80px; padding-top: 0 !important; margin-top: -30px !important;">
 
         <!-- Card Paciente -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 mb-4">
@@ -50,9 +50,9 @@
                      </div>
                  </div>
                  
-                 <div class="d-grid gap-2 align-self-start">
-                    <button type="button" class="btn btn-sm btn-icon text-slate-400 hover:text-emerald-500 transition-colors" x-on:click="modalFinalizar" title="Finalizar Atendimento">
-                        <i class="bi bi-check-circle text-2xl"></i>
+                <div class="d-grid gap-2 align-self-start">
+                    <button type="button" class="btn btn-sm btn-icon text-teal-600 bg-teal-100 hover:bg-teal-200 ring-2 ring-teal-100 transition-all rounded-full h-10 w-10 flex items-center justify-center p-0" x-on:click="modalFinalizar" title="Finalizar Atendimento">
+                        <i class="bi bi-check-lg text-xl font-bold"></i>
                     </button>
                 </div>
              </div>
@@ -61,28 +61,36 @@
         <!-- Abas de Navegação -->
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-1 mb-4 grid grid-cols-4 gap-1">
             <button @click="tab = 0" 
-                    :class="tab === 0 ? 'bg-teal-50 text-teal-700 shadow-sm border-teal-100' : 'text-slate-400 hover:bg-slate-50 hover:text-slate-600 border-transparent'"
-                    class="flex flex-col items-center justify-center py-2 px-1 rounded-lg border transition-all duration-200">
-                <i class="bi bi-file-medical text-lg mb-1"></i>
-                <span class="text-[0.6rem] font-bold uppercase tracking-wide">Anamnese</span>
+                    :class="tab === 0 ? 'bg-white border-teal-200 shadow-sm' : 'bg-transparent border-transparent opacity-60'"
+                    class="flex flex-col items-center justify-center py-2 px-1 rounded-xl border transition-all duration-200 group">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-1 transition-colors bg-teal-50 text-teal-600 group-hover:bg-teal-100">
+                    <i class="bi bi-file-medical text-xl"></i>
+                </div>
+                <span class="text-[0.6rem] font-bold uppercase tracking-wide text-slate-600" :class="tab === 0 ? 'text-teal-700' : ''">Anamnese</span>
             </button>
             <button @click="tab = 1" 
-                    :class="tab === 1 ? 'bg-teal-50 text-teal-700 shadow-sm border-teal-100' : 'text-slate-400 hover:bg-slate-50 hover:text-slate-600 border-transparent'"
-                    class="flex flex-col items-center justify-center py-2 px-1 rounded-lg border transition-all duration-200">
-                 <i class="bi bi-paperclip text-lg mb-1"></i>
-                 <span class="text-[0.6rem] font-bold uppercase tracking-wide">Docs</span>
+                    :class="tab === 1 ? 'bg-white border-blue-200 shadow-sm' : 'bg-transparent border-transparent opacity-60'"
+                    class="flex flex-col items-center justify-center py-2 px-1 rounded-xl border transition-all duration-200 group">
+                 <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-1 transition-colors bg-blue-50 text-blue-600 group-hover:bg-blue-100">
+                    <i class="bi bi-paperclip text-xl"></i>
+                 </div>
+                 <span class="text-[0.6rem] font-bold uppercase tracking-wide text-slate-600" :class="tab === 1 ? 'text-blue-700' : ''">Docs</span>
             </button>
             <button @click="tab = 2" 
-                    :class="tab === 2 ? 'bg-rose-50 text-rose-600 shadow-sm border-rose-100' : 'text-slate-400 hover:bg-slate-50 hover:text-slate-600 border-transparent'"
-                    class="flex flex-col items-center justify-center py-2 px-1 rounded-lg border transition-all duration-200">
-                <i class="bi bi-exclamation-triangle text-lg mb-1"></i>
-                <span class="text-[0.6rem] font-bold uppercase tracking-wide">Alertas</span>
+                    :class="tab === 2 ? 'bg-white border-rose-200 shadow-sm' : 'bg-transparent border-transparent opacity-60'"
+                    class="flex flex-col items-center justify-center py-2 px-1 rounded-xl border transition-all duration-200 group">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-1 transition-colors bg-rose-50 text-rose-600 group-hover:bg-rose-100">
+                    <i class="bi bi-exclamation-triangle text-xl"></i>
+                </div>
+                <span class="text-[0.6rem] font-bold uppercase tracking-wide text-slate-600" :class="tab === 2 ? 'text-rose-700' : ''">Alertas</span>
              </button>
              <button @click="tab = 3" 
-                    :class="tab === 3 ? 'bg-indigo-50 text-indigo-600 shadow-sm border-indigo-100' : 'text-slate-400 hover:bg-slate-50 hover:text-slate-600 border-transparent'"
-                    class="flex flex-col items-center justify-center py-2 px-1 rounded-lg border transition-all duration-200">
-                 <i class="bi bi-clock-history text-lg mb-1"></i>
-                 <span class="text-[0.6rem] font-bold uppercase tracking-wide">Histórico</span>
+                    :class="tab === 3 ? 'bg-white border-indigo-200 shadow-sm' : 'bg-transparent border-transparent opacity-60'"
+                    class="flex flex-col items-center justify-center py-2 px-1 rounded-xl border transition-all duration-200 group">
+                 <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-1 transition-colors bg-indigo-50 text-indigo-600 group-hover:bg-indigo-100">
+                    <i class="bi bi-clock-history text-xl"></i>
+                 </div>
+                 <span class="text-[0.6rem] font-bold uppercase tracking-wide text-slate-600" :class="tab === 3 ? 'text-indigo-700' : ''">Histórico</span>
             </button>
         </div>
 
@@ -119,13 +127,45 @@
 
                 <div class="mb-4">
                     <label class="text-slate-700 font-bold text-sm mb-2 block">Modelo de Documento</label>
-                    <select class="form-select w-full rounded-xl border-slate-200 text-slate-700 font-bold shadow-sm h-12" required name="cd_formulario" x-model="docsFormularioSelected">
-                        <option value="">Selecione um modelo...</option>
-                        @foreach ($formularios as $formulario)
-                            <option value="{{ $formulario->cd_formulario }}">{{ $formulario->nm_formulario }}
-                            </option>
-                        @endforeach
-                    </select>
+                    
+                    <!-- Simulated Select Trigger -->
+                    <div class="form-select w-full rounded-xl border-slate-200 text-slate-700 font-bold shadow-sm h-12 flex items-center justify-between cursor-pointer bg-white" 
+                         x-on:click="openModalModelos">
+                        <span x-text="docsFormularioName || 'Selecione um modelo...'" :class="!docsFormularioName ? 'text-slate-500' : ''"></span>
+                        <i class="bi bi-chevron-down text-slate-400"></i>
+                    </div>
+                    
+                    <!-- Hidden input for form submission compatibility -->
+                    <input type="hidden" name="cd_formulario" x-model="docsFormularioSelected">
+                </div>
+
+                <!-- Modal de Seleção de Modelos (Custom Picker) -->
+                <div class="modal fade" id="modalMeusModelos" tabindex="-1" aria-hidden="true" style="z-index: 10006;">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content rounded-2xl border-0 shadow-2xl h-[80vh]">
+                            <div class="modal-header border-b border-slate-100 py-3">
+                                <h5 class="modal-title font-bold text-slate-800 text-sm">Selecione um Modelo</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body p-0 bg-slate-50">
+                                <div class="list-group list-group-flush">
+                                    @foreach ($formularios as $formulario)
+                                        <button type="button" 
+                                            class="list-group-item list-group-item-action p-4 border-b border-slate-100 hover:bg-teal-50 transition-colors flex items-center justify-between group"
+                                            x-on:click="selectModelo('{{ $formulario->cd_formulario }}', '{{ str_replace("'", "\'", $formulario->nm_formulario) }}')">
+                                            <div class="flex items-center gap-3">
+                                                <i class="bi bi-file-earmark-text-fill text-2xl" style="background: linear-gradient(45deg, #d946ef, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                                                <span class="font-bold text-slate-700 group-hover:text-teal-700 text-sm whitespace-normal leading-snug text-left">
+                                                    {{ $formulario->nm_formulario }}
+                                                </span>
+                                            </div>
+                                            <i class="bi bi-chevron-right text-slate-300 group-hover:text-teal-400"></i>
+                                        </button>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-1 mb-3" x-show="docsFormularioSelected">
@@ -148,7 +188,10 @@
                     <template x-for="item, index in docs" x-bind:key="index">
                         <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 transition-all hover:border-teal-200">
                             <div class="flex justify-between items-center mb-2 border-b border-slate-100 pb-2">
-                                <h6 class="font-bold text-slate-800 text-sm mb-0" x-text="item.nm_formulario"></h6>
+                                <div class="flex items-center gap-2">
+                                    <i class="bi bi-file-earmark-check-fill text-lg" style="background: linear-gradient(45deg, #10b981, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                                    <h6 class="font-bold text-slate-800 text-sm mb-0" x-text="item.nm_formulario"></h6>
+                                </div>
                                 <span class="text-[0.65rem] font-bold text-slate-400 bg-slate-50 px-2 py-0.5 rounded" x-text="formatDate(item.created_at)"></span>
                             </div>
 
@@ -237,8 +280,7 @@
                     </div>
                     <div class="modal-footer border-0 bg-slate-50 rounded-b-2xl justify-center pb-4">
                         <button type="button" class="btn btn-light text-slate-500 font-bold rounded-xl px-4" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn bg-teal-600 text-white font-bold rounded-xl px-4 hover:bg-teal-700 shadow-md transition-all"
-                            x-bind:disabled="loadingFinalizar"
+                        <button type="button" id="btnConfirmFinalizar" class="btn bg-teal-600 text-white font-bold rounded-xl px-4 hover:bg-teal-700 shadow-md transition-all"
                             x-on:click="finalizarConsulta">
                             <template x-if="loadingFinalizar">
                                 <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
@@ -260,8 +302,8 @@
         const initialAtendido = {{ $agendamento->situacao == 'atendido' ? 'true' : 'false' }};
         const formularios = @js($formularios);
         
-        const routeConsultaFinalizar = @js(route('app.api.consulta-finalizar', ['idAgendamento' => '']));
-        const routeConsultaDocs = @js(route('app.api.consulta-docs', ['cdAgendamento' => '']));
+        const routeConsultaFinalizar = @js(route('app.api.consulta-finalizar', ['idAgendamento' => 0])).replace(/\/0$/, '');
+        const routeConsultaDocs = @js(route('app.api.consulta-docs', ['cdAgendamento' => 0])).replace(/\/0$/, '');
         
         const routeConsultaHistorico = @js(route('app.api.consulta-paciente-historico'));
         const routeConsultaAnamnese = @js(route('app.api.consulta-paciente-anamnese'));

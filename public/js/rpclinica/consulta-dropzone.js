@@ -1,1 +1,39 @@
-Dropzone.options.dzAnexos={paramName:"files",uploadMultiple:!0,acceptedFiles:"image/*,application/pdf",autoProcessQueue:!1,addRemoveLinks:!0,init:function(){var e=this;$("#dz-anexos-submit").on("click",(function(){return e.processQueue()})),this.on("addedfile",(function(){$("#dz-anexos-submit").is(":disabled")&&$("#dz-anexos-submit").prop("disabled",!1)})),this.on("removedfile",(function(){0!=e.files.length||$("#dz-anexos-submit").is(":disabled")||$("#dz-anexos-submit").prop("disabled",!0)})),this.on("successmultiple",(function(){e.removeAllFiles(!0),window.postMessage("added-anexos")})),this.on("error",(function(e){toastr.error("Houve um erro ao enviar os arquivos!")}))}};
+/******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
+/*!*****************************************************!*\
+  !*** ./resources/js/rpclinica/consulta-dropzone.js ***!
+  \*****************************************************/
+Dropzone.options.dzAnexos = {
+  paramName: 'files',
+  uploadMultiple: true,
+  acceptedFiles: 'image/*,application/pdf',
+  autoProcessQueue: false,
+  addRemoveLinks: true,
+  init: function init() {
+    var _this = this;
+
+    $('#dz-anexos-submit').on('click', function () {
+      return _this.processQueue();
+    });
+    this.on('addedfile', function () {
+      if ($('#dz-anexos-submit').is(':disabled')) {
+        $('#dz-anexos-submit').prop('disabled', false);
+      }
+    });
+    this.on('removedfile', function () {
+      if (_this.files.length == 0 && !$('#dz-anexos-submit').is(':disabled')) {
+        $('#dz-anexos-submit').prop('disabled', true);
+      }
+    });
+    this.on('successmultiple', function () {
+      _this.removeAllFiles(true);
+
+      window.postMessage('added-anexos');
+    });
+    this.on('error', function (file) {
+      toastr['error']('Houve um erro ao enviar os arquivos!');
+    });
+  }
+};
+/******/ })()
+;

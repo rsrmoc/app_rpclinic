@@ -275,14 +275,7 @@
         }
 
         /* Global Select Styles for Dark Mode */
-        select, option {
-            background-color: #1e293b !important; /* slate-800 */
-            color: #f1f5f9 !important; /* slate-100 */
-        }
-
-        select:focus {
-            outline: 2px solid #2dd4bf !important; /* teal-400 */
-        }
+        /* Removed global select/option overrides that were breaking mobile dropdowns */
 
         /* GPU Acceleration for Flickering Fix */
         .bottom-nav-card, .top-header, .app-wrapper {

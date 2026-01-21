@@ -1,10 +1,28 @@
 import moment from 'moment';
 import { jsPDF } from 'jspdf';
 
-const modal = new bootstrap.Modal('#modalFinalizar', {
+const modalElement = document.getElementById('modalFinalizar');
+if (modalElement) {
+    document.body.appendChild(modalElement);
+}
+
+const modalModelosElement = document.getElementById('modalMeusModelos');
+if (modalModelosElement) {
+    document.body.appendChild(modalModelosElement);
+}
+
+const modal = new bootstrap.Modal(modalElement, {
     backdrop: 'static',
     keyboard: false
 });
+
+let modalModelosInstance = null;
+if (modalModelosElement) {
+    modalModelosInstance = new bootstrap.Modal(modalModelosElement, {
+        backdrop: true,
+        keyboard: true
+    });
+}
 
 Alpine.data('appConsultaPaciente', () => ({
     cdAgendamento,
@@ -38,6 +56,17 @@ Alpine.data('appConsultaPaciente', () => ({
     editor_alertas: null,
     editor_anamnese: null,
     docsFormularioSelected: null,
+    docsFormularioName: null,
+
+    openModalModelos() {
+        if (modalModelosInstance) modalModelosInstance.show();
+    },
+
+    selectModelo(id, name) {
+        this.docsFormularioSelected = id;
+        this.docsFormularioName = name;
+        if (modalModelosInstance) modalModelosInstance.hide();
+    },
 
     init() {
         this.getDocs();
@@ -94,23 +123,65 @@ Alpine.data('appConsultaPaciente', () => ({
         this.$watch('docsFormularioSelected', () => {
             this.editor.setData(formularios.find((formulario) => formulario.cd_formulario == this.docsFormularioSelected)?.conteudo ?? '');
         });
+
+        // Robust delegation for Modal Button (since Bootstrap moves it out of Alpine scope)
+        document.body.addEventListener('click', (e) => {
+            const btn = e.target.closest('#btnConfirmFinalizar');
+            if (btn) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                // Avoid double clicks if already processing
+                if (btn.hasAttribute('disabled')) return;
+
+                this.finalizarConsulta(btn);
+            }
+        });
     },
 
     modalFinalizar() {
         modal.show();
     },
 
-    finalizarConsulta() {
+    finalizarConsulta(btnElement = null) {
+        // Find button if not passed directly
+        const btn = btnElement || document.getElementById('btnConfirmFinalizar');
+        let originalContent = '';
+
+        if (btn) {
+            btn.disabled = true;
+            // Store original content to restore later if needed
+            originalContent = btn.innerHTML;
+            // Manually show spinner
+            btn.innerHTML = `
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span>Finalizando...</span>
+            `;
+        }
+
         this.loadingFinalizar = true;
 
-        axios.post(`${routeConsultaFinalizar}/${this.cdAgendamento}`)
+        // Use global constant cdAgendamento as fallback if this.cdAgendamento is missing
+        const id = this.cdAgendamento || (typeof cdAgendamento !== 'undefined' ? cdAgendamento : 0);
+
+        axios.post(`${routeConsultaFinalizar}/${id}`)
             .then((res) => {
                 toastr.success(res.data.message);
                 modal.hide();
                 this.atendido = true;
+                // Don't restore button immediately, modal is hiding
             })
-            .catch((err) => parseErrorsAPI(err))
-            .finally(() => this.loadingFinalizar = false);
+            .catch((err) => {
+                parseErrorsAPI(err);
+                // Restore button state on error
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = originalContent || 'Sim, finalizar!';
+                }
+            })
+            .finally(() => {
+                this.loadingFinalizar = false;
+            });
     },
 
     getDocs() {
