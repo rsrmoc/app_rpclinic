@@ -4,7 +4,7 @@
     <div class="d-flex align-items-center gap-3">
         <div class="brand-logo" style="width: auto;">
             <a href="javascript:;" class="d-flex justify-content-center align-items-center">
-                <img src="{{ asset('app/assets/images/logo_horizontal.svg') }}" 
+                <img src="{{ asset('assets/images/logo_menu.svg') }}" 
                      alt="Logo" 
                      style="height: 60px; width: auto;" 
                      class="">
