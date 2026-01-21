@@ -1,7 +1,7 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-    <div class="d-flex flex-column align-items-center justify-content-center pt-1">
+    <div class="d-flex flex-column align-items-center justify-content-center pt-0 m-0">
         <div class="brand-logo mb-0">
             <a href="javascript:;" class="d-flex justify-content-center align-items-center">
                 <img src="{{ asset('assets/images/logo_menu.svg') }}" 
@@ -18,7 +18,7 @@
 
 
        <!--start to page content-->
-       <div class="px-2 pt-0 pb-20 min-h-screen" x-data="appPacienteAdd" style="overflow-x: hidden;">
+       <div class="px-2 pt-0 pb-20 min-h-screen" x-data="appPacienteAdd" style="overflow-x: hidden; margin-top: -30px !important;">
              <form x-on:submit.prevent="createPaciente" class="row g-3 needs-validation">
                 <div class="col-12">
                     <div class="form-floating">

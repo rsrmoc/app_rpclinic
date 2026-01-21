@@ -8,7 +8,7 @@
 @endsection
 
 @section('button_left')
-    <div class="d-flex flex-column align-items-center justify-content-center pt-1">
+    <div class="d-flex flex-column align-items-center justify-content-center pt-0 m-0">
         <div class="brand-logo mb-0">
             <a href="javascript:;" class="d-flex justify-content-center align-items-center">
                 <img src="{{ asset('assets/images/logo_menu.svg') }}" 
@@ -29,7 +29,7 @@
 @section('content')
 
        <!--start to page content-->
-        <div class="page-content px-3 py-2">
+        <div class="page-content px-3 pt-0 pb-2" style="margin-top: -30px !important;">
             @forelse ($historicos as $historico)    
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 mb-3 transition-all">
                     <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-slate-100">

@@ -1,7 +1,7 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-    <div class="brand-logo" style="width: auto;">
+    <div class="brand-logo pt-0 m-0" style="width: auto;">
         <a href="javascript:;" class="d-flex justify-content-center align-items-center">
             <img src="{{ asset('assets/images/logo_menu.svg') }}" 
                  alt="Logo" 
@@ -13,7 +13,7 @@
 
 @section('content')
     <!--start to page content-->
-    <div class="page-content" x-data="appProducao">
+    <div class="page-content" x-data="appProducao" style="padding-top: 0px !important; margin-top: -30px !important;">
         <div class="card-body">
             <form x-on:submit.prevent="saveProfile" class="row g-3 needs-validation"
              id="formProfile">

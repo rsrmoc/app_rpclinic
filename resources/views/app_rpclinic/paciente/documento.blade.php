@@ -8,7 +8,7 @@
 @endsection
 
 @section('button_left')
-    <div class="d-flex flex-column align-items-center justify-content-center pt-1">
+    <div class="d-flex flex-column align-items-center justify-content-center pt-0 m-0">
         <div class="brand-logo mb-0">
             <a href="javascript:;" class="d-flex justify-content-center align-items-center">
                 <img src="{{ asset('assets/images/logo_menu.svg') }}" 
@@ -24,7 +24,7 @@
 
 @section('content')
     <!--start to page content-->
-    <div class="page-content px-2 pt-0" x-data="appPacienteDoc" style="padding-top: 0px !important; overflow-x: hidden;">
+    <div class="page-content px-2 pt-0" x-data="appPacienteDoc" style="padding-top: 0px !important; overflow-x: hidden; margin-top: -30px !important;">
         <div class="card border-0 shadow-none bg-transparent mb-0">
             <div class="card-body p-2">
                 <h5 class="mb-0 text-dark mb-3">Tela de Documentos</h5>
