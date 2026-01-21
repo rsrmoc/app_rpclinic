@@ -1,24 +1,22 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-    <div class="d-flex align-items-center gap-3">
-        <div class="brand-logo" style="width: auto;">
+    <div class="d-flex flex-column align-items-center">
+        <div class="brand-logo">
             <a href="javascript:;" class="d-flex justify-content-center align-items-center">
                 <img src="{{ asset('assets/images/logo_menu.svg') }}" 
                      alt="Logo" 
-                     style="height: 60px; width: auto;" 
-                     class="">
+                     style="height: 45px; width: auto;">
             </a>
         </div>
-        <div class="border-start border-slate-300 h-6 mx-1"></div>
-        <h6 class="mb-0 text-slate-700 font-bold uppercase tracking-tight">Disponibilidade</h6>
+        <h6 class="mb-0 text-slate-700 font-bold uppercase tracking-tight" style="font-size: 11px; margin-top: -5px;">Disponibilidade</h6>
     </div>
 @endsection
 
 @section('content')
     <!--start to page content-->
-    <div class="page-content" x-data="appAgendamento">
-        <div class="card-body">
+    <div class="page-content pt-0" x-data="appAgendamento">
+        <div class="pt-2">
             <form x-on:submit.prevent="saveProfile" class="row g-3 needs-validation"
              id="formProfile">
               @csrf
@@ -71,7 +69,7 @@
         .air-datepicker-nav {
             border-bottom: 1px solid #f1f5f9 !important;
             background: transparent !important;
-            margin-bottom: 15px !important;
+            margin-bottom: 5px !important; /* Reduced margin */
         }
 
         .air-datepicker-nav--title, .air-datepicker-nav--action {
@@ -96,6 +94,7 @@
             height: 45px !important;
             border-radius: 12px !important;
             font-weight: 600 !important;
+            position: relative; /* Needed for ::after positioning */
         }
 
         .air-datepicker-cell.-current- {
@@ -122,9 +121,16 @@
 
         /* Ponto indicador de evento */
         .has-event-dot::after {
+            content: '' !important;
+            position: absolute !important;
+            bottom: 4px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            width: 6px !important;
+            height: 6px !important;
+            border-radius: 50% !important;
             background-color: #0d9488 !important;
             box-shadow: none !important;
-            bottom: 4px !important;
         }
         
         .air-datepicker-cell.-selected-.has-event-dot::after {
