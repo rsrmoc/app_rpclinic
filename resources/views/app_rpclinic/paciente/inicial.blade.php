@@ -6,7 +6,7 @@
             <a href="javascript:;" class="d-flex justify-content-center align-items-center">
                 <img src="{{ asset('assets/images/logo_menu.svg') }}" 
                      alt="Logo" 
-                     style="height: 45px; width: auto;" 
+                     style="height: 40px; width: auto;" 
                      class="">
             </a>
         </div>

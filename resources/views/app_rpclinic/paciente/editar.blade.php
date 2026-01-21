@@ -12,11 +12,11 @@
             <a href="javascript:;" class="d-flex justify-content-center align-items-center">
                 <img src="{{ asset('assets/images/logo_menu.svg') }}" 
                      alt="Logo" 
-                     style="height: 45px; width: auto;" 
+                     style="height: 40px; width: auto;" 
                      class="">
             </a>
         </div>
-        <h6 class="mb-0 text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-0 leading-none text-center">{{ Str::limit($paciente->nm_paciente, 25) }}</h6>
+        <h6 class="mb-0 text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-0 leading-none text-center">Editar Paciente</h6>
     </div>
 @endsection
 
