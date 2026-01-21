@@ -304,7 +304,7 @@
             min-height: 100vh;
             position: relative;
             background: #f8fafc;
-            padding-bottom: 120px; /* Space for footer */
+            padding-bottom: 90px; /* Space for footer */
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
         }
