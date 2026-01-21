@@ -176,9 +176,9 @@
 @push('scripts')
     <script>
         const cdProfissional = {{ $cd_profissional ?? auth()->guard('rpclinica')->user()->cd_profissional ?? 'null' }};
-        const routeAgendamentos = @js(url('app_rpclinic/api/agendamentos'));
-        const routeAgendamentosDatas = @js(url('app_rpclinic/api/agendamentos-datas'));
-        const routeConsultaBase = @js(url('app_rpclinic/consultorio-consulta'));
+        const routeAgendamentos = @js(route('app.api.agendamentos'));
+        const routeAgendamentosDatas = @js(route('app.api.agendamentos-datas'));
+        const routeConsultaBase = @js(route('app.consultorio.consulta', ['idAgendamento' => '']));
     </script>
     <script src="{{ asset('js/app_rpclinica/consulta-list.js') }}"></script>
 @endpush

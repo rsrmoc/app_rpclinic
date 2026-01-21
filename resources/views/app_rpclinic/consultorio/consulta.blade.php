@@ -1,7 +1,7 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_back')
-    <a href="{{ url('app_rpclinic/consultorio') }}" class="text-slate-500 hover:text-teal-600 transition-colors p-2 ms-2">
+    <a href="{{ route('app.consultorio') }}" class="text-slate-500 hover:text-teal-600 transition-colors p-2 ms-2">
         <i class="bi bi-arrow-left text-2xl"></i>
     </a>
 @endsection
@@ -260,13 +260,13 @@
         const initialAtendido = {{ $agendamento->situacao == 'atendido' ? 'true' : 'false' }};
         const formularios = @js($formularios);
         
-        const routeConsultaFinalizar = @js(url('app_rpclinic/api/consulta-finalizar'));
-        const routeConsultaDocs = @js(url('app_rpclinic/api/consulta-docs'));
+        const routeConsultaFinalizar = @js(route('app.api.consulta-finalizar', ['idAgendamento' => '']));
+        const routeConsultaDocs = @js(route('app.api.consulta-docs', ['cdAgendamento' => '']));
         
-        const routeConsultaHistorico = @js(url('app_rpclinic/api/consulta-paciente-historico'));
-        const routeConsultaAnamnese = @js(url('app_rpclinic/api/consulta-paciente-anamnese'));
-        const routeConsultaAlertas = @js(url('app_rpclinic/api/consulta-paciente-alertas'));
-        const routeConsultaDoc = @js(url('app_rpclinic/api/consulta-paciente-doc'));
+        const routeConsultaHistorico = @js(route('app.api.consulta-paciente-historico'));
+        const routeConsultaAnamnese = @js(route('app.api.consulta-paciente-anamnese'));
+        const routeConsultaAlertas = @js(route('app.api.consulta-paciente-alertas'));
+        const routeConsultaDoc = @js(route('app.api.consulta-paciente-doc'));
     </script>
     <script src="{{ asset('/js/app_rpclinica/consulta-paciente.js') }}"></script>
 @endpush

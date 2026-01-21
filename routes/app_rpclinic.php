@@ -58,8 +58,8 @@ Route::middleware([VerifyAppBusiness::class, AuthAppBusiness::class])->group(fun
 
         Route::post('perfil-update', 'Perfil@saveProfile');
 
-        Route::post('agendamentos', 'Agendamento@agendamentos');
-        Route::post('agendamentos-datas', 'Agendamento@getDatesWithEvents');
+        Route::post('agendamentos', 'Agendamento@agendamentos')->name('app.api.agendamentos');
+        Route::post('agendamentos-datas', 'Agendamento@getDatesWithEvents')->name('app.api.agendamentos-datas');
 
         Route::post('documentos', 'Consultorio@documentos');
 
@@ -68,13 +68,13 @@ Route::middleware([VerifyAppBusiness::class, AuthAppBusiness::class])->group(fun
         Route::post('paciente-edit/{idPaciente}', 'Paciente@updatePaciente');
         Route::post('paciente-add-doc', 'Paciente@saveDocPaciente');
 
-        Route::post('consulta-paciente-historico', 'Consultorio@consultaPacienteHistorico');
-        Route::post('consulta-paciente-anamnese', 'Consultorio@consultaPacienteAnamnese');
-        Route::post('consulta-paciente-alertas', 'Consultorio@consultaPacienteAlertas');
-        Route::post('consulta-paciente-doc', 'Consultorio@consultaPacienteDoc');
-        Route::get('consulta-docs/{cdAgendamento}', 'Consultorio@consultaDocumentosLista');
+        Route::post('consulta-paciente-historico', 'Consultorio@consultaPacienteHistorico')->name('app.api.consulta-paciente-historico');
+        Route::post('consulta-paciente-anamnese', 'Consultorio@consultaPacienteAnamnese')->name('app.api.consulta-paciente-anamnese');
+        Route::post('consulta-paciente-alertas', 'Consultorio@consultaPacienteAlertas')->name('app.api.consulta-paciente-alertas');
+        Route::post('consulta-paciente-doc', 'Consultorio@consultaPacienteDoc')->name('app.api.consulta-paciente-doc');
+        Route::get('consulta-docs/{cdAgendamento}', 'Consultorio@consultaDocumentosLista')->name('app.api.consulta-docs');
 
-        Route::post('consulta-finalizar/{idAgendamento}', 'Consultorio@finalizarConsulta');
+        Route::post('consulta-finalizar/{idAgendamento}', 'Consultorio@finalizarConsulta')->name('app.api.consulta-finalizar');
     });
 });
 
