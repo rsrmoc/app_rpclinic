@@ -26,7 +26,7 @@
 
         <!-- Mensagem quando não há documentos -->
         <div x-show="!loading && documentos.length === 0" class="mb-3">
-            <div style="text-align: center; margin-top: 30px;">
+            <div class="d-flex flex-column align-items-center justify-content-center mt-4 text-center">
                 <img src="{{ asset('app/assets/images/arquivo-medico.png') }}" class="img-fluid w-32 opacity-80" alt="">
                 <p class="text-slate-400 font-medium mt-3">Nenhum documento para assinar nesta data.</p>
             </div>

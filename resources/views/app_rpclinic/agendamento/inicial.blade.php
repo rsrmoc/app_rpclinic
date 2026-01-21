@@ -34,7 +34,7 @@
         <div>
             <template x-if="agendamentos.length==0">
                 <div class="mb-3">
-                    <div style="text-align: center; margin-top: 10px;" >
+                    <div class="d-flex justify-content-center align-items-center mt-3">
                         <img src="{{ asset('app/assets/images/agendar.png') }}" style="max-width: 65%;" class="img-fluid" alt="">
                     </div>
                 </div>
