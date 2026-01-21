@@ -37,18 +37,17 @@
    <!--end loader-->
 
    <!--start wrapper-->
-    <div class="wrapper" style="background: #cbd5e1; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+    <div class="wrapper" style="background: #ffffff; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
        <!--start to page content-->
        <div class="page-content bg-transparent w-100 px-3">
-          <div class="login-body" style="width: 100%; max-width: 100%; margin: 0 auto;">
-             <!-- Background Doctor Image -->
-             <div class="bg-watermark"></div>
-             <form action="{{ route('app.login.action') }}" method="POST" class="mt-4 bg-transparent p-0 position-relative z-10">
-               @csrf
+          <div class="login-body" style="width: 100%; max-width: 450px; margin: 0 auto;">
+             
+             <div style="text-align: center;" class="mb-5">
+                 <img src="{{ asset('app/assets/images/logo_completa.svg') }}" class="img-fluid" style="width: 70%;" alt="RP Clinic">
+             </div>
 
-               <div style="text-align: center" class="mb-5">
-                   <img src="{{ asset('app/assets/images/logo_completa.svg') }}" class="img-fluid" style="width: 80%;" alt="RP Clinic">
-               </div>
+             <form action="{{ route('app.login.action') }}" method="POST" class="mt-4 bg-transparent p-0">
+               @csrf
 
                @error('error')
                  <div class="alert alert-danger bg-red-50 text-red-700 border-red-200 rounded-xl mb-4" role="alert">
@@ -58,16 +57,16 @@
                @enderror
 
                <div class="form-floating mb-3 w-100">
-                 <input type="email" class="form-control rounded bg-slate-50 border-slate-300 text-slate-900 shadow-none" id="floatingInputEmail" placeholder="name@example.com" value="{{ old('email') }}"
-                   name="email" required>
-                 <label for="floatingInputEmail" class="text-slate-500 bg-transparent">Email de Acesso</label>
+                 <input type="email" class="form-control shadow-none bg-slate-50 border-slate-200 text-slate-900 rounded-xl" id="floatingInputEmail" placeholder="name@example.com" value="{{ old('email') }}"
+                   name="email" required style="height: 55px !important; border-radius: 12px !important;">
+                 <label for="floatingInputEmail" class="text-slate-500">Email de Acesso</label>
                </div>
 
                <div class="position-relative mb-4 w-100">
                  <div class="form-floating">
-                   <input type="password" class="form-control rounded bg-slate-50 border-slate-300 text-slate-900 shadow-none" id="floatingInputPassword" placeholder="Senha" 
-                     name="password" required minlength="2" style="padding-right: 50px;">
-                   <label for="floatingInputPassword" class="text-slate-500 bg-transparent">Senha</label>
+                   <input type="password" class="form-control shadow-none bg-slate-50 border-slate-200 text-slate-900 rounded-xl" id="floatingInputPassword" placeholder="Senha" 
+                     name="password" required minlength="2" style="height: 55px !important; border-radius: 12px !important; padding-right: 50px;">
+                   <label for="floatingInputPassword" class="text-slate-500">Senha</label>
                  </div>
                  <span class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer text-slate-400 hover:text-teal-600 transition-colors" id="togglePassword" style="z-index: 10;">
                     <i class="bi bi-eye-slash text-xl" id="iconEye"></i>
@@ -80,7 +79,7 @@
                      name="remember" value="1">
                    <label class="form-check-label text-slate-600 text-sm" for="flexCheckDefault">Lembrar de mim</label>
                  </div>
-                 <div class=""><a href="#" class="forgot-link text-teal-600 text-sm font-bold no-underline">Esqueceu?</a></div>
+                 <div class=""><a href="#" class="forgot-link text-teal-600 text-sm font-bold no-underline">Esqueceu sua senha?</a></div>
                </div>
 
                <div class="mb-0 w-100">
@@ -92,55 +91,6 @@
      <!--end to page content-->
 
        <style>
-
-            /* Copied Watermark Style from Global */
-             /* Background Image Style */
-            .bg-watermark {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 0;
-            }
-            
-            .bg-watermark::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-image: url('{{ asset("app/assets/images/doctor_bg.png") }}');
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
-            }
-
-            .bg-watermark::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(255, 255, 255, 0.2); /* Reduced opacity to show doctor clearly */
-                backdrop-filter: blur(0px); /* Removed blur for clarity */
-            }
-
-            /* Responsive adjustments */
-            @media (max-width: 768px) {
-                .bg-watermark::before {
-                    background-position: center center;
-                    background-attachment: scroll; /* Better for mobile performance */
-                }
-                
-                .login-body {
-                    padding: 20px;
-                }
-            }
-
-
             .btn2 {
                 display: flex !important;
                 justify-content: center !important;
@@ -155,7 +105,7 @@
                 color: #fff;
                 font-family: 'Poppins', sans-serif;
                 text-transform: uppercase;
-                font-size: 1.1rem; /* Reduzido levemente de 1.3rem para caber melhor */
+                font-size: 1.1rem;
                 font-weight: 700;
                 cursor: pointer;
                 transition: .5s;
