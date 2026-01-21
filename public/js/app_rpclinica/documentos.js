@@ -24630,7 +24630,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - v2.0 (MagicBytes Check): ' + new Date().toLocaleTimeString());
+console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - v2.1 (Auto-Repair): ' + new Date().toLocaleTimeString());
 Alpine.data('appDocumentos', function () {
   return {
     loading: false,
@@ -24791,7 +24791,7 @@ Alpine.data('appDocumentos', function () {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var url, fullUrl, response, contentType, blob, headerCheck, fileName, file;
+        var url, fullUrl, response, contentType, blob, headerCheck, pdfIndex, fileName, file;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -24802,7 +24802,7 @@ Alpine.data('appDocumentos', function () {
                 fullUrl = window.location.origin + url; // Tentar compartilhar via Web Share API
 
                 if (!(navigator.share && navigator.canShare)) {
-                  _context.next = 41;
+                  _context.next = 54;
                   break;
                 }
 
@@ -24819,7 +24819,7 @@ Alpine.data('appDocumentos', function () {
                 console.log('🔍 Tipo de conteúdo recebido:', contentType); // SÓ compartilha como arquivo se for realmente PDF E tiver conteúdo válido
 
                 if (!(contentType && contentType.includes('application/pdf'))) {
-                  _context.next = 29;
+                  _context.next = 42;
                   break;
                 }
 
@@ -24829,21 +24829,51 @@ Alpine.data('appDocumentos', function () {
               case 14:
                 blob = _context.sent;
                 _context.next = 17;
-                return blob.slice(0, 5).text();
+                return blob.slice(0, 1024).text();
 
               case 17:
                 headerCheck = _context.sent;
-                console.log('🧐 Magic Bytes:', headerCheck);
+                console.log('🧐 Magic Bytes Iniciais:', headerCheck.substring(0, 20));
 
                 if (headerCheck.startsWith('%PDF-')) {
-                  _context.next = 22;
+                  _context.next = 35;
                   break;
                 }
 
-                console.warn('⚠️ O arquivo recebido diz ser PDF, mas não inicia com %PDF-. Provável erro ou HTML retornado.');
-                throw new Error('Conteúdo não é um PDF válido');
+                console.warn('⚠️ O arquivo recebido não inicia com %PDF-. Tentando localizar o header correto...');
+                pdfIndex = headerCheck.indexOf('%PDF-');
 
-              case 22:
+                if (!(pdfIndex > 0)) {
+                  _context.next = 33;
+                  break;
+                }
+
+                console.log("\uD83D\uDD27 REPARANDO PDF: Header encontrado no \xEDndice ".concat(pdfIndex, ". Removendo lixo inicial."));
+                blob = blob.slice(pdfIndex, blob.size, 'application/pdf'); // Re-validar após corte
+
+                _context.next = 27;
+                return blob.slice(0, 5).text();
+
+              case 27:
+                headerCheck = _context.sent;
+
+                if (!(headerCheck !== '%PDF-')) {
+                  _context.next = 30;
+                  break;
+                }
+
+                throw new Error('Falha ao reparar PDF. Arquivo continua inválido.');
+
+              case 30:
+                console.log('✅ PDF Reparado com sucesso!');
+                _context.next = 35;
+                break;
+
+              case 33:
+                console.warn('❌ Header %PDF- não encontrado no início do arquivo. Provável erro ou HTML retornado.');
+                throw new Error('Conteúdo não é um PDF válido e não pôde ser reparado');
+
+              case 35:
                 fileName = "".concat(documento.nm_formulario, "_").concat(documento.agendamento.paciente.nm_paciente, ".pdf").replace(/[^a-z0-9]/gi, '_'); // Sanitizar nome
 
                 file = new File([blob], fileName, {
@@ -24853,57 +24883,57 @@ Alpine.data('appDocumentos', function () {
                 if (!navigator.canShare({
                   files: [file]
                 })) {
-                  _context.next = 29;
+                  _context.next = 42;
                   break;
                 }
 
-                _context.next = 27;
+                _context.next = 40;
                 return navigator.share({
                   title: documento.nm_formulario,
                   text: "Documento: ".concat(documento.nm_formulario, "\nPaciente: ").concat(documento.agendamento.paciente.nm_paciente),
                   files: [file]
                 });
 
-              case 27:
+              case 40:
                 console.log('✅ PDF compartilhado com sucesso');
                 return _context.abrupt("return");
 
-              case 29:
+              case 42:
                 // SE não for PDF ou não suportar arquivos, compartilha o LINK
                 console.log('⚠️ Conteúdo não é PDF ou envio de arquivo não suportado. Compartilhando link.');
-                _context.next = 32;
+                _context.next = 45;
                 return navigator.share({
                   title: documento.nm_formulario,
                   text: "Acesse o documento digital:\n".concat(documento.nm_formulario, " - ").concat(documento.agendamento.paciente.nm_paciente),
                   url: fullUrl
                 });
 
-              case 32:
+              case 45:
                 console.log('🔗 Link compartilhado com sucesso');
-                _context.next = 39;
+                _context.next = 52;
                 break;
 
-              case 35:
-                _context.prev = 35;
+              case 48:
+                _context.prev = 48;
                 _context.t0 = _context["catch"](3);
                 console.error('❌ Erro ao compartilhar:', _context.t0); // Último recurso: Copiar link
 
                 _this5.fallbackCopyLink(fullUrl);
 
-              case 39:
-                _context.next = 42;
+              case 52:
+                _context.next = 55;
                 break;
 
-              case 41:
+              case 54:
                 // Se navegador não suporta share API
                 _this5.fallbackCopyLink(fullUrl);
 
-              case 42:
+              case 55:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[3, 35]]);
+        }, _callee, null, [[3, 48]]);
       }))();
     },
     fallbackCopyLink: function fallbackCopyLink(url) {
