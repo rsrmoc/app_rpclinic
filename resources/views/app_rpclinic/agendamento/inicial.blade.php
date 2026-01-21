@@ -43,48 +43,51 @@
  
         <div>
             <template x-for="agendamento, index in agendamentos" x-bind:key="index">
-                <div class="bg-white rounded-2xl shadow-md border border-slate-100 mb-4 p-5 transition-all duration-300 hover:shadow-lg hover:border-teal-200">
-                     <div class="flex flex-row gap-4">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 mb-3 p-4 transition-all duration-300 hover:shadow-md hover:border-teal-200">
+                     <div class="flex flex-row gap-3">
                          <div class="flex-grow">
-                                 <!-- Nome do Paciente -->
-                                 <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2">
-                                     <div class="w-10 h-10 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center font-bold text-lg">
-                                         <span x-text="agendamento.paciente.nm_paciente.charAt(0)"></span>
-                                     </div>
-                                     <span class="font-extrabold text-lg text-slate-800 leading-tight" x-text="agendamento.paciente.nm_paciente"></span>
+                             <!-- Nome do Paciente -->
+                             <div class="flex items-center gap-3 mb-3 border-b border-slate-50 pb-2">
+                                 <div class="w-9 h-9 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center font-bold text-sm border border-teal-100">
+                                     <span x-text="agendamento.paciente.nm_paciente.charAt(0)"></span>
+                                 </div>
+                                 <span class="font-bold text-sm text-slate-800 leading-tight uppercase" x-text="agendamento.paciente.nm_paciente"></span>
+                             </div>
+
+                             <div class="space-y-3">
+                                 <!-- Data & Hora -->
+                                 <div class="flex flex-col">
+                                     <span class="text-slate-400 font-bold text-[10px] uppercase tracking-widest mb-0.5">Data & Hora</span>
+                                     <span class="text-slate-700 font-bold text-sm" x-text="agendamento.data_agenda+' às '+agendamento.hr_agenda"></span>
                                  </div>
 
-                                 <div class="space-y-2 text-sm">
+                                 <div class="grid grid-cols-2 gap-4">
                                      <div class="flex flex-col">
-                                         <span class="text-teal-600 font-bold text-xs uppercase tracking-wide">Data & Hora</span>
-                                         <span class="text-slate-800 font-bold text-base" x-text="agendamento.data_agenda+' às '+agendamento.hr_agenda"></span>
+                                         <span class="text-slate-400 font-bold text-[10px] uppercase tracking-widest mb-0.5">Profissional</span>
+                                         <span class="text-slate-700 font-semibold text-xs truncate" x-text="agendamento.profissional.nm_profissional"></span>
                                      </div>
-
-                                     <div class="grid grid-cols-2 gap-2">
-                                         <div class="flex flex-col">
-                                             <span class="text-teal-600 font-bold text-xs uppercase tracking-wide">Profissional</span>
-                                             <span class="text-slate-700 font-bold truncate" x-text="agendamento.profissional.nm_profissional"></span>
-                                         </div>
-                                         <div class="flex flex-col">
-                                             <span class="text-teal-600 font-bold text-xs uppercase tracking-wide">Especialidade</span>
-                                             <span class="text-slate-700 font-bold truncate" x-text="agendamento.especialidade.nm_especialidade"></span>
-                                         </div>
-                                     </div>
-                                     
                                      <div class="flex flex-col">
-                                         <span class="text-teal-600 font-bold text-xs uppercase tracking-wide">Telefone</span>
-                                         <span class="text-slate-900 font-bold" x-text="agendamento.celular"></span>
-                                     </div>
-                                     
-                                     <div class="mt-4 grid grid-cols-2 gap-3 pt-2 border-t border-slate-50">
-                                          <div class="px-1 py-2.5 rounded-lg border flex items-center justify-center shadow-sm" x-bind:class="agendamento.tipo_atend.cor" style="border-width: 1px;">
-                                              <span class="text-[11px] font-bold text-center uppercase tracking-tight" x-text="capitalizeFirstLetter(agendamento.tipo_atend.nm_tipo_atendimento)"></span>
-                                          </div>
-                                          <div class="px-1 py-2.5 rounded-lg border flex items-center justify-center shadow-sm bg-slate-50 border-slate-200" x-bind:class="classLabelSituacao[agendamento.situacao.toLocaleLowerCase()]">
-                                              <span class="text-[11px] font-bold text-slate-600 text-center uppercase tracking-tight" x-text="capitalizeFirstLetter(agendamento.situacao)"></span>
-                                          </div>
+                                         <span class="text-slate-400 font-bold text-[10px] uppercase tracking-widest mb-0.5">Especialidade</span>
+                                         <span class="text-slate-700 font-semibold text-xs truncate" x-text="agendamento.especialidade.nm_especialidade"></span>
                                      </div>
                                  </div>
+                                 
+                                 <div class="flex flex-col">
+                                     <span class="text-slate-400 font-bold text-[10px] uppercase tracking-widest mb-0.5">Telefone</span>
+                                     <span class="text-slate-700 font-semibold text-sm" x-text="agendamento.celular"></span>
+                                 </div>
+                                 
+                                 <div class="mt-3 grid grid-cols-2 gap-3 pt-3 border-t border-slate-50">
+                                      <!-- Tipo Atendimento -->
+                                      <div class="px-2 py-2.5 rounded-xl flex items-center justify-center bg-indigo-50 border border-indigo-100 hover:bg-indigo-100 transition-colors">
+                                          <span class="text-[10px] font-bold text-indigo-600 text-center uppercase tracking-wide" x-text="capitalizeFirstLetter(agendamento.tipo_atend.nm_tipo_atendimento)"></span>
+                                      </div>
+                                      <!-- Situacao -->
+                                      <div class="px-2 py-2.5 rounded-xl flex items-center justify-center bg-emerald-50 border border-emerald-100 hover:bg-emerald-100 transition-colors">
+                                          <span class="text-[10px] font-bold text-emerald-600 text-center uppercase tracking-wide" x-text="capitalizeFirstLetter(agendamento.situacao)"></span>
+                                      </div>
+                                 </div>
+                             </div>
                          </div>
                      </div>
                 </div>
