@@ -1,13 +1,16 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-    <div class="brand-logo" style="width: auto;">
-        <a href="javascript:;" class="d-flex justify-content-center align-items-center">
-            <img src="{{ asset('assets/images/logo_menu.svg') }}" 
-                 alt="Logo" 
-                 style="height: 60px; width: auto;" 
-                 class="">
-        </a>
+    <div class="d-flex flex-column align-items-center justify-content-center pt-1">
+        <div class="brand-logo mb-0">
+            <a href="javascript:;" class="d-flex justify-content-center align-items-center">
+                <img src="{{ asset('assets/images/logo_menu.svg') }}" 
+                     alt="Logo" 
+                     style="height: 45px; width: auto;" 
+                     class="">
+            </a>
+        </div>
+        <h6 class="mb-0 text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-0 leading-none">Novo Paciente</h6>
     </div>
 @endsection
 
@@ -15,70 +18,65 @@
 
 
        <!--start to page content-->
-       <div class="page-content p-0" x-data="appPacienteAdd">
-        <div class="card rounded-0 border-0">
-          <div class="card-body">
+       <div class="px-4 pt-4 pb-20 min-h-screen max-w-md mx-auto" x-data="appPacienteAdd">
              <form x-on:submit.prevent="createPaciente" class="row g-3 needs-validation">
                 <div class="col-12">
                     <div class="form-floating">
-                      <input type="text" class="form-control rounded-3" id="nome" placeholder="Nome" required
+                      <input type="text" class="form-control rounded-3 border-0 shadow-sm" id="nome" placeholder="Nome" required
                         x-model="pacienteData.nm_paciente" />
-                      <label for="floatingEmail">Nome</label>
+                      <label for="nome">Nome</label>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="form-floating">
-                      <input type="date" class="form-control rounded-3" id="nasc" placeholder="nasc"
+                      <input type="date" class="form-control rounded-3 border-0 shadow-sm" id="nasc" placeholder="nasc"
                         x-model="pacienteData.dt_nasc" />
-                      <label for="floatingEmail">Data Nascimento</label>
+                      <label for="nasc">Data Nascimento</label>
                     </div>
                 </div>
                <div class="col-12">
                  <div class="form-floating">
-                   <select class="form-control rounded-3" placeholder="CPF"
+                   <select class="form-control rounded-3 border-0 shadow-sm" placeholder="Sexo"
                     x-model="pacienteData.sexo">
                      <option value=""></option>
                      <option value="H" >Masculino</option>
                      <option value="M" >Feminino</option>
                    </select>
-                   <label for="floatingFirstName">Sexo</label>
-                   <div class="invalid-feedback">
-                     Please provide a valid city.
-                   </div>
+                   <label>Sexo</label>
                  </div>
                </div>
                <div class="col-12">
                  <div class="form-floating">
-                   <input type="text" class="form-control rounded-3" id="floatingEmail" placeholder="Email"
+                   <input type="text" class="form-control rounded-3 border-0 shadow-sm" id="mae" placeholder="Nome da Mãe"
                     x-model="pacienteData.nm_mae">
-                   <label for="floatingEmail">Nome da Mãe</label>
+                   <label for="mae">Nome da Mãe</label>
                  </div>
                </div>
                <div class="col-12">
                  <div class="form-floating">
-                   <input type="text" class="form-control rounded-3" id="floatingMobileNo" placeholder="Mobile No"
+                   <input type="text" class="form-control rounded-3 border-0 shadow-sm" id="pai" placeholder="Nome do Pai"
                     x-model="pacienteData.nm_pai">
-                   <label for="floatingMobileNo">Nome do Pai</label>
+                   <label for="pai">Nome do Pai</label>
                  </div>
                </div>
                <div class="col-12">
                  <div class="form-floating">
-                   <input class="form-control rounded-3" id="cpf" placeholder="CPF"
+                   <input class="form-control rounded-3 border-0 shadow-sm" id="cpf" placeholder="CPF"
                     x-model="pacienteData.cpf"
                     x-mask="999.999.999-99" />
-                   <label for="floatingStreetAddress">CPF</label>
+                   <label for="cpf">CPF</label>
                  </div>
                 </div>
                 <div class="col-12">
                     <div class="form-floating">
-                      <input type="text" class="form-control rounded-3"
+                      <input type="text" class="form-control rounded-3 border-0 shadow-sm" id="rg" placeholder="RG"
                         x-model="pacienteData.rg">
-                      <label for="floatingStreetAddress">RG</label>
+                      <label for="rg">RG</label>
                     </div>
                    </div>
 
-                   <button type="submit" class="btn btn-ecomm rounded-3 flex-fill text-white"
-                    style="height: 60px; font-weight: 600; padding: 1.2rem 1.5rem; background-color: #0d9488; border-color: #0d9488;"
+                   <button type="submit" class="btn btn-primary w-100 rounded-3 text-white shadow-sm mt-4"
+                    style="height: 55px; font-weight: 600; font-size: 16px; background-color: #0d9488; border-color: #0d9488;"
                     x-bind:disabled="loading">
                     <template x-if="loading">
                       <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
@@ -86,10 +84,8 @@
                     <span>Salvar</span>
                   </button>
              </form><!--end form-->
-
-          </div>
-        </div>
     </div>
+  <!--end to page content-->
   <!--end to page content-->
 
 
