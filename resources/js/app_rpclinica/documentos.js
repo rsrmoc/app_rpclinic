@@ -4,7 +4,7 @@ import 'air-datepicker/air-datepicker.css';
 import moment from 'moment';
 import { jsPDF } from 'jspdf';
 
-console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - v2.2 (Credentials + Log Clean): ' + new Date().toLocaleTimeString());
+console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - v2.3 (URL Fix): ' + new Date().toLocaleTimeString());
 
 Alpine.data('appDocumentos', () => ({
     loading: false,
@@ -158,9 +158,17 @@ Alpine.data('appDocumentos', () => ({
     },
 
     async compartilharDoc(documento) {
-        // Ajuste de rota caso precise de uma rota específica para download de PDF
-        // Por enquanto usa a mesma de visualização
-        const url = `/rpclinica/json/imprimirDocumentoGeral/${documento.agendamento.cd_agendamento}/${documento.cd_documento}`;
+        // Correção de bug: ID undefined na URL
+        // Prioriza a FK direta (cd_agendamento) se existir, senão tenta via relação
+        const cdAgendamento = documento.cd_agendamento || (documento.agendamento ? documento.agendamento.cd_agendamento : null);
+
+        if (!cdAgendamento) {
+            alert('Erro: ID do agendamento não encontrado para este documento.');
+            console.error('Documento sem cd_agendamento:', documento);
+            return;
+        }
+
+        const url = `/rpclinica/json/imprimirDocumentoGeral/${cdAgendamento}/${documento.cd_documento}`;
         const fullUrl = window.location.origin + url;
 
         // Tentar compartilhar via Web Share API
