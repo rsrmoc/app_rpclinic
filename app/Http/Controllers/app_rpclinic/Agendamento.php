@@ -50,10 +50,22 @@ class Agendamento extends Controller
             'year' => 'required|integer'
         ]);
 
-        $dates = RpclinicaAgendamento::where('cd_profissional', $request->cd_profissional)
+        // Datas de Agendamentos
+        $datesAgendamentos = RpclinicaAgendamento::where('cd_profissional', $request->cd_profissional)
             ->whereYear('dt_agenda', $request->year)
-            ->whereMonth('dt_agenda', $request->month + 1) // AirDatepicker month is 0-indexed in some cases? Need to verify. Usually JS is 0-indexed.
-            ->selectRaw('distinct date(dt_agenda) as date')
+            ->whereMonth('dt_agenda', $request->month + 1)
+            ->selectRaw('distinct date(dt_agenda) as date');
+
+        // Datas de Documentos (criados nessa data)
+        // Precisamos incluir isso para que dias COM documentos (mas SEM agendamento) tenham bolinha
+        $datesDocumentos = \App\Model\rpclinica\AgendamentoDocumentos::where('cd_prof', $request->cd_profissional)
+            ->whereYear('created_at', $request->year)
+            ->whereMonth('created_at', $request->month + 1)
+            ->selectRaw('distinct date(created_at) as date');
+
+        // Unir tudo
+        $dates = $datesAgendamentos->union($datesDocumentos)
+            ->get()
             ->pluck('date');
 
         return response()->json(['dates' => $dates]);

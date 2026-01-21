@@ -138,8 +138,14 @@
 
         .air-datepicker-cell.-current- {
             color: #0d9488 !important;
-            font-weight: 900 !important;
-            background: #f0fdfa !important; /* teal-50 */
+            font-weight: 800 !important;
+            background: transparent !important; /* Remove fundo do dia atual */
+            border: 1px solid #ccfbf1 !important; /* Adiciona borda sutil */
+        }
+        
+        .air-datepicker-cell.-current-.-selected- {
+             background: #0d9488 !important; /* Se for atual E selecionado, fundo verde */
+             color: #ffffff !important;
         }
 
         .air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-current- {

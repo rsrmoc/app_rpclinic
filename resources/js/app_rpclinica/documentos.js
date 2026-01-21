@@ -4,27 +4,75 @@ import 'air-datepicker/air-datepicker.css';
 import moment from 'moment';
 import { jsPDF } from 'jspdf';
 
+console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - BUILDE: ' + new Date().toLocaleTimeString());
+
 Alpine.data('appDocumentos', () => ({
     loading: false,
     documentos: [],
     datesWithEvents: [],
+    datepicker: null,
 
     init() {
-        console.log('🚀 appDocumentos inicializado');
-        this.getDatesWithEvents(new Date().getMonth(), new Date().getFullYear());
+        console.log('🚀 appDocumentos init() chamado');
+
+        // Timeout pequeno para garantir renderização do DOM
+        setTimeout(() => {
+            this.iniciarCalendario();
+        }, 100);
+    },
+
+    iniciarCalendario() {
+        // Zera horas da data atual para evitar problemas de comparação
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        this.getDatesWithEvents(today.getMonth(), today.getFullYear());
+
+        // Se já existe, destrói
+        if (this.datepicker) {
+            try {
+                this.datepicker.destroy();
+            } catch (e) {
+                console.warn('⚠️ Erro não-crítico ao destruir datepicker:', e);
+            }
+            this.datepicker = null;
+        }
+
+        const el = document.getElementById('documentosDatePicker');
+        if (el) el.innerHTML = ''; // Limpa container
+
+
 
         this.datepicker = new AirDatepicker('#documentosDatePicker', {
             classes: 'datePickerAgendamento',
             locale: LocalePTBR,
-            selectedDates: [new Date()],
+            selectedDates: [today],
             dateFormat: 'yyyy-MM-dd',
-            onSelect: ({ formattedDate }) => {
-                console.log('📅 Data selecionada:', formattedDate);
-                if (!formattedDate) {
-                    console.warn('⚠️ formattedDate está vazio!');
+            multipleDates: false, // Força seleção única
+            range: false,
+            toggleSelected: false, // Impede desmarcar ao clicar no mesmo dia
+
+            onSelect: ({ date, formattedDate }) => {
+                console.log('📅 Evento onSelect disparado');
+                console.log('👉 FormattedDate:', formattedDate);
+
+                // Força pegar a data do objeto Date se estiver disponível (mais seguro)
+                let selectedDate = formattedDate;
+                if (date) {
+                    // Se date for array (caso bugado de multiple), pega o último
+                    const rawDate = Array.isArray(date) ? date[date.length - 1] : date;
+                    if (rawDate) {
+                        selectedDate = moment(rawDate).format('YYYY-MM-DD');
+                        console.log('🎯 Data extraída do objeto Date:', selectedDate);
+                    }
+                }
+
+                if (!selectedDate) {
+                    console.warn('⚠️ Nenhuma data válida selecionada!');
                     return;
                 }
-                this.getDocumentos(formattedDate);
+
+                this.getDocumentos(selectedDate);
             },
             onRenderCell: ({ date, cellType }) => {
                 if (cellType === 'day') {
@@ -43,8 +91,8 @@ Alpine.data('appDocumentos', () => ({
             }
         });
 
-        let dt = new Date();
-        let formattedDate = `${dt.getFullYear()}-${(dt.getMonth() + 1).toString().padStart(2, '0')}-${dt.getDate().toString().padStart(2, '0')}`;
+        // Busca inicial
+        const formattedDate = moment(today).format('YYYY-MM-DD');
         console.log('📅 Buscando documentos da data inicial:', formattedDate);
         this.getDocumentos(formattedDate);
     },

@@ -73,27 +73,7 @@ class Consultorio extends Controller
             'cd_profissional' => $request->cd_profissional
         ]);
        
-        // DEBUG GLOBAL: Buscar TUDO desta data, independente do profissional
-        $debugDocs = AgendamentoDocumentos::whereDate('created_at', $request->data)
-            ->orWhereHas('agendamento', function($q) use ($request) {
-                $q->whereDate('dt_agenda', $request->data);
-            })->get();
-            
-        \Log::info('🔍 DEBUG RADICAL - TUDO DA DATA ' . $request->data, [
-            'encontrados' => $debugDocs->count(),
-            'dados' => $debugDocs->map(function($d) {
-                return [
-                    'id' => $d->cd_documento,
-                    'cd_prof_doc' => $d->cd_prof,
-                    'created_at' => $d->created_at,
-                    'has_agendamento' => $d->cd_agendamento ? 'SIM' : 'NAO',
-                    'agendamento_prof' => $d->agendamento ? $d->agendamento->cd_profissional : 'N/A',
-                    'agendamento_data' => $d->agendamento ? $d->agendamento->dt_agenda : 'N/A'
-                ];
-            })
-        ]);
-
-        // Query normal (mantida para não quebrar fluxo, mas vamos analisar o log acima)
+        // Query base
         $queryBuilder = AgendamentoDocumentos::with(['agendamento.paciente', 'agendamento.especialidade', 'agendamento.profissional']);
 
         // Filtro de Profissional (pode estar no doc ou no agendamento)
@@ -112,17 +92,18 @@ class Consultorio extends Controller
               });
         });
 
-        // Log da query para debug
+        /* 
         \Log::info('🔍 SQL Query Documentos:', [
             'sql' => $queryBuilder->toSql(),
             'bindings' => $queryBuilder->getBindings()
-        ]);
+        ]); 
+        */
 
         $documentos = $queryBuilder->orderBy('created_at', 'desc')->get();
  
         \Log::info('📄 Documentos encontrados', [
             'total' => $documentos->count(),
-            'ids' => $documentos->pluck('cd_documento')->toArray()
+            'data_buscada' => $request->data
         ]);
  
         foreach ($documentos as $documento) {

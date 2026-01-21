@@ -24630,31 +24630,71 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - BUILDE: ' + new Date().toLocaleTimeString());
 Alpine.data('appDocumentos', function () {
   return {
     loading: false,
     documentos: [],
     datesWithEvents: [],
+    datepicker: null,
     init: function init() {
       var _this = this;
 
-      console.log('🚀 appDocumentos inicializado');
-      this.getDatesWithEvents(new Date().getMonth(), new Date().getFullYear());
+      console.log('🚀 appDocumentos init() chamado'); // Timeout pequeno para garantir renderização do DOM
+
+      setTimeout(function () {
+        _this.iniciarCalendario();
+      }, 100);
+    },
+    iniciarCalendario: function iniciarCalendario() {
+      var _this2 = this;
+
+      // Zera horas da data atual para evitar problemas de comparação
+      var today = new Date();
+      today.setHours(0, 0, 0, 0);
+      this.getDatesWithEvents(today.getMonth(), today.getFullYear()); // Se já existe, destrói
+
+      if (this.datepicker) {
+        this.datepicker.destroy();
+      }
+
+      var el = document.getElementById('documentosDatePicker');
+      if (el) el.innerHTML = ''; // Limpa container
+
       this.datepicker = new air_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"]('#documentosDatePicker', {
         classes: 'datePickerAgendamento',
         locale: air_datepicker_locale_pt_BR__WEBPACK_IMPORTED_MODULE_1__["default"],
-        selectedDates: [new Date()],
+        selectedDates: [today],
         dateFormat: 'yyyy-MM-dd',
+        multipleDates: false,
+        // Força seleção única
+        range: false,
+        toggleSelected: false,
+        // Impede desmarcar ao clicar no mesmo dia
         onSelect: function onSelect(_ref) {
-          var formattedDate = _ref.formattedDate;
-          console.log('📅 Data selecionada:', formattedDate);
+          var date = _ref.date,
+              formattedDate = _ref.formattedDate;
+          console.log('📅 Evento onSelect disparado');
+          console.log('👉 FormattedDate:', formattedDate); // Força pegar a data do objeto Date se estiver disponível (mais seguro)
 
-          if (!formattedDate) {
-            console.warn('⚠️ formattedDate está vazio!');
+          var selectedDate = formattedDate;
+
+          if (date) {
+            // Se date for array (caso bugado de multiple), pega o último
+            var rawDate = Array.isArray(date) ? date[date.length - 1] : date;
+
+            if (rawDate) {
+              selectedDate = moment__WEBPACK_IMPORTED_MODULE_3___default()(rawDate).format('YYYY-MM-DD');
+              console.log('🎯 Data extraída do objeto Date:', selectedDate);
+            }
+          }
+
+          if (!selectedDate) {
+            console.warn('⚠️ Nenhuma data válida selecionada!');
             return;
           }
 
-          _this.getDocumentos(formattedDate);
+          _this2.getDocumentos(selectedDate);
         },
         onRenderCell: function onRenderCell(_ref2) {
           var date = _ref2.date,
@@ -24663,7 +24703,7 @@ Alpine.data('appDocumentos', function () {
           if (cellType === 'day') {
             var formattedCellDate = moment__WEBPACK_IMPORTED_MODULE_3___default()(date).format('YYYY-MM-DD');
 
-            var hasEvent = _this.datesWithEvents.includes(formattedCellDate);
+            var hasEvent = _this2.datesWithEvents.includes(formattedCellDate);
 
             if (hasEvent) {
               return {
@@ -24676,31 +24716,31 @@ Alpine.data('appDocumentos', function () {
           var month = _ref3.month,
               year = _ref3.year;
 
-          _this.getDatesWithEvents(month, year);
+          _this2.getDatesWithEvents(month, year);
         }
-      });
-      var dt = new Date();
-      var formattedDate = "".concat(dt.getFullYear(), "-").concat((dt.getMonth() + 1).toString().padStart(2, '0'), "-").concat(dt.getDate().toString().padStart(2, '0'));
+      }); // Busca inicial
+
+      var formattedDate = moment__WEBPACK_IMPORTED_MODULE_3___default()(today).format('YYYY-MM-DD');
       console.log('📅 Buscando documentos da data inicial:', formattedDate);
       this.getDocumentos(formattedDate);
     },
     getDatesWithEvents: function getDatesWithEvents(month, year) {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.post(routeAgendamentosDatas, {
         cd_profissional: cdProfissional,
         month: month,
         year: year
       }).then(function (res) {
-        _this2.datesWithEvents = res.data.dates;
+        _this3.datesWithEvents = res.data.dates;
 
-        if (_this2.datepicker) {
-          _this2.datepicker.update();
+        if (_this3.datepicker) {
+          _this3.datepicker.update();
         }
       });
     },
     getDocumentos: function getDocumentos(data) {
-      var _this3 = this;
+      var _this4 = this;
 
       console.log('🔍 Buscando documentos para data:', data);
       console.log('👤 cd_profissional:', cdProfissional);
@@ -24714,11 +24754,11 @@ Alpine.data('appDocumentos', function () {
         console.log('✅ Resposta da API documentos:', res.data); // Verificar se a resposta tem documentos
 
         if (res.data && res.data.documentos) {
-          _this3.documentos = res.data.documentos;
-          console.log('📄 Documentos carregados:', _this3.documentos.length);
-          console.log('📋 Documentos:', _this3.documentos);
+          _this4.documentos = res.data.documentos;
+          console.log('📄 Documentos carregados:', _this4.documentos.length);
+          console.log('📋 Documentos:', _this4.documentos);
         } else {
-          _this3.documentos = [];
+          _this4.documentos = [];
           console.log('⚠️ Nenhum documento encontrado na resposta');
         }
       })["catch"](function (err) {
@@ -24728,8 +24768,8 @@ Alpine.data('appDocumentos', function () {
         console.error('📄 Detalhes do erro:', (_err$response = err.response) === null || _err$response === void 0 ? void 0 : _err$response.data);
         parseErrorsAPI(err);
       })["finally"](function () {
-        _this3.loading = false;
-        console.log('🏁 Loading finalizado. Total documentos:', _this3.documentos.length);
+        _this4.loading = false;
+        console.log('🏁 Loading finalizado. Total documentos:', _this4.documentos.length);
       });
     },
     formatDate: function formatDate(date) {
