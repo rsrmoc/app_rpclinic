@@ -1,7 +1,7 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-    <div class="d-flex flex-column align-items-center justify-content-center pt-1">
+    <div class="d-flex flex-column align-items-center justify-content-center pt-0 m-0">
         <div class="brand-logo mb-0">
             <a href="javascript:;" class="d-flex justify-content-center align-items-center">
                 <img src="{{ asset('assets/images/logo_menu.svg') }}" 
@@ -76,9 +76,13 @@
                                          <span class="text-slate-900 font-bold" x-text="agendamento.celular"></span>
                                      </div>
                                      
-                                     <div class="mt-3 flex flex-wrap gap-2 pt-2">
-                                          <span class="px-3 py-1.5 rounded-lg text-xs font-bold border" x-bind:class="agendamento.tipo_atend.cor" style="border-width: 1px;" x-text="capitalizeFirstLetter(agendamento.tipo_atend.nm_tipo_atendimento)"></span>
-                                          <span class="px-3 py-1.5 rounded-lg text-xs font-bold border" x-bind:class="classLabelSituacao[agendamento.situacao.toLocaleLowerCase()]" style="background-color: #f1f5f9; color: #334155; border-color: #cbd5e1;" x-text="capitalizeFirstLetter(agendamento.situacao)"></span>
+                                     <div class="mt-4 grid grid-cols-2 gap-3 pt-2 border-t border-slate-50">
+                                          <div class="px-1 py-2.5 rounded-lg border flex items-center justify-center shadow-sm" x-bind:class="agendamento.tipo_atend.cor" style="border-width: 1px;">
+                                              <span class="text-[11px] font-bold text-center uppercase tracking-tight" x-text="capitalizeFirstLetter(agendamento.tipo_atend.nm_tipo_atendimento)"></span>
+                                          </div>
+                                          <div class="px-1 py-2.5 rounded-lg border flex items-center justify-center shadow-sm bg-slate-50 border-slate-200" x-bind:class="classLabelSituacao[agendamento.situacao.toLocaleLowerCase()]">
+                                              <span class="text-[11px] font-bold text-slate-600 text-center uppercase tracking-tight" x-text="capitalizeFirstLetter(agendamento.situacao)"></span>
+                                          </div>
                                      </div>
                                  </div>
                          </div>
