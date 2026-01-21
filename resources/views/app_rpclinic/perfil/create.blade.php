@@ -21,46 +21,46 @@
 
        <!--start to page content-->
        <div class="page-content p-0" x-data="appPerfil">
-        <div class="card rounded-0 border-0">
-          <div class="card-body">
+        <div class="border-0 bg-transparent">
+          <div class="">
              <form x-on:submit.prevent="saveProfile" class="row g-3 needs-validation"
               id="formProfile">
                @csrf
+                <div class="col-12">
+                   <div class="mb-3">
+                     <label class="form-label text-slate-700 font-bold text-sm">Nome do Profissional</label>
+                     <input type="text" class="form-control rounded-3 p-3" placeholder="Nome do Profissional"
+                       value="{{ auth()->guard('rpclinica')->user()->nm_header_doc }}" name="nm_header_doc">
+                   </div>
+               </div>
                <div class="col-12">
-                 <div class="form-floating">
-                    <input type="text" class="form-control rounded-3" id="floatingMobileNo" placeholder="Mobile No"
-                      value="{{ auth()->guard('rpclinica')->user()->nm_header_doc }}" name="nm_header_doc">
-                   <label for="floatingLastName">Nome do Profissional</label>
+                   <div class="mb-3">
+                     <label class="form-label text-slate-700 font-bold text-sm">Especialidade(s) do Profissional</label>
+                     <input type="text" class="form-control rounded-3 p-3" placeholder="Especialidade(s) do Profissional"
+                       value="{{ auth()->guard('rpclinica')->user()->espec_header_doc }}" name="espec_header_doc">
+                   </div>
+               </div>
+               <div class="col-12">
+                   <div class="mb-3">
+                     <label class="form-label text-slate-700 font-bold text-sm">Conselho do Profissional No</label>
+                     <input type="text" class="form-control rounded-3 p-3" placeholder="Conselho do Profissional No"
+                       value="{{ auth()->guard('rpclinica')->user()->conselho_header_doc }}" name="conselho_header_doc">
+                   </div>
+               </div>
+               <div class="col-12">
+                 <div class="mb-3">
+                   <label class="form-label text-slate-700 font-bold text-sm">Email</label>
+                   <input type="text" class="form-control rounded-3 p-3" placeholder="Email"
+                    value="{{ auth()->guard('rpclinica')->user()->email_contato }}" name="email">
                  </div>
                </div>
                <div class="col-12">
-                 <div class="form-floating">
-                    <input type="text" class="form-control rounded-3" id="floatingMobileNo" placeholder="Mobile No"
-                      value="{{ auth()->guard('rpclinica')->user()->espec_header_doc }}" name="espec_header_doc">
-                   <label for="floatingEmail">Especialidade(s) do Profissional</label>
+                 <div class="mb-3">
+                   <label class="form-label text-slate-700 font-bold text-sm">Celular</label>
+                   <input type="text" class="form-control rounded-3 p-3" placeholder="Celular"
+                    value="{{ auth()->guard('rpclinica')->user()->nm_celular }}" name="celular">
                  </div>
                </div>
-               <div class="col-12">
-                 <div class="form-floating">
-                   <input type="text" class="form-control rounded-3" id="floatingMobileNo" placeholder="Mobile No"
-                    value="{{ auth()->guard('rpclinica')->user()->conselho_header_doc }}" name="conselho_header_doc">
-                   <label for="floatingMobileNo">Conselho do Profissional No</label>
-                 </div>
-               </div>
-               <div class="col-12">
-                <div class="form-floating">
-                  <input type="text" class="form-control rounded-3" id="floatingMobileNo" placeholder="Mobile No"
-                   value="{{ auth()->guard('rpclinica')->user()->email_contato }}" name="email">
-                  <label for="floatingMobileNo">Email</label>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-floating">
-                  <input type="text" class="form-control rounded-3" id="floatingMobileNo" placeholder="Mobile No"
-                   value="{{ auth()->guard('rpclinica')->user()->nm_celular }}" name="celular">
-                  <label for="floatingMobileNo">Celular</label>
-                </div>
-              </div>
                {{-- <a href="addresses.html#AddNewAddress" data-bs-toggle="offcanvas" class="btn btn-ecomm rounded-3 btn-dark flex-fill" style="  height: 60px; font-weight: 600;
                padding: 1.2rem 1.5rem;">Salvar</a> --}}
                <button type="submit"
