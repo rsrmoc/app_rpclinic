@@ -87,7 +87,7 @@
             background: #ffffff !important;
             border: 1px solid #e2e8f0 !important; /* slate-200 */
             border-radius: 20px !important;
-            padding: 15px !important;
+            padding: 5px 15px 15px 15px !important;
             color: #1e293b !important; /* slate-800 */
             font-family: inherit !important;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -145,11 +145,26 @@
             color: #cbd5e1 !important; /* slate-300 */
         }
 
-        /* Ponto indicador de evento */
+        /* Ajuste para colar no topo */
+        #dataAgendamento {
+            margin-top: -10px !important;
+        }
+
+        /* Ponto indicador de evento - Ajustado para ser maior e verde */
+        .has-event-dot {
+            position: relative;
+        }
         .has-event-dot::after {
-            background-color: #0d9488 !important;
-            box-shadow: none !important;
+            content: '' !important;
+            position: absolute !important;
             bottom: 4px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            width: 6px !important;
+            height: 6px !important;
+            background-color: #10b981 !important; /* Verde Emerald */
+            border-radius: 50% !important;
+            display: block !important;
         }
         
         .air-datepicker-cell.-selected-.has-event-dot::after {

@@ -359,7 +359,7 @@
             color: #64748b !important;
         }
 
-        .form-control {
+        .form-control, .form-select {
             background: #ffffff !important;
             border: 1px solid #cbd5e1 !important;
             color: #1e293b !important;
