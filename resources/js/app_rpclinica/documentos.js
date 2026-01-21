@@ -4,7 +4,7 @@ import 'air-datepicker/air-datepicker.css';
 import moment from 'moment';
 import { jsPDF } from 'jspdf';
 
-console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - v2.3 (URL Fix): ' + new Date().toLocaleTimeString());
+console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - v2.5 (Final Fix): ' + new Date().toLocaleTimeString());
 
 Alpine.data('appDocumentos', () => ({
     loading: false,
@@ -231,74 +231,64 @@ Alpine.data('appDocumentos', () => ({
                 } else {
                     console.warn(`⚠️ Content-Type não é PDF: ${contentType}`);
                 }
-                console.warn('❌ Header %PDF- não encontrado no início do arquivo. Provável erro ou HTML retornado.');
-                throw new Error('Conteúdo não é um PDF válido e não pôde ser reparado');
+
+                // Fallback: Compartilha o LINK se não for PDF ou se passou direto
+                console.log('🔗 Conteúdo não enviado como arquivo. Compartilhando link...');
+                await navigator.share({
+                    title: documento.nm_formulario,
+                    text: `Acesse o documento digital:\n${documento.nm_formulario} - ${documento.agendamento.paciente.nm_paciente}`,
+                    url: fullUrl
+                });
+
+            } catch (error) {
+                console.error('❌ Erro ao compartilhar arquivo (fallback link):', error);
+
+                // Tenta compartilhar o LINK mesmo com erro no PDF
+                try {
+                    await navigator.share({
+                        title: documento.nm_formulario,
+                        text: `Acesse o documento digital:\n${documento.nm_formulario} - ${documento.agendamento.paciente.nm_paciente}`,
+                        url: fullUrl
+                    });
+                } catch (e2) {
+                    console.error('❌ Falha total no share. Copiando link.', e2);
+                    this.fallbackCopyLink(fullUrl);
+                }
             }
-                    }
-
-        const fileName = `${documento.nm_formulario}_${documento.agendamento.paciente.nm_paciente}.pdf`.replace(/[^a-z0-9]/gi, '_'); // Sanitizar nome
-        const file = new File([blob], fileName, { type: 'application/pdf' });
-
-        if (navigator.canShare({ files: [file] })) {
-            await navigator.share({
-                title: documento.nm_formulario,
-                text: `Documento: ${documento.nm_formulario}\nPaciente: ${documento.agendamento.paciente.nm_paciente}`,
-                files: [file]
-            });
-            console.log('✅ PDF compartilhado com sucesso');
-            return; // Sucesso, encerra
-        }
-    }
-
-                // SE não for PDF ou não suportar arquivos, compartilha o LINK
-                console.log('⚠️ Conteúdo não é PDF ou envio de arquivo não suportado. Compartilhando link.');
-    await navigator.share({
-        title: documento.nm_formulario,
-        text: `Acesse o documento digital:\n${documento.nm_formulario} - ${documento.agendamento.paciente.nm_paciente}`,
-        url: fullUrl
-    });
-    console.log('🔗 Link compartilhado com sucesso');
-
-} catch (error) {
-    console.error('❌ Erro ao compartilhar:', error);
-
-    // Último recurso: Copiar link
-    this.fallbackCopyLink(fullUrl);
-}
         } else {
-    // Se navegador não suporta share API
-    this.fallbackCopyLink(fullUrl);
-}
+            // Se navegador não suporta share API
+            this.fallbackCopyLink(fullUrl);
+        }
     },
 
-fallbackCopyLink(url) {
-    navigator.clipboard.writeText(url).then(() => {
-        // Usar toastr ou alert amigável se possível
-        // Como estou sem acesso fácil ao toastr aqui, vai alert mesmo ou nada (feedback visual é ideal)
-        // Mas o alert interrompe fluxo, melhor deixar quieto ou usar log se não for crítico
-        alert('Link copiado para área de transferência!');
-    }).catch(err => {
-        console.error('Erro ao copiar link', err);
-        prompt('Copie o link:', url); // Fallback manual
-    });
-},
+    fallbackCopyLink(url) {
+        navigator.clipboard.writeText(url).then(() => {
+            // Usar toastr ou alert amigável se possível
+            // Como estou sem acesso fácil ao toastr aqui, vai alert mesmo ou nada (feedback visual é ideal)
+            // Mas o alert interrompe fluxo, melhor deixar quieto ou usar log se não for crítico
+            alert('Link copiado para área de transferência!');
+        }).catch(err => {
+            console.error('Erro ao copiar link', err);
+            prompt('Copie o link:', url); // Fallback manual
+        });
+    },
 
-downloadPDF(name, content) {
-    let doc = new jsPDF();
+    downloadPDF(name, content) {
+        let doc = new jsPDF();
 
-    doc.html(
-        content,
-        {
-            callback: function (doc) {
-                doc.save(name);
-            },
-            margin: [10, 10, 10, 10],
-            autoPaging: 'text',
-            x: 0,
-            y: 0,
-            width: 190,
-            windowWidth: 675
-        }
-    );
-}
+        doc.html(
+            content,
+            {
+                callback: function (doc) {
+                    doc.save(name);
+                },
+                margin: [10, 10, 10, 10],
+                autoPaging: 'text',
+                x: 0,
+                y: 0,
+                width: 190,
+                windowWidth: 675
+            }
+        );
+    }
 }));
