@@ -303,7 +303,7 @@
             width: 100% !important;
             min-height: 100vh;
             position: relative;
-            background: #f8fafc;
+            background: transparent; /* Changed from #f8fafc to transparent to show body/watermark if needed, though watermark handles it */
             padding-bottom: 90px; /* Space for footer */
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
@@ -499,7 +499,7 @@
             height: 100vh;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.15;
+            opacity: 0.8;
             background-image: url('{{ asset("app/assets/images/doctor_bg.png") }}');
             background-size: cover;
             background-position: center top;
@@ -516,7 +516,7 @@
         }
 
         /* FORCE WHITE BACKGROUND - CRITICAL OVERRIDE */
-        html, body, .wrapper, .page-content {
+        html, body {
             background-color: #ffffff !important;
             background: #ffffff !important;
             font-weight: 500 !important; /* Global Bold */

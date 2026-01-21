@@ -1,17 +1,20 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-    <div class="d-flex align-items-center gap-3">
-        <a href="{{ url('app_rpclinic/paciente') }}" class="text-slate-500 hover:text-teal-600 transition-colors p-1">
+    <div class="d-flex align-items-center">
+        <a href="{{ url('app_rpclinic/paciente') }}" class="text-slate-500 hover:text-teal-600 transition-colors p-1 me-3">
             <i class="bi bi-arrow-left text-2xl"></i>
         </a>
-        <div class="brand-logo" style="width: auto;">
-            <a href="javascript:;" class="d-flex justify-content-center align-items-center">
-                <img src="{{ asset('assets/images/logo_menu.svg') }}" 
-                     alt="Logo" 
-                     style="height: 60px; width: auto;" 
-                     class="">
-            </a>
+        <div class="d-flex flex-column align-items-center justify-content-center pt-1">
+            <div class="brand-logo mb-0">
+                <a href="javascript:;" class="d-flex justify-content-center align-items-center">
+                    <img src="{{ asset('assets/images/logo_menu.svg') }}" 
+                         alt="Logo" 
+                         style="height: 45px; width: auto;" 
+                         class="">
+                </a>
+            </div>
+            <h6 class="mb-0 text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-0 leading-none text-center">{{ Str::limit($paciente->nm_paciente, 25) }}</h6>
         </div>
     </div>
 @endsection
@@ -20,77 +23,69 @@
 
 
        <!--start to page content-->
-       <div class="page-content p-0" x-data="appPacienteEdit">
-        <div class="card rounded-0 border-0">
-          <div class="card-body">
+       <div class="px-4 pt-0 pb-20 min-h-screen max-w-md mx-auto" x-data="appPacienteEdit">
              <form x-on:submit.prevent="savePaciente" class="row g-3 needs-validation" id="formPaciente">
                 <div class="col-12">
                     <div class="form-floating">
-                      <input type="text" class="form-control rounded-3" id="nome" placeholder="Nome"
+                      <input type="text" class="form-control rounded-3 border-0 shadow-sm" id="nome" placeholder="Nome"
                         value="{{ $paciente->nm_paciente }}" name="nm_paciente" required />
-                      <label for="floatingEmail">Nome</label>
+                      <label for="nome">Nome</label>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="form-floating">
-                      <input type="date" class="form-control rounded-3" id="nasc" placeholder="nasc"
+                      <input type="date" class="form-control rounded-3 border-0 shadow-sm" id="nasc" placeholder="nasc"
                         value="{{ $paciente->dt_nasc }}" name="dt_nasc" />
-                      <label for="floatingEmail">Data Nascimento</label>
+                      <label for="nasc">Data Nascimento</label>
                     </div>
                 </div>
                <div class="col-12">
                  <div class="form-floating">
-                   <select class="form-control rounded-3" placeholder="CPF" name="sexo">
+                   <select class="form-control rounded-3 border-0 shadow-sm" placeholder="Sexo" name="sexo">
                      <option value=""></option>
                      <option value="H" @if($paciente->sexo == 'H') selected @endif>Masculino</option>
                      <option value="M" @if($paciente->sexo == 'M') selected @endif>Feminino</option>
                    </select>
-                   <label for="floatingFirstName">Sexo</label>
-                   <div class="invalid-feedback">
-                     Please provide a valid city.
-                   </div>
+                   <label>Sexo</label>
                  </div>
                </div>
 
                <div class="col-12">
                  <div class="form-floating">
-                   <input type="text" class="form-control rounded-3" id="floatingEmail" placeholder="Email"
+                   <input type="text" class="form-control rounded-3 border-0 shadow-sm" id="mae" placeholder="Nome da Mãe"
                     value="{{ $paciente->nm_mae }}" name="nm_mae" />
-                   <label for="floatingEmail">Nome da Mãe</label>
+                   <label for="mae">Nome da Mãe</label>
                  </div>
                </div>
                <div class="col-12">
                  <div class="form-floating">
-                   <input type="text" class="form-control rounded-3" id="floatingMobileNo" placeholder="Mobile No"
+                   <input type="text" class="form-control rounded-3 border-0 shadow-sm" id="pai" placeholder="Nome do Pai"
                     value="{{ $paciente->nm_pai }}" name="nm_pai" />
-                   <label for="floatingMobileNo">Nome do Pai</label>
+                   <label for="pai">Nome do Pai</label>
                  </div>
                </div>
                <div class="col-12">
                  <div class="form-floating">
-                   <input class="form-control rounded-3" id="cpf" placeholder="CPF"
+                   <input class="form-control rounded-3 border-0 shadow-sm" id="cpf" placeholder="CPF"
                     value="{{ $paciente->cpf }}" name="cpf"
                     x-mask="999.999.999-99" />
-                   <label for="floatingStreetAddress">CPF</label>
+                   <label for="cpf">CPF</label>
                  </div>
                 </div>
                 <div class="col-12">
                     <div class="form-floating">
-                      <input type="text" class="form-control rounded-3" id="cpf" placeholder="CPF"
+                      <input type="text" class="form-control rounded-3 border-0 shadow-sm" id="rg" placeholder="RG"
                         value="{{ $paciente->rg }}" name="rg" />
-                      <label for="floatingStreetAddress">RG</label>
+                      <label for="rg">RG</label>
                     </div>
                    </div>
 
                    <button type="submit"
-                    class="btn btn-ecomm rounded-3 flex-fill text-white"
-                    style="height: 60px; font-weight: 600; padding: 1.2rem 1.5rem; background-color: #0d9488; border-color: #0d9488;">
+                    class="btn btn-primary w-100 rounded-3 text-white shadow-sm mt-4"
+                    style="height: 55px; font-weight: 600; font-size: 16px; background-color: #0d9488; border-color: #0d9488;">
                       <span>Salvar</span>
                     </button>
              </form><!--end form-->
-
-          </div>
-        </div>
     </div>
   <!--end to page content-->
 

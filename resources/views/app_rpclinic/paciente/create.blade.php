@@ -18,7 +18,7 @@
 
 
        <!--start to page content-->
-       <div class="px-4 pt-4 pb-20 min-h-screen max-w-md mx-auto" x-data="appPacienteAdd">
+       <div class="px-4 pt-0 pb-20 min-h-screen max-w-md mx-auto" x-data="appPacienteAdd">
              <form x-on:submit.prevent="createPaciente" class="row g-3 needs-validation">
                 <div class="col-12">
                     <div class="form-floating">
