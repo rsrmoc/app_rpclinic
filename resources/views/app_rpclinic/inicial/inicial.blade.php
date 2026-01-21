@@ -15,7 +15,7 @@
 
 @section('content')
       <!--start to page content-->
-      <div class="px-4 pt-2 pb-6 min-h-screen">
+      <div class="px-4 pt-2 pb-2">
 
 
         <div class="features-section mb-4 max-w-md mx-auto">
