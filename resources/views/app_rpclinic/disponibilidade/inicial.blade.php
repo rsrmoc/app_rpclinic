@@ -31,6 +31,7 @@
                       <input class="form-check-input" type="checkbox" role="switch" id="multipleSelectSwitch" 
                              x-model="multipleSelect" 
                              x-on:change="toggleMultipleSelect()"
+                             checked
                              style="width: 50px; height: 26px; cursor: pointer;">
                   </div>
               </div>
@@ -38,25 +39,52 @@
               <div id="dataAgendamento"></div>
 
               <!-- Lista de Datas Selecionadas -->
-              <template x-if="selectedDates.length > 0">
-                  <div class="mb-3" style="background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 12px; padding: 15px;">
-                      <h6 style="font-weight: 700; color: #0f766e; margin-bottom: 10px; font-size: 14px;">
-                          <i class="fa fa-calendar-check" style="margin-right: 5px;"></i>
-                          Datas Selecionadas (<span x-text="selectedDates.length"></span>)
-                      </h6>
-                      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                          <template x-for="(date, index) in selectedDates" :key="index">
-                              <div style="background: #0d9488; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 5px;">
-                                  <span x-text="formatDateDisplay(date)"></span>
-                                  <i class="fa fa-times" 
-                                     x-on:click="removeDate(index)" 
-                                     style="cursor: pointer; opacity: 0.8; font-size: 10px;"
-                                     title="Remover"></i>
-                              </div>
-                          </template>
-                      </div>
+              <div x-show="selectedDates && selectedDates.length > 0" class="mb-3" style="background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 12px; padding: 15px;">
+                  <h6 style="font-weight: 700; color: #0f766e; margin-bottom: 10px; font-size: 14px;">
+                      <i class="fa fa-calendar-check" style="margin-right: 5px;"></i>
+                      Datas Selecionadas (<span x-text="selectedDates.length"></span>)
+                  </h6>
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                      <template x-for="(date, index) in selectedDates" :key="index">
+                          <div style="background: #0d9488; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                              <span x-text="formatDateDisplay(date)"></span>
+                              <i class="fa fa-times" 
+                                 x-on:click="removeDate(index)" 
+                                 style="cursor: pointer; opacity: 0.8; font-size: 10px;"
+                                 title="Remover"></i>
+                          </div>
+                      </template>
                   </div>
-              </template>
+              </div>
+
+              </div>
+
+              <!-- Agendamentos da Data (se houver apenas 1 data selecionada) -->
+              <div x-show="selectedDates && selectedDates.length === 1 && agendamentos && agendamentos.length > 0" class="mb-3">
+                  <h6 style="font-weight: 700; color: #334155; margin-bottom: 12px; font-size: 14px;">
+                      <i class="fa fa-calendar-alt" style="color: #0d9488; margin-right: 5px;"></i>
+                      Agendamentos (<span x-text="agendamentos.length"></span>)
+                  </h6>
+                  <template x-for="(item, index) in agendamentos" :key="index">
+                      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 8px;">
+                          <div style="display: flex; justify-content: space-between; align-items: center;">
+                              <div style="flex: 1;">
+                                  <div style="font-weight: 700; color: #334155; font-size: 14px;" x-text="item.paciente?.nm_paciente || 'Sem paciente'"></div>
+                                  <div style="font-size: 12px; color: #64748b; margin-top: 4px;">
+                                      <i class="fa fa-clock" style="margin-right: 4px;"></i>
+                                      <span x-text="item.hr_agenda"></span>
+                                  </div>
+                              </div>
+                              <div>
+                                  <span 
+                                      x-bind:class="'badge ' + classLabelSituacao[item.situacao?.nm_situacao?.toLowerCase() || 'livre']"
+                                      x-text="capitalizeFirstLetter(item.situacao?.nm_situacao || 'Livre')"
+                                      style="font-size: 11px; padding: 4px 10px;"></span>
+                              </div>
+                          </div>
+                      </div>
+                  </template>
+              </div>
 
               <div class="py-2"></div>
       

@@ -22196,7 +22196,16 @@ Alpine.data('appAgendamento', function () {
           var formattedDate = _ref.formattedDate,
               date = _ref.date;
           // Atualizar a lista de datas selecionadas
-          _this.selectedDates = _this.datepicker.selectedDates || [];
+          _this.selectedDates = _this.datepicker.selectedDates || []; // Se apenas 1 data selecionada, buscar agendamentos
+
+          if (_this.selectedDates.length === 1) {
+            var formattedSingleDate = moment__WEBPACK_IMPORTED_MODULE_3___default()(_this.selectedDates[0]).format('YYYY-MM-DD');
+
+            _this.getAgendamentos(formattedSingleDate);
+          } else {
+            // Limpar agendamentos se múltiplas datas
+            _this.agendamentos = [];
+          }
         },
         onRenderCell: function onRenderCell(_ref2) {
           var date = _ref2.date,
@@ -22239,7 +22248,15 @@ Alpine.data('appAgendamento', function () {
         onSelect: function onSelect(_ref4) {
           var formattedDate = _ref4.formattedDate,
               date = _ref4.date;
-          _this2.selectedDates = _this2.datepicker.selectedDates || [];
+          _this2.selectedDates = _this2.datepicker.selectedDates || []; // Se apenas 1 data selecionada, buscar agendamentos
+
+          if (_this2.selectedDates.length === 1) {
+            var formattedSingleDate = moment__WEBPACK_IMPORTED_MODULE_3___default()(_this2.selectedDates[0]).format('YYYY-MM-DD');
+
+            _this2.getAgendamentos(formattedSingleDate);
+          } else {
+            _this2.agendamentos = [];
+          }
         },
         onRenderCell: function onRenderCell(_ref5) {
           var date = _ref5.date,
@@ -22264,7 +22281,12 @@ Alpine.data('appAgendamento', function () {
           _this2.getDatesWithEvents(month, year);
         }
       });
-      this.selectedDates = this.datepicker.selectedDates || [];
+      this.selectedDates = this.datepicker.selectedDates || []; // Se ficou com apenas 1 data após toggle, buscar agendamentos
+
+      if (this.selectedDates.length === 1) {
+        var formattedSingleDate = moment__WEBPACK_IMPORTED_MODULE_3___default()(this.selectedDates[0]).format('YYYY-MM-DD');
+        this.getAgendamentos(formattedSingleDate);
+      }
     },
     formatDateDisplay: function formatDateDisplay(date) {
       return moment__WEBPACK_IMPORTED_MODULE_3___default()(date).format('DD/MM/YYYY');

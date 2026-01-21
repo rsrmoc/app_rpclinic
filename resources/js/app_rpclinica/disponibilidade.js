@@ -37,6 +37,15 @@ Alpine.data('appAgendamento', () => ({
             onSelect: ({ formattedDate, date }) => {
                 // Atualizar a lista de datas selecionadas
                 this.selectedDates = this.datepicker.selectedDates || [];
+
+                // Se apenas 1 data selecionada, buscar agendamentos
+                if (this.selectedDates.length === 1) {
+                    const formattedSingleDate = moment(this.selectedDates[0]).format('YYYY-MM-DD');
+                    this.getAgendamentos(formattedSingleDate);
+                } else {
+                    // Limpar agendamentos se múltiplas datas
+                    this.agendamentos = [];
+                }
             },
             onRenderCell: ({ date, cellType }) => {
                 if (cellType === 'day') {
@@ -72,6 +81,14 @@ Alpine.data('appAgendamento', () => ({
             multipleDates: this.multipleSelect,
             onSelect: ({ formattedDate, date }) => {
                 this.selectedDates = this.datepicker.selectedDates || [];
+
+                // Se apenas 1 data selecionada, buscar agendamentos
+                if (this.selectedDates.length === 1) {
+                    const formattedSingleDate = moment(this.selectedDates[0]).format('YYYY-MM-DD');
+                    this.getAgendamentos(formattedSingleDate);
+                } else {
+                    this.agendamentos = [];
+                }
             },
             onRenderCell: ({ date, cellType }) => {
                 if (cellType === 'day') {
@@ -91,6 +108,12 @@ Alpine.data('appAgendamento', () => ({
         });
 
         this.selectedDates = this.datepicker.selectedDates || [];
+
+        // Se ficou com apenas 1 data após toggle, buscar agendamentos
+        if (this.selectedDates.length === 1) {
+            const formattedSingleDate = moment(this.selectedDates[0]).format('YYYY-MM-DD');
+            this.getAgendamentos(formattedSingleDate);
+        }
     },
 
     formatDateDisplay(date) {
