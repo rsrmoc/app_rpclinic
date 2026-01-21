@@ -499,7 +499,7 @@
             height: 100vh;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.8;
+            opacity: 0.25;
             background-image: url('{{ asset("app/assets/images/doctor_bg.png") }}');
             background-size: cover;
             background-position: center top;
