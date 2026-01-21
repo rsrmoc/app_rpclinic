@@ -47,6 +47,9 @@
 
 
 
+        <!-- Espaço entre calendário e cards -->
+        <div style="height: 20px;"></div>
+
         <div class="px-2">
             <template x-for="(agendamento, index) in agendamentos" :key="index">
                 <div class="col-md-4 col-sm-6" style="padding: 0 10px; margin-bottom: 20px;">
@@ -72,49 +75,53 @@
                                   x-text="(agendamento.data_agenda ? formatDateLong(agendamento.data_agenda) : 'Data indefinida') + ' • ' + agendamento.hr_agenda"></span>
                         </div>
 
-                        <!-- Doctor Section -->
+                        <!-- Doctor Section - Botão WhatsApp ao lado do número, Atendimento na lateral -->
                         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
                             <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0;">
-                                <!-- Doctor Avatar with Badge -->
+                                <!-- Doctor Avatar with WhatsApp Badge -->
                                 <div style="position: relative; width: 48px; height: 48px; flex-shrink: 0;">
                                     <div style="width: 100%; height: 100%; border-radius: 50%; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                                         <i class="fa fa-user-md" style="font-size: 20px; color: #94a3b8;"></i>
                                     </div>
-                                    <!-- Restored Badge -->
-                                    <div style="position: absolute; bottom: -2px; right: -2px; width: 22px; height: 22px; background-color: #2AB09C; border: 2px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fa fa-phone" style="font-size: 10px; color: #ffffff;"></i>
+                                    <!-- WhatsApp Badge -->
+                                    <div style="position: absolute; bottom: -2px; right: -2px; width: 22px; height: 22px; background-color: #25D366; border: 2px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fab fa-whatsapp" style="font-size: 12px; color: #ffffff;"></i>
                                     </div>
                                 </div>
                                 
-                                <!-- Doctor Text -->
+                                <!-- Doctor Text com botão WhatsApp ao lado do telefone -->
                                 <div style="flex: 1; min-width: 0;">
                                     <h5 style="margin: 0; font-size: 14px; font-weight: 700; color: #334155; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" x-text="agendamento.profissional?.nm_profissional"></h5>
                                     <span style="display: block; font-size: 10px; font-weight: 700; color: #0d9488; text-transform: uppercase; margin-top: 2px; letter-spacing: 0.5px;" 
                                           x-text="agendamento.especialidade?.nm_especialidade || agendamento.tipo_atend?.nm_tipo_atendimento || 'CLÍNICO GERAL'"></span>
-                                    <span style="display: block; font-size: 12px; color: #0d9488; margin-top: 2px;" 
-                                          x-text="agendamento.paciente?.celular || '(38) 99999-9999'"></span>
+                                    <!-- Telefone com botão WhatsApp ao lado -->
+                                    <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
+                                        <span style="font-size: 12px; color: #0d9488;" 
+                                              x-text="agendamento.paciente?.celular || '(38) 99999-9999'"></span>
+                                        <a x-bind:href="'https://wa.me/' + (agendamento.paciente?.celular ? agendamento.paciente.celular.replace(/\D/g, '') : '')" 
+                                           target="_blank"
+                                           title="WhatsApp"
+                                           style="width: 24px; height: 24px; background-color: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 12px; text-decoration: none; flex-shrink: 0;">
+                                            <i class="fab fa-whatsapp"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Side Phone Button -->
-                            <a x-bind:href="'tel:' + agendamento.paciente?.celular" title="Ligar" 
-                               style="width: 48px; height: 48px; background-color: #f0fdf9; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #0d9488; font-size: 18px; text-decoration: none; border: 1px solid #e2e8f0; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.03);">
-                                <i class="fa fa-phone" style="transform: rotate(90deg);"></i>
+                            <!-- Botão Atendimento na lateral (com ícone de atender/play) -->
+                            <a x-bind:href="routeConsultaBase.replace('/0', '/' + agendamento.cd_agendamento)" 
+                               title="Atendimento"
+                               style="width: 48px; height: 48px; background-color: #0d9488; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 18px; text-decoration: none; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                <i class="fa fa-arrow-right"></i>
                             </a>
                         </div>
 
-                        <!-- Footer Buttons -->
-                        <div style="display: flex; gap: 8px; height: 38px;">
+                        <!-- Footer - Apenas botão de Tipo (ocupa toda largura) -->
+                        <div style="display: flex; gap: 8px;">
                             <!-- Tipo Atendimento Button -->
-                            <div style="flex: 1; background-color: #d1fae5; color: #115e59; border-radius: 9999px; display:flex; align-items:center; justify-content:center; padding: 0 10px;">
+                            <div style="flex: 1; background-color: #d1fae5; color: #115e59; border-radius: 9999px; display:flex; align-items:center; justify-content:center; padding: 10px 12px; height: 40px;">
                                 <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; max-width: 100%;" x-text="agendamento.tipo_atend?.nm_tipo_atendimento || 'Atendimento'"></span>
                             </div>
-                            
-                            <!-- Atendimento Action Button -->
-                            <a x-bind:href="routeConsultaBase.replace('/0', '/' + agendamento.cd_agendamento)" 
-                               style="flex: 1; background-color: #fff; color: #334155; border: 1px solid #e2e8f0; border-radius: 9999px; text-align: center; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; text-decoration: none;">
-                                Atendimento
-                            </a>
                         </div>
                     </div>
                 </div>

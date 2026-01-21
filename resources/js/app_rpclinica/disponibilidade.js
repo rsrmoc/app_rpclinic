@@ -7,6 +7,8 @@ Alpine.data('appAgendamento', () => ({
     loading: false,
     agendamentos: [],
     datesWithEvents: [],
+    multipleSelect: true, // Ativado por padrão
+    selectedDates: [], // Array de datas selecionadas para exibição
 
     capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.substring(1);
@@ -31,15 +33,10 @@ Alpine.data('appAgendamento', () => ({
             locale: LocalePTBR,
             selectedDates: [new Date()],
             dateFormat: 'yyyy-MM-dd',
-            multipleDates: true, // Enable multiple dates selection
-            // onSelect removed/simplified as we are saving via button
+            multipleDates: this.multipleSelect, // Baseado no toggle
             onSelect: ({ formattedDate, date }) => {
-                // Optional: If you want to fetch details for the *last* selected date, you can.
-                // But for "setting availability", maybe we don't fetch list. 
-                // We just let user pick dates. 
-                // If single date is picked, maybe we fetch? 
-                // For now, let's keep it simple: Select dates -> Save.
-                // If user clicks a date, we update selection. nothing else.
+                // Atualizar a lista de datas selecionadas
+                this.selectedDates = this.datepicker.selectedDates || [];
             },
             onRenderCell: ({ date, cellType }) => {
                 if (cellType === 'day') {
@@ -58,7 +55,53 @@ Alpine.data('appAgendamento', () => ({
             }
         });
 
-        // Initial fetch not strictly needed if we are just selecting dates to save
+        // Inicializar selectedDates
+        this.selectedDates = this.datepicker.selectedDates || [];
+    },
+
+    toggleMultipleSelect() {
+        // Destruir e recriar o datepicker com a nova configuração
+        const currentDates = this.datepicker.selectedDates || [];
+        this.datepicker.destroy();
+
+        this.datepicker = new AirDatepicker('#dataAgendamento', {
+            classes: 'datePickerAgendamento',
+            locale: LocalePTBR,
+            selectedDates: this.multipleSelect ? currentDates : (currentDates[0] ? [currentDates[0]] : []),
+            dateFormat: 'yyyy-MM-dd',
+            multipleDates: this.multipleSelect,
+            onSelect: ({ formattedDate, date }) => {
+                this.selectedDates = this.datepicker.selectedDates || [];
+            },
+            onRenderCell: ({ date, cellType }) => {
+                if (cellType === 'day') {
+                    const formattedCellDate = moment(date).format('YYYY-MM-DD');
+                    const hasEvent = this.datesWithEvents.includes(formattedCellDate);
+
+                    if (hasEvent) {
+                        return {
+                            classes: 'has-event-dot'
+                        };
+                    }
+                }
+            },
+            onChangeViewDate: ({ month, year }) => {
+                this.getDatesWithEvents(month, year);
+            }
+        });
+
+        this.selectedDates = this.datepicker.selectedDates || [];
+    },
+
+    formatDateDisplay(date) {
+        return moment(date).format('DD/MM/YYYY');
+    },
+
+    removeDate(index) {
+        const dates = this.datepicker.selectedDates || [];
+        dates.splice(index, 1);
+        this.datepicker.selectDate(dates);
+        this.selectedDates = dates;
     },
 
     getDatesWithEvents(month, year) {

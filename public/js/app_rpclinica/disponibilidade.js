@@ -22164,6 +22164,10 @@ Alpine.data('appAgendamento', function () {
     loading: false,
     agendamentos: [],
     datesWithEvents: [],
+    multipleSelect: true,
+    // Ativado por padrão
+    selectedDates: [],
+    // Array de datas selecionadas para exibição
     capitalizeFirstLetter: function capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.substring(1);
     },
@@ -22186,18 +22190,13 @@ Alpine.data('appAgendamento', function () {
         locale: air_datepicker_locale_pt_BR__WEBPACK_IMPORTED_MODULE_1__["default"],
         selectedDates: [new Date()],
         dateFormat: 'yyyy-MM-dd',
-        multipleDates: true,
-        // Enable multiple dates selection
-        // onSelect removed/simplified as we are saving via button
-        onSelect: function onSelect(_ref) {// Optional: If you want to fetch details for the *last* selected date, you can.
-          // But for "setting availability", maybe we don't fetch list. 
-          // We just let user pick dates. 
-          // If single date is picked, maybe we fetch? 
-          // For now, let's keep it simple: Select dates -> Save.
-          // If user clicks a date, we update selection. nothing else.
-
+        multipleDates: this.multipleSelect,
+        // Baseado no toggle
+        onSelect: function onSelect(_ref) {
           var formattedDate = _ref.formattedDate,
               date = _ref.date;
+          // Atualizar a lista de datas selecionadas
+          _this.selectedDates = _this.datepicker.selectedDates || [];
         },
         onRenderCell: function onRenderCell(_ref2) {
           var date = _ref2.date,
@@ -22221,26 +22220,79 @@ Alpine.data('appAgendamento', function () {
 
           _this.getDatesWithEvents(month, year);
         }
-      }); // Initial fetch not strictly needed if we are just selecting dates to save
+      }); // Inicializar selectedDates
+
+      this.selectedDates = this.datepicker.selectedDates || [];
+    },
+    toggleMultipleSelect: function toggleMultipleSelect() {
+      var _this2 = this;
+
+      // Destruir e recriar o datepicker com a nova configuração
+      var currentDates = this.datepicker.selectedDates || [];
+      this.datepicker.destroy();
+      this.datepicker = new air_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"]('#dataAgendamento', {
+        classes: 'datePickerAgendamento',
+        locale: air_datepicker_locale_pt_BR__WEBPACK_IMPORTED_MODULE_1__["default"],
+        selectedDates: this.multipleSelect ? currentDates : currentDates[0] ? [currentDates[0]] : [],
+        dateFormat: 'yyyy-MM-dd',
+        multipleDates: this.multipleSelect,
+        onSelect: function onSelect(_ref4) {
+          var formattedDate = _ref4.formattedDate,
+              date = _ref4.date;
+          _this2.selectedDates = _this2.datepicker.selectedDates || [];
+        },
+        onRenderCell: function onRenderCell(_ref5) {
+          var date = _ref5.date,
+              cellType = _ref5.cellType;
+
+          if (cellType === 'day') {
+            var formattedCellDate = moment__WEBPACK_IMPORTED_MODULE_3___default()(date).format('YYYY-MM-DD');
+
+            var hasEvent = _this2.datesWithEvents.includes(formattedCellDate);
+
+            if (hasEvent) {
+              return {
+                classes: 'has-event-dot'
+              };
+            }
+          }
+        },
+        onChangeViewDate: function onChangeViewDate(_ref6) {
+          var month = _ref6.month,
+              year = _ref6.year;
+
+          _this2.getDatesWithEvents(month, year);
+        }
+      });
+      this.selectedDates = this.datepicker.selectedDates || [];
+    },
+    formatDateDisplay: function formatDateDisplay(date) {
+      return moment__WEBPACK_IMPORTED_MODULE_3___default()(date).format('DD/MM/YYYY');
+    },
+    removeDate: function removeDate(index) {
+      var dates = this.datepicker.selectedDates || [];
+      dates.splice(index, 1);
+      this.datepicker.selectDate(dates);
+      this.selectedDates = dates;
     },
     getDatesWithEvents: function getDatesWithEvents(month, year) {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.post(routeAgendamentosDatas, {
         cd_profissional: cdProfissional,
         month: month,
         year: year
       }).then(function (res) {
-        _this2.datesWithEvents = res.data.dates;
+        _this3.datesWithEvents = res.data.dates;
 
-        if (_this2.datepicker) {
-          _this2.datepicker.update();
+        if (_this3.datepicker) {
+          _this3.datepicker.update();
         }
       });
     },
     // New function to save availability
     saveDisponibilidade: function saveDisponibilidade() {
-      var _this3 = this;
+      var _this4 = this;
 
       var selectedDates = this.datepicker.selectedDates;
 
@@ -22260,7 +22312,7 @@ Alpine.data('appAgendamento', function () {
         if (res.data.success) {
           // alert('Disponibilidade salva com sucesso!');
           // Maybe refresh events?
-          _this3.getDatesWithEvents(new Date().getMonth(), new Date().getFullYear()); // Clear selection? Or keep it? keeping it is fine.
+          _this4.getDatesWithEvents(new Date().getMonth(), new Date().getFullYear()); // Clear selection? Or keep it? keeping it is fine.
           // this.datepicker.clear();
           // Show a toast or something? Browser alert for now is consistent with legacy apps
 
@@ -22271,22 +22323,22 @@ Alpine.data('appAgendamento', function () {
         console.error(err);
         alert('Erro ao salvar disponibilidade.');
       })["finally"](function () {
-        return _this3.loading = false;
+        return _this4.loading = false;
       });
     },
     getAgendamentos: function getAgendamentos(date) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.loading = true;
       axios.post(routeAgendamentos, {
         cd_profissional: cdProfissional,
         data: date
       }).then(function (res) {
-        return _this4.agendamentos = res.data.agendamentos;
+        return _this5.agendamentos = res.data.agendamentos;
       })["catch"](function (err) {
         return parseErrorsAPI(err);
       })["finally"](function () {
-        return _this4.loading = false;
+        return _this5.loading = false;
       });
     },
     formatDate: function formatDate(date) {

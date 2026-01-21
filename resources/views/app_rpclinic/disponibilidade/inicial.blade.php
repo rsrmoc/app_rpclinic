@@ -21,7 +21,42 @@
              id="formDisponibilidade">
               @csrf
 
+              <!-- Toggle para Seleção Múltipla -->
+              <div class="mb-3">
+                  <div class="form-check form-switch" style="display: flex; align-items: center; justify-content: space-between; padding: 15px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
+                      <label class="form-check-label" for="multipleSelectSwitch" style="font-weight: 600; color: #334155;">
+                          <i class="fa fa-calendar-check" style="color: #0d9488; margin-right: 8px;"></i>
+                          Seleção Múltipla de Datas
+                      </label>
+                      <input class="form-check-input" type="checkbox" role="switch" id="multipleSelectSwitch" 
+                             x-model="multipleSelect" 
+                             x-on:change="toggleMultipleSelect()"
+                             style="width: 50px; height: 26px; cursor: pointer;">
+                  </div>
+              </div>
+
               <div id="dataAgendamento"></div>
+
+              <!-- Lista de Datas Selecionadas -->
+              <template x-if="selectedDates.length > 0">
+                  <div class="mb-3" style="background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 12px; padding: 15px;">
+                      <h6 style="font-weight: 700; color: #0f766e; margin-bottom: 10px; font-size: 14px;">
+                          <i class="fa fa-calendar-check" style="margin-right: 5px;"></i>
+                          Datas Selecionadas (<span x-text="selectedDates.length"></span>)
+                      </h6>
+                      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                          <template x-for="(date, index) in selectedDates" :key="index">
+                              <div style="background: #0d9488; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                                  <span x-text="formatDateDisplay(date)"></span>
+                                  <i class="fa fa-times" 
+                                     x-on:click="removeDate(index)" 
+                                     style="cursor: pointer; opacity: 0.8; font-size: 10px;"
+                                     title="Remover"></i>
+                              </div>
+                          </template>
+                      </div>
+                  </div>
+              </template>
 
               <div class="py-2"></div>
       
