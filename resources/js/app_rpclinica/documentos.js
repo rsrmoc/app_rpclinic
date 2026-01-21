@@ -4,7 +4,7 @@ import 'air-datepicker/air-datepicker.css';
 import moment from 'moment';
 import { jsPDF } from 'jspdf';
 
-console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - v2.0 (MagicBytes Check): ' + new Date().toLocaleTimeString());
+console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - v2.1 (Auto-Repair): ' + new Date().toLocaleTimeString());
 
 Alpine.data('appDocumentos', () => ({
     loading: false,
@@ -177,16 +177,30 @@ Alpine.data('appDocumentos', () => ({
 
                 // SÓ compartilha como arquivo se for realmente PDF E tiver conteúdo válido
                 if (contentType && contentType.includes('application/pdf')) {
-                    const blob = await response.blob();
+                    let blob = await response.blob();
 
-                    // Validação extra: Checar Magic Bytes do PDF (%PDF-)
-                    // Isso evita que PDFs corrompidos (com lixo antes ou HTML dentro) sejam passados adiante
-                    const headerCheck = await blob.slice(0, 5).text();
-                    console.log('🧐 Magic Bytes:', headerCheck);
+                    // Validação e Reparo de Magic Bytes do PDF (%PDF-)
+                    // Lê os primeiros 1KB para garantir que pega o header
+                    let headerCheck = await blob.slice(0, 1024).text();
+                    console.log('🧐 Magic Bytes Iniciais:', headerCheck.substring(0, 20));
 
                     if (!headerCheck.startsWith('%PDF-')) {
-                        console.warn('⚠️ O arquivo recebido diz ser PDF, mas não inicia com %PDF-. Provável erro ou HTML retornado.');
-                        throw new Error('Conteúdo não é um PDF válido');
+                        console.warn('⚠️ O arquivo recebido não inicia com %PDF-. Tentando localizar o header correto...');
+
+                        const pdfIndex = headerCheck.indexOf('%PDF-');
+                        if (pdfIndex > 0) {
+                            console.log(`🔧 REPARANDO PDF: Header encontrado no índice ${pdfIndex}. Removendo lixo inicial.`);
+                            blob = blob.slice(pdfIndex, blob.size, 'application/pdf');
+                            // Re-validar após corte
+                            headerCheck = await blob.slice(0, 5).text();
+                            if (headerCheck !== '%PDF-') {
+                                throw new Error('Falha ao reparar PDF. Arquivo continua inválido.');
+                            }
+                            console.log('✅ PDF Reparado com sucesso!');
+                        } else {
+                            console.warn('❌ Header %PDF- não encontrado no início do arquivo. Provável erro ou HTML retornado.');
+                            throw new Error('Conteúdo não é um PDF válido e não pôde ser reparado');
+                        }
                     }
 
                     const fileName = `${documento.nm_formulario}_${documento.agendamento.paciente.nm_paciente}.pdf`.replace(/[^a-z0-9]/gi, '_'); // Sanitizar nome

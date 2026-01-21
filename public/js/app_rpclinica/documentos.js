@@ -24630,7 +24630,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - BUILDE: ' + new Date().toLocaleTimeString());
+console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - v2.0 (MagicBytes Check): ' + new Date().toLocaleTimeString());
 Alpine.data('appDocumentos', function () {
   return {
     loading: false,
@@ -24791,7 +24791,7 @@ Alpine.data('appDocumentos', function () {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var url, fullUrl, response, contentType, blob, fileName, file;
+        var url, fullUrl, response, contentType, blob, headerCheck, fileName, file;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -24802,7 +24802,7 @@ Alpine.data('appDocumentos', function () {
                 fullUrl = window.location.origin + url; // Tentar compartilhar via Web Share API
 
                 if (!(navigator.share && navigator.canShare)) {
-                  _context.next = 33;
+                  _context.next = 41;
                   break;
                 }
 
@@ -24815,18 +24815,35 @@ Alpine.data('appDocumentos', function () {
               case 7:
                 response = _context.sent;
                 contentType = response.headers.get('content-type');
-                console.log('🔍 Tipo de conteúdo recebido:', contentType); // SÓ compartilha como arquivo se for realmente PDF
+                console.log('🔍 Tipo de conteúdo recebido:', contentType);
+                console.log('🔍 Tipo de conteúdo recebido:', contentType); // SÓ compartilha como arquivo se for realmente PDF E tiver conteúdo válido
 
                 if (!(contentType && contentType.includes('application/pdf'))) {
-                  _context.next = 21;
+                  _context.next = 29;
                   break;
                 }
 
-                _context.next = 13;
+                _context.next = 14;
                 return response.blob();
 
-              case 13:
+              case 14:
                 blob = _context.sent;
+                _context.next = 17;
+                return blob.slice(0, 5).text();
+
+              case 17:
+                headerCheck = _context.sent;
+                console.log('🧐 Magic Bytes:', headerCheck);
+
+                if (headerCheck.startsWith('%PDF-')) {
+                  _context.next = 22;
+                  break;
+                }
+
+                console.warn('⚠️ O arquivo recebido diz ser PDF, mas não inicia com %PDF-. Provável erro ou HTML retornado.');
+                throw new Error('Conteúdo não é um PDF válido');
+
+              case 22:
                 fileName = "".concat(documento.nm_formulario, "_").concat(documento.agendamento.paciente.nm_paciente, ".pdf").replace(/[^a-z0-9]/gi, '_'); // Sanitizar nome
 
                 file = new File([blob], fileName, {
@@ -24836,57 +24853,57 @@ Alpine.data('appDocumentos', function () {
                 if (!navigator.canShare({
                   files: [file]
                 })) {
-                  _context.next = 21;
+                  _context.next = 29;
                   break;
                 }
 
-                _context.next = 19;
+                _context.next = 27;
                 return navigator.share({
                   title: documento.nm_formulario,
                   text: "Documento: ".concat(documento.nm_formulario, "\nPaciente: ").concat(documento.agendamento.paciente.nm_paciente),
                   files: [file]
                 });
 
-              case 19:
+              case 27:
                 console.log('✅ PDF compartilhado com sucesso');
                 return _context.abrupt("return");
 
-              case 21:
+              case 29:
                 // SE não for PDF ou não suportar arquivos, compartilha o LINK
                 console.log('⚠️ Conteúdo não é PDF ou envio de arquivo não suportado. Compartilhando link.');
-                _context.next = 24;
+                _context.next = 32;
                 return navigator.share({
                   title: documento.nm_formulario,
                   text: "Acesse o documento digital:\n".concat(documento.nm_formulario, " - ").concat(documento.agendamento.paciente.nm_paciente),
                   url: fullUrl
                 });
 
-              case 24:
+              case 32:
                 console.log('🔗 Link compartilhado com sucesso');
-                _context.next = 31;
+                _context.next = 39;
                 break;
 
-              case 27:
-                _context.prev = 27;
+              case 35:
+                _context.prev = 35;
                 _context.t0 = _context["catch"](3);
                 console.error('❌ Erro ao compartilhar:', _context.t0); // Último recurso: Copiar link
 
                 _this5.fallbackCopyLink(fullUrl);
 
-              case 31:
-                _context.next = 34;
+              case 39:
+                _context.next = 42;
                 break;
 
-              case 33:
+              case 41:
                 // Se navegador não suporta share API
                 _this5.fallbackCopyLink(fullUrl);
 
-              case 34:
+              case 42:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[3, 27]]);
+        }, _callee, null, [[3, 35]]);
       }))();
     },
     fallbackCopyLink: function fallbackCopyLink(url) {

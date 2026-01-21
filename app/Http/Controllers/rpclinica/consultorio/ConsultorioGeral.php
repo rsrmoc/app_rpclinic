@@ -492,6 +492,7 @@ class ConsultorioGeral extends Controller
         try { 
              
             if($documento->form_assinado==true){
+                if (ob_get_length()) ob_end_clean(); // Remove lixo do buffer antes de enviar binário
                 header("Content-type:application/pdf");  
                 echo base64_decode($documento->form_conteudo);
                 exit;
@@ -567,6 +568,8 @@ class ConsultorioGeral extends Controller
             }
                 
             $pdf->setPaper('A4', 'portrait');
+            
+            if (ob_get_length()) ob_end_clean(); // Limpa buffer antes de streamar PDF
             return $pdf->stream('Documento.pdf');
            
         } catch (Throwable $error) {
