@@ -73,19 +73,32 @@ class Consultorio extends Controller
             'cd_profissional' => $request->cd_profissional
         ]);
        
-        // Buscar documentos pela data de criação OU pela data do agendamento
-        $documentos = AgendamentoDocumentos::with(['agendamento.paciente', 'agendamento.especialidade', 'agendamento.profissional'])
-            ->where('cd_prof', $request->cd_profissional)
-            ->where(function($query) use ($request) {
-                // Documentos criados nesta data
-                $query->whereDate('created_at', $request->data)
-                      // OU documentos de agendamentos desta data
-                      ->orWhereHas('agendamento', function($q) use ($request) {
-                          $q->whereDate('dt_agenda', $request->data);
-                      });
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
+        // Query base
+        $queryBuilder = AgendamentoDocumentos::with(['agendamento.paciente', 'agendamento.especialidade', 'agendamento.profissional']);
+
+        // Filtro de Profissional (pode estar no doc ou no agendamento)
+        $queryBuilder->where(function($q) use ($request) {
+            $q->where('cd_prof', $request->cd_profissional)
+              ->orWhereHas('agendamento', function($subQ) use ($request) {
+                  $subQ->where('cd_profissional', $request->cd_profissional);
+              });
+        });
+
+        // Filtro de Data (pode ser data de criação ou data do agendamento)
+        $queryBuilder->where(function($q) use ($request) {
+            $q->whereDate('created_at', $request->data)
+              ->orWhereHas('agendamento', function($subQ) use ($request) {
+                  $subQ->whereDate('dt_agenda', $request->data);
+              });
+        });
+
+        // Log da query para debug
+        \Log::info('🔍 SQL Query Documentos:', [
+            'sql' => $queryBuilder->toSql(),
+            'bindings' => $queryBuilder->getBindings()
+        ]);
+
+        $documentos = $queryBuilder->orderBy('created_at', 'desc')->get();
  
         \Log::info('📄 Documentos encontrados', [
             'total' => $documentos->count(),
