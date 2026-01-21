@@ -23,6 +23,10 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
     
     <style>
+        * {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
 
 .event-bg {
             color: #7A6600;
@@ -520,6 +524,27 @@
             background-color: #ffffff !important;
             background: #ffffff !important;
             font-weight: 500 !important; /* Global Bold */
+            overflow-x: hidden !important; /* Prevent horizontal scroll */
+        }
+
+        /* Responsive Select Fix */
+        select.form-control, select.form-select {
+            max-width: 100% !important;
+            font-size: 16px !important; 
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 1rem center !important;
+            background-size: 12px !important;
+            padding-right: 2.5rem !important;
+        }
+
+        .form-floating > select.form-control, 
+        .form-floating > select.form-select {
+            padding-top: 1.625rem !important;
+            padding-bottom: 0.625rem !important;
+            height: 58px !important;
         }
     </style>
 

@@ -24,15 +24,15 @@
 
 @section('content')
     <!--start to page content-->
-    <div class="page-content p-0" x-data="appPacienteDoc">
-        <div class="card rounded-0 border-0">
-            <div class="card-body">
+    <div class="page-content px-2 pt-0" x-data="appPacienteDoc" style="padding-top: 0px !important; overflow-x: hidden;">
+        <div class="card border-0 shadow-none bg-transparent mb-0">
+            <div class="card-body p-2">
                 <h5 class="mb-0 text-dark mb-3">Tela de Documentos</h5>
                 <form x-on:submit.prevent="saveDoc" class="row g-3 needs-validation">
                     <div class="col-12">
                         <div class="form-floating">
 
-                            <select class="form-control rounded-3" required x-model="dataDoc.cd_formulario">
+                            <select class="form-select rounded-3" required x-model="dataDoc.cd_formulario">
                                 <option value="">Selecione</option>
                                 @foreach ($formularios as $formulario)
                                     <option value="{{ $formulario->cd_formulario }}">{{ $formulario->nm_formulario }}

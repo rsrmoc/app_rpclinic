@@ -24,7 +24,7 @@
 
 
        <!--start to page content-->
-       <div class="px-2 pt-0 pb-20 min-h-screen" x-data="appPacienteEdit">
+       <div class="px-2 pt-0 pb-20 min-h-screen" x-data="appPacienteEdit" style="overflow-x: hidden;">
              <form x-on:submit.prevent="savePaciente" class="row g-3 needs-validation" id="formPaciente">
                 <div class="col-12">
                     <div class="form-floating">
@@ -42,7 +42,7 @@
                 </div>
                <div class="col-12">
                  <div class="form-floating">
-                   <select class="form-control rounded-3 border-0 shadow-sm" placeholder="Sexo" name="sexo">
+                   <select class="form-select rounded-3 border-0 shadow-sm" placeholder="Sexo" name="sexo">
                      <option value=""></option>
                      <option value="H" @if($paciente->sexo == 'H') selected @endif>Masculino</option>
                      <option value="M" @if($paciente->sexo == 'M') selected @endif>Feminino</option>

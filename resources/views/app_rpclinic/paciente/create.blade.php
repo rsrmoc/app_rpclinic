@@ -18,7 +18,7 @@
 
 
        <!--start to page content-->
-       <div class="px-2 pt-0 pb-20 min-h-screen" x-data="appPacienteAdd">
+       <div class="px-2 pt-0 pb-20 min-h-screen" x-data="appPacienteAdd" style="overflow-x: hidden;">
              <form x-on:submit.prevent="createPaciente" class="row g-3 needs-validation">
                 <div class="col-12">
                     <div class="form-floating">
@@ -36,7 +36,7 @@
                 </div>
                <div class="col-12">
                  <div class="form-floating">
-                   <select class="form-control rounded-3 border-0 shadow-sm" placeholder="Sexo"
+                   <select class="form-select rounded-3 border-0 shadow-sm" placeholder="Sexo"
                     x-model="pacienteData.sexo">
                      <option value=""></option>
                      <option value="H" >Masculino</option>
