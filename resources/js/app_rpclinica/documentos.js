@@ -158,48 +158,69 @@ Alpine.data('appDocumentos', () => ({
     },
 
     async compartilharDoc(documento) {
+        // Ajuste de rota caso precise de uma rota específica para download de PDF
+        // Por enquanto usa a mesma de visualização
         const url = `/rpclinica/json/imprimirDocumentoGeral/${documento.agendamento.cd_agendamento}/${documento.cd_documento}`;
         const fullUrl = window.location.origin + url;
 
+        // Tentar compartilhar via Web Share API
         if (navigator.share && navigator.canShare) {
             try {
-                // Buscar o PDF
+                // Tenta buscar o conteúdo para ver se é PDF real
+                console.log('🔄 Buscando documento para verificar tipo...');
                 const response = await fetch(fullUrl);
-                const blob = await response.blob();
+                const contentType = response.headers.get('content-type');
 
-                // Criar arquivo do blob
-                const fileName = `${documento.nm_formulario}_${documento.agendamento.paciente.nm_paciente}.pdf`;
-                const file = new File([blob], fileName, { type: 'application/pdf' });
+                console.log('🔍 Tipo de conteúdo recebido:', contentType);
 
-                // Verificar se pode compartilhar arquivos
-                if (navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        title: documento.nm_formulario,
-                        text: `Documento: ${documento.nm_formulario} - Paciente: ${documento.agendamento.paciente.nm_paciente}`,
-                        files: [file]
-                    });
-                    console.log('PDF compartilhado com sucesso');
-                } else {
-                    // Fallback para URL se não puder compartilhar arquivo
-                    await navigator.share({
-                        title: documento.nm_formulario,
-                        text: `Documento: ${documento.nm_formulario} - Paciente: ${documento.agendamento.paciente.nm_paciente}`,
-                        url: fullUrl
-                    });
-                    console.log('Link compartilhado com sucesso');
+                // SÓ compartilha como arquivo se for realmente PDF
+                if (contentType && contentType.includes('application/pdf')) {
+                    const blob = await response.blob();
+                    const fileName = `${documento.nm_formulario}_${documento.agendamento.paciente.nm_paciente}.pdf`.replace(/[^a-z0-9]/gi, '_'); // Sanitizar nome
+                    const file = new File([blob], fileName, { type: 'application/pdf' });
+
+                    if (navigator.canShare({ files: [file] })) {
+                        await navigator.share({
+                            title: documento.nm_formulario,
+                            text: `Documento: ${documento.nm_formulario}\nPaciente: ${documento.agendamento.paciente.nm_paciente}`,
+                            files: [file]
+                        });
+                        console.log('✅ PDF compartilhado com sucesso');
+                        return; // Sucesso, encerra
+                    }
                 }
+
+                // SE não for PDF ou não suportar arquivos, compartilha o LINK
+                console.log('⚠️ Conteúdo não é PDF ou envio de arquivo não suportado. Compartilhando link.');
+                await navigator.share({
+                    title: documento.nm_formulario,
+                    text: `Acesse o documento digital:\n${documento.nm_formulario} - ${documento.agendamento.paciente.nm_paciente}`,
+                    url: fullUrl
+                });
+                console.log('🔗 Link compartilhado com sucesso');
+
             } catch (error) {
-                console.log('Erro ao compartilhar', error);
-                alert('Erro ao compartilhar documento');
+                console.error('❌ Erro ao compartilhar:', error);
+
+                // Último recurso: Copiar link
+                this.fallbackCopyLink(fullUrl);
             }
         } else {
-            // Fallback: copiar link
-            navigator.clipboard.writeText(fullUrl).then(() => {
-                alert('Link do documento copiado para a área de transferência!');
-            }).catch(err => {
-                console.error('Erro ao copiar link: ', err);
-            });
+            // Se navegador não suporta share API
+            this.fallbackCopyLink(fullUrl);
         }
+    },
+
+    fallbackCopyLink(url) {
+        navigator.clipboard.writeText(url).then(() => {
+            // Usar toastr ou alert amigável se possível
+            // Como estou sem acesso fácil ao toastr aqui, vai alert mesmo ou nada (feedback visual é ideal)
+            // Mas o alert interrompe fluxo, melhor deixar quieto ou usar log se não for crítico
+            alert('Link copiado para área de transferência!');
+        }).catch(err => {
+            console.error('Erro ao copiar link', err);
+            prompt('Copie o link:', url); // Fallback manual
+        });
     },
 
     downloadPDF(name, content) {
