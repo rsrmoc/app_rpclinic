@@ -17,8 +17,8 @@
     <!--start to page content-->
     <div class="page-content pt-0" x-data="appAgendamento">
         <div class="pt-2">
-            <form x-on:submit.prevent="saveProfile" class="row g-3 needs-validation"
-             id="formProfile">
+            <form x-on:submit.prevent="saveDisponibilidade" class="row g-3 needs-validation"
+             id="formDisponibilidade">
               @csrf
 
               <div id="dataAgendamento"></div>
@@ -144,6 +144,7 @@
         const cdProfissional = {{ auth()->guard('rpclinica')->user()->cd_profissional ?? 'null' }};
         const routeAgendamentos = @js(url('app_rpclinic/api/agendamentos'));
         const routeAgendamentosDatas = @js(url('app_rpclinic/api/agendamentos-datas'));
+        const routeDisponibilidadeSave = @js(route('app.api.disponibilidade-save'));
     </script>
     <script src="{{ asset('/js/app_rpclinica/disponibilidade.js') }}"></script>
 @endpush

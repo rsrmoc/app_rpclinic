@@ -31,9 +31,15 @@ Alpine.data('appAgendamento', () => ({
             locale: LocalePTBR,
             selectedDates: [new Date()],
             dateFormat: 'yyyy-MM-dd',
-            onSelect: ({ formattedDate }) => {
-                if (!formattedDate) return;
-                this.getAgendamentos(formattedDate);
+            multipleDates: true, // Enable multiple dates selection
+            // onSelect removed/simplified as we are saving via button
+            onSelect: ({ formattedDate, date }) => {
+                // Optional: If you want to fetch details for the *last* selected date, you can.
+                // But for "setting availability", maybe we don't fetch list. 
+                // We just let user pick dates. 
+                // If single date is picked, maybe we fetch? 
+                // For now, let's keep it simple: Select dates -> Save.
+                // If user clicks a date, we update selection. nothing else.
             },
             onRenderCell: ({ date, cellType }) => {
                 if (cellType === 'day') {
@@ -52,9 +58,7 @@ Alpine.data('appAgendamento', () => ({
             }
         });
 
-        let dt = new Date();
-        let formattedDate = `${dt.getFullYear()}-${(dt.getMonth() + 1).toString().padStart(2, 0)}-${dt.getDate().toString().padStart(2, 0)}`;
-        this.getAgendamentos(formattedDate);
+        // Initial fetch not strictly needed if we are just selecting dates to save
     },
 
     getDatesWithEvents(month, year) {
@@ -69,6 +73,43 @@ Alpine.data('appAgendamento', () => ({
                     this.datepicker.update();
                 }
             });
+    },
+
+    // New function to save availability
+    saveDisponibilidade() {
+        const selectedDates = this.datepicker.selectedDates;
+
+        if (!selectedDates || selectedDates.length === 0) {
+            alert('Selecione pelo menos uma data.');
+            return;
+        }
+
+        const formattedDates = selectedDates.map(date => moment(date).format('YYYY-MM-DD'));
+
+        this.loading = true;
+
+        axios.post(routeDisponibilidadeSave, {
+            cd_profissional: cdProfissional,
+            dates: formattedDates
+        })
+            .then((res) => {
+                if (res.data.success) {
+                    // alert('Disponibilidade salva com sucesso!');
+                    // Maybe refresh events?
+                    this.getDatesWithEvents(new Date().getMonth(), new Date().getFullYear());
+
+                    // Clear selection? Or keep it? keeping it is fine.
+                    // this.datepicker.clear();
+
+                    // Show a toast or something? Browser alert for now is consistent with legacy apps
+                    alert('Salvo com sucesso!');
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+                alert('Erro ao salvar disponibilidade.');
+            })
+            .finally(() => this.loading = false);
     },
 
     getAgendamentos(date) {

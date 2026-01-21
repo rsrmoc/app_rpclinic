@@ -22186,11 +22186,18 @@ Alpine.data('appAgendamento', function () {
         locale: air_datepicker_locale_pt_BR__WEBPACK_IMPORTED_MODULE_1__["default"],
         selectedDates: [new Date()],
         dateFormat: 'yyyy-MM-dd',
-        onSelect: function onSelect(_ref) {
-          var formattedDate = _ref.formattedDate;
-          if (!formattedDate) return;
+        multipleDates: true,
+        // Enable multiple dates selection
+        // onSelect removed/simplified as we are saving via button
+        onSelect: function onSelect(_ref) {// Optional: If you want to fetch details for the *last* selected date, you can.
+          // But for "setting availability", maybe we don't fetch list. 
+          // We just let user pick dates. 
+          // If single date is picked, maybe we fetch? 
+          // For now, let's keep it simple: Select dates -> Save.
+          // If user clicks a date, we update selection. nothing else.
 
-          _this.getAgendamentos(formattedDate);
+          var formattedDate = _ref.formattedDate,
+              date = _ref.date;
         },
         onRenderCell: function onRenderCell(_ref2) {
           var date = _ref2.date,
@@ -22214,10 +22221,7 @@ Alpine.data('appAgendamento', function () {
 
           _this.getDatesWithEvents(month, year);
         }
-      });
-      var dt = new Date();
-      var formattedDate = "".concat(dt.getFullYear(), "-").concat((dt.getMonth() + 1).toString().padStart(2, 0), "-").concat(dt.getDate().toString().padStart(2, 0));
-      this.getAgendamentos(formattedDate);
+      }); // Initial fetch not strictly needed if we are just selecting dates to save
     },
     getDatesWithEvents: function getDatesWithEvents(month, year) {
       var _this2 = this;
@@ -22234,19 +22238,55 @@ Alpine.data('appAgendamento', function () {
         }
       });
     },
-    getAgendamentos: function getAgendamentos(date) {
+    // New function to save availability
+    saveDisponibilidade: function saveDisponibilidade() {
       var _this3 = this;
+
+      var selectedDates = this.datepicker.selectedDates;
+
+      if (!selectedDates || selectedDates.length === 0) {
+        alert('Selecione pelo menos uma data.');
+        return;
+      }
+
+      var formattedDates = selectedDates.map(function (date) {
+        return moment__WEBPACK_IMPORTED_MODULE_3___default()(date).format('YYYY-MM-DD');
+      });
+      this.loading = true;
+      axios.post(routeDisponibilidadeSave, {
+        cd_profissional: cdProfissional,
+        dates: formattedDates
+      }).then(function (res) {
+        if (res.data.success) {
+          // alert('Disponibilidade salva com sucesso!');
+          // Maybe refresh events?
+          _this3.getDatesWithEvents(new Date().getMonth(), new Date().getFullYear()); // Clear selection? Or keep it? keeping it is fine.
+          // this.datepicker.clear();
+          // Show a toast or something? Browser alert for now is consistent with legacy apps
+
+
+          alert('Salvo com sucesso!');
+        }
+      })["catch"](function (err) {
+        console.error(err);
+        alert('Erro ao salvar disponibilidade.');
+      })["finally"](function () {
+        return _this3.loading = false;
+      });
+    },
+    getAgendamentos: function getAgendamentos(date) {
+      var _this4 = this;
 
       this.loading = true;
       axios.post(routeAgendamentos, {
         cd_profissional: cdProfissional,
         data: date
       }).then(function (res) {
-        return _this3.agendamentos = res.data.agendamentos;
+        return _this4.agendamentos = res.data.agendamentos;
       })["catch"](function (err) {
         return parseErrorsAPI(err);
       })["finally"](function () {
-        return _this3.loading = false;
+        return _this4.loading = false;
       });
     },
     formatDate: function formatDate(date) {

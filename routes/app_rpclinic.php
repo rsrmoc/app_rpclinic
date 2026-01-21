@@ -59,7 +59,9 @@ Route::middleware([VerifyAppBusiness::class, AuthAppBusiness::class])->group(fun
         Route::post('perfil-update', 'Perfil@saveProfile')->name('app.api.perfil-update');
 
         Route::post('agendamentos', 'Agendamento@agendamentos')->name('app.api.agendamentos');
+        // Route::post('agendamentos-datas', 'Agendamento@getDatesWithEvents')->name('app.api.agendamentos-datas');
         Route::post('agendamentos-datas', 'Agendamento@getDatesWithEvents')->name('app.api.agendamentos-datas');
+        Route::post('disponibilidade-save', 'Disponibilidade@save')->name('app.api.disponibilidade-save');
 
         Route::post('documentos', 'Consultorio@documentos');
 

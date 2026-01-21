@@ -21,5 +21,15 @@ class Disponibilidade extends Controller
         return view('app_rpclinic.disponibilidade.inicial');
     }
 
+    public function save(Request $request)
+    {
+        // $dates = $request->input('dates');
+        // $cd_profissional = $request->input('cd_profissional');
+        
+        // TODO: Implement actual saving logic to database
+        
+        return response()->json(['success' => true]);
+    }
+
  
 }
