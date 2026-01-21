@@ -493,22 +493,17 @@
         /* Background Stethoscope Watermark - Centered */
         .bg-watermark {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
             width: 100vw;
             height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.05; 
-        }
-        
-        .bg-watermark i {
-             font-size: 50vh; 
-             color: #0f172a; 
+            opacity: 0.15;
+            background-image: url('/app/assets/images/doctor_bg.png'); /* Using /app path matching file location */
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
         }
 
         /* LOGO CENTERING FIX */
@@ -550,7 +545,6 @@
        <div class="page-content bg-transparent">
              <!-- Background Stethoscope Watermark -->
              <div class="bg-watermark">
-                <i class="fa fa-stethoscope"></i>
             </div>
 
        <!--start to header-->
