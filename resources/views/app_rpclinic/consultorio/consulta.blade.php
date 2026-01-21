@@ -1,17 +1,21 @@
 @extends('app_rpclinic.layout.layout')
 
+@section('button_back')
+    <a href="{{ url('app_rpclinic/consultorio') }}" class="text-slate-500 hover:text-teal-600 transition-colors p-2 ms-2">
+        <i class="bi bi-arrow-left text-2xl"></i>
+    </a>
+@endsection
+
 @section('button_left')
-    <div class="d-flex align-items-center gap-3">
-        <div class="brand-logo" style="width: auto;">
+    <div class="d-flex flex-column align-items-center justify-content-center pt-1">
+        <div class="brand-logo mb-0">
             <a href="javascript:;" class="d-flex justify-content-center align-items-center">
                 <img src="{{ asset('assets/images/logo_menu.svg') }}" 
                      alt="Logo" 
-                     style="height: 60px; width: auto;" 
-                     class="">
+                     style="height: 40px; width: auto;">
             </a>
         </div>
-        <div class="border-start border-slate-300 h-6 mx-1"></div>
-        <h6 class="mb-0 text-slate-700 font-bold uppercase tracking-tight">Atendimento</h6>
+        <h6 class="mb-0 text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-0 leading-none">Atendimento</h6>
     </div>
 @endsection
 
@@ -153,7 +157,7 @@
                             </div>
                             
                             <div class="flex justify-end pt-2">
-                                <a x-bind:href="`/rpclinica/json/imprimirDocumentoGeral/`+item.cd_agendamento+`/`+item.cd_documento" 
+                                <a x-bind:href="`{{ url('rpclinica/json/imprimirDocumentoGeral') }}/`+item.cd_agendamento+`/`+item.cd_documento" 
                                      target="_blank"
                                      class="text-teal-600 bg-teal-50 hover:bg-teal-100 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors">
                                     <i class="bi bi-printer"></i> Imprimir
