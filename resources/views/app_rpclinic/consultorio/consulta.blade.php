@@ -7,7 +7,7 @@
 @endsection
 
 @section('button_left')
-    <div class="d-flex flex-column align-items-center justify-content-center pt-1">
+    <div class="d-flex flex-column align-items-center justify-content-center">
         <div class="brand-logo mb-0">
             <a href="javascript:;" class="d-flex justify-content-center align-items-center">
                 <img src="{{ asset('assets/images/logo_menu.svg') }}" 
@@ -107,12 +107,12 @@
                     <textarea class="form-control border-0" cols="30" rows="10" name="conteudo" id='editor-anamnese' required>{{ $agendamento->anamnese }}</textarea>
                 </div>
 
-                <div class="fixed bottom-4 left-0 right-0 px-4 z-10 flex justify-center">
-                    <button type="submit" class="shadow-lg shadow-teal-900/20 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-full px-6 py-3 w-full max-w-sm flex items-center justify-center gap-2 transition-all transform active:scale-95" x-bind:disabled="loadingSaveAnamnese">
+                <div class="d-grid mt-3">
+                    <button type="submit" class="btn btn-primary bg-teal-600 border-teal-600 text-white font-bold rounded-xl shadow-md py-3" x-bind:disabled="loadingSaveAnamnese">
                         <template x-if="loadingSaveAnamnese">
-                            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                            <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
                         </template>
-                        <i class="bi bi-save" x-show="!loadingSaveAnamnese"></i>
+                        <i class="bi bi-save me-1" x-show="!loadingSaveAnamnese"></i>
                         <span>Salvar Anamnese</span>
                     </button>
                 </div>
@@ -225,12 +225,12 @@
                     <textarea class="form-control border-0 bg-transparent" cols="30" rows="10" name="conteudo" id='editor-alertas' required>{{ $agendamento->paciente->historico_problemas }}</textarea>
                 </div>
                 
-                 <div class="fixed bottom-4 left-0 right-0 px-4 z-10 flex justify-center">
-                    <button type="submit" class="shadow-lg shadow-rose-900/20 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-full px-6 py-3 w-full max-w-sm flex items-center justify-center gap-2 transition-all transform active:scale-95" x-bind:disabled="loadingSaveAlertas">
+                 <div class="d-grid mt-3">
+                    <button type="submit" class="btn btn-primary bg-teal-600 border-teal-600 text-white font-bold rounded-xl shadow-md py-3" x-bind:disabled="loadingSaveAlertas">
                         <template x-if="loadingSaveAlertas">
-                            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                            <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
                         </template>
-                        <i class="bi bi-shield-check" x-show="!loadingSaveAlertas"></i>
+                        <i class="bi bi-save me-1" x-show="!loadingSaveAlertas"></i>
                         <span>Salvar Alertas</span>
                     </button>
                 </div>
