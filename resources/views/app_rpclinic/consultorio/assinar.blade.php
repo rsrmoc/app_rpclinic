@@ -24,26 +24,23 @@
 
         <div class="py-2"></div>
 
-        <div>
-            <template x-if="documentos.length==0">
-                <div class="mb-3">
-                    <div style="text-align: center; margin-top: 30px;" >
-                        <img src="{{ asset('app/assets/images/arquivo-medico.png') }}" class="img-fluid w-32 opacity-80" alt="">
-                        <p class="text-slate-400 font-medium mt-3">Nenhum documento para assinar nesta data.</p>
-                    </div>
-                </div>
-            </template>
+        <!-- Mensagem quando não há documentos -->
+        <div x-show="!loading && documentos.length === 0" class="mb-3">
+            <div style="text-align: center; margin-top: 30px;">
+                <img src="{{ asset('app/assets/images/arquivo-medico.png') }}" class="img-fluid w-32 opacity-80" alt="">
+                <p class="text-slate-400 font-medium mt-3">Nenhum documento para assinar nesta data.</p>
+            </div>
         </div>
 
-        <template x-if="loading">
-            <div class="mb-3 text-center p-4">
-                <div class="spinner-border text-teal-600" role="status"></div>
-                <div class="text-teal-600 font-bold mt-2">Carregando documentos...</div>
-            </div>
-        </template>
+        <!-- Loading -->
+        <div x-show="loading" class="mb-3 text-center p-4">
+            <div class="spinner-border text-teal-600" role="status"></div>
+            <div class="text-teal-600 font-bold mt-2">Carregando documentos...</div>
+        </div>
 
+        <!-- Lista de documentos -->
         <div>
-            <template x-for="documento, index in documentos" x-bind:key="index">
+            <template x-for="(documento, index) in documentos" :key="index">
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 mb-4 p-4 transition-all duration-300 hover:shadow-md hover:border-teal-200">
                      <div class="flex flex-row gap-4">
                          <div class="flex-grow">
