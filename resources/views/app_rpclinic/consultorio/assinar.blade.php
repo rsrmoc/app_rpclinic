@@ -136,6 +136,7 @@
             height: 45px !important;
             border-radius: 12px !important;
             font-weight: 600 !important;
+            position: relative; /* Necessário para o ::after */
         }
 
         .air-datepicker-cell.-current- {
@@ -160,11 +161,18 @@
             color: #cbd5e1 !important; /* slate-300 */
         }
 
-        /* Ponto indicador de evento */
+        /* Ponto indicador de evento - CSS COMPLETO */
         .has-event-dot::after {
+            content: '' !important;
+            position: absolute !important;
+            bottom: 4px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            width: 6px !important;
+            height: 6px !important;
+            border-radius: 50% !important;
             background-color: #0d9488 !important;
             box-shadow: none !important;
-            bottom: 4px !important;
         }
         
         .air-datepicker-cell.-selected-.has-event-dot::after {
