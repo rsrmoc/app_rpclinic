@@ -551,11 +551,14 @@
        <!--start to header-->
        <header class="top-header fixed-top border-bottom d-flex align-items-center shadow-sm" style="background: #ffffff !important; height: 80px !important;">
         <nav class="navbar navbar-expand w-100 p-0 align-items-center px-3 position-relative">
-            <!-- Left: Menu Toggle -->
-            <div class="nav-button me-auto" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidenav" style="cursor: pointer;">
-                <a href="javascript:;" class="text-slate-700 hover:text-teal-600 transition-colors">
-                    <i class="bi bi-list" style="font-size: 2rem;"></i>
-                </a>
+            <!-- Left: Menu Toggle + Back Button -->
+            <div class="d-flex align-items-center">
+                <div class="nav-button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidenav" style="cursor: pointer;">
+                    <a href="javascript:;" class="text-slate-700 hover:text-teal-600 transition-colors">
+                        <i class="bi bi-list" style="font-size: 2rem;"></i>
+                    </a>
+                </div>
+                @yield('button_back')
             </div>
 
             <!-- Center: Logo -->
