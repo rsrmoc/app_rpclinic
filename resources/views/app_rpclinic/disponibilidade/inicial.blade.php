@@ -151,35 +151,43 @@
             font-size: 0.8rem !important;
         }
 
+        .air-datepicker-body--cells.-days- {
+            grid-template-columns: repeat(7, 1fr);
+            grid-gap: 5px !important; 
+            row-gap: 8px !important; 
+            padding: 5px;
+        }
+
         .air-datepicker-cell {
-            color: #64748b !important; /* slate-500 */
+            color: #64748b !important; 
             font-size: 1.1rem !important;
-            height: 45px !important;
+            height: 38px !important; 
             border-radius: 12px !important;
             font-weight: 600 !important;
-            position: relative; /* Needed for ::after positioning */
+            position: relative; 
         }
 
         .air-datepicker-cell.-current- {
             color: #0d9488 !important;
             font-weight: 900 !important;
-            background: #f0fdfa !important; /* teal-50 */
+            background: #f0fdfa !important; 
         }
 
         .air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-current- {
-            background: #0d9488 !important; /* teal-600 */
+            background: #0d9488 !important; 
             color: #ffffff !important;
             font-weight: bold !important;
             box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.3);
+            border-radius: 12px !important;
         }
 
         .air-datepicker-cell:hover {
-            background: #f1f5f9 !important; /* slate-100 */
+            background: #f1f5f9 !important; 
             color: #0f172a !important;
         }
         
         .air-datepicker-cell.-other-month- {
-            color: #cbd5e1 !important; /* slate-300 */
+            color: #cbd5e1 !important; 
         }
 
         /* Ponto indicador de evento */
@@ -194,17 +202,6 @@
             border-radius: 50% !important;
             background-color: #0d9488 !important;
             box-shadow: none !important;
-        }
-        
-        .air-datepicker-body--cells.-days- {
-            grid-template-columns: repeat(7, 1fr);
-            grid-gap: 5px !important; /* Espaço entre as células para não encavalar */
-            padding: 5px;
-        }
-
-        .air-datepicker-cell.-selected- {
-            border-radius: 12px !important; /* Garante arredondamento mesmo se adjacente */
-            transform: scale(0.95); /* Pequena redução para separar visualmente */
         }
 
         .air-datepicker-cell.-selected-.has-event-dot::after {
