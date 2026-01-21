@@ -1,42 +1,24 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-    <div class="d-flex align-items-center gap-3">
-        <div class="brand-logo" style="width: auto;">
+    <div class="d-flex flex-column align-items-center justify-content-center pt-1">
+        <div class="brand-logo mb-0">
             <a href="javascript:;" class="d-flex justify-content-center align-items-center">
                 <img src="{{ asset('assets/images/logo_menu.svg') }}" 
                      alt="Logo" 
-                     style="height: 60px; width: auto;" 
-                     class="">
+                     style="height: 40px; width: auto;">
             </a>
         </div>
-        <div class="border-start border-slate-300 h-6 mx-1"></div>
-        <h6 class="mb-0 text-slate-700 font-bold uppercase tracking-tight">Agenda</h6>
+        <h6 class="mb-0 text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-0 leading-none">Agenda</h6>
     </div>
 @endsection
 
 @section('content')
     <!--start to page content-->
-    <div class="page-content" x-data="appAgendamento">
+    <div class="page-content px-2 pt-0" x-data="appAgendamento" style="padding-top: 0px !important;">
 
 
-        @isset($profissionais)
-        <div class="mb-4 p-4 rounded-xl border border-white/10" style="background: rgba(255, 255, 255, 0.05);">
-            <label class="block text-slate-300 mb-2 font-bold">Visualizar Agenda de:</label>
-            <select class="w-full bg-slate-800 border-slate-700 text-slate-200 rounded-lg p-2" 
-                    onchange="if(this.value) window.location.search = '?cd_profissional='+this.value">
-                <option value="">Selecione um Profissional...</option>
-                @foreach($profissionais as $p)
-                    <option value="{{ $p->cd_profissional }}" {{ ($cd_profissional ?? null) == $p->cd_profissional ? 'selected' : '' }}>
-                        {{ $p->nm_profissional }}
-                    </option>
-                @endforeach
-            </select>
-            @if(empty($cd_profissional) && empty(auth()->guard('rpclinica')->user()->cd_profissional))
-                <div class="text-amber-400 text-sm mt-2">⚠ Por favor, selecione um profissional para visualizar a agenda.</div>
-            @endif
-        </div>
-        @endisset
+
 
         <div id="dataAgendamento"></div>
 

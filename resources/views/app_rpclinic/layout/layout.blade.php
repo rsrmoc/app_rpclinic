@@ -487,7 +487,7 @@
         .page-content {
             position: relative;
             z-index: 1;
-            padding-top: 80px !important; /* Adjusted for larger header */
+            padding-top: 80px; /* Adjusted for larger header - moved !important to allow overrides */
         }
 
         /* Background Stethoscope Watermark - Centered */

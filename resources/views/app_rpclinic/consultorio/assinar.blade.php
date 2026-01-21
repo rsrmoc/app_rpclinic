@@ -1,17 +1,15 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-    <div class="d-flex align-items-center gap-3">
-        <div class="brand-logo" style="width: auto;">
+    <div class="d-flex flex-column align-items-center justify-content-center pt-1">
+        <div class="brand-logo mb-0">
             <a href="javascript:;" class="d-flex justify-content-center align-items-center">
                 <img src="{{ asset('assets/images/logo_menu.svg') }}" 
                      alt="Logo" 
-                     style="height: 60px; width: auto;" 
-                     class="">
+                     style="height: 40px; width: auto;">
             </a>
         </div>
-        <div class="border-start border-slate-300 h-6 mx-1"></div>
-        <h6 class="mb-0 text-slate-700 font-bold uppercase tracking-tight">Documentos</h6>
+        <h6 class="mb-0 text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-0 leading-none">Documentos</h6>
     </div>
 @endsection
 
@@ -20,7 +18,7 @@
 
 @section('content')
     <!--start to page content-->
-    <div class="page-content" x-data="appDocumentos">
+    <div class="page-content px-2 pt-0" x-data="appDocumentos" style="padding-top: 0px !important;">
 
         <div id="documentosDatePicker"></div>
 
