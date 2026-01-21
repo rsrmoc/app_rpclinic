@@ -196,6 +196,17 @@
             box-shadow: none !important;
         }
         
+        .air-datepicker-body--cells.-days- {
+            grid-template-columns: repeat(7, 1fr);
+            grid-gap: 5px !important; /* Espaço entre as células para não encavalar */
+            padding: 5px;
+        }
+
+        .air-datepicker-cell.-selected- {
+            border-radius: 12px !important; /* Garante arredondamento mesmo se adjacente */
+            transform: scale(0.95); /* Pequena redução para separar visualmente */
+        }
+
         .air-datepicker-cell.-selected-.has-event-dot::after {
             background-color: #ffffff !important;
         }
