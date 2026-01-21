@@ -197,6 +197,217 @@
             margin-right: 10px;
         }
     </style>
+    <script>
+        document.addEventListener('alpine:init', () => {
+             // Make function available to Alpine scope if needed, or just keep global
+        });
+        
+        function formatDateLong(dateStr) {
+            if (!dateStr) return '';
+            // Handle YYYY-MM-DD
+            const parts = dateStr.split('-');
+            if(parts.length !== 3) return dateStr;
+            
+            const months = [
+                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+            ];
+            
+            const year = parts[0];
+            const monthIndex = parseInt(parts[1]) - 1;
+            const day = parts[2];
+            
+            return `${day} of ${months[monthIndex]} of ${year}`.replace(/of/g, 'de');
+        }
+    </script>
+    <style>
+        .datePickerAgendamento {
+            background: #fff;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            margin-bottom: 25px;
+        }
+        /* Card Visualization Styles */
+        .card-patient {
+            background: #fff;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            margin-bottom: 25px;
+            border: 1px solid #edf2f7;
+            font-family: 'Open Sans', sans-serif;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .card-patient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .cp-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .cp-init-circle {
+            min-width: 48px;
+            width: 48px;
+            height: 48px;
+            background-color: #d1fae5;
+            color: #0d9488;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .cp-info {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .cp-name {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e293b;
+            text-transform: uppercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cp-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .cp-status i {
+            color: #2AB09C;
+        }
+
+        .cp-datetime {
+            color: #0d9488;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px 0;
+            border-top: 1px solid #f1f5f9;
+            border-bottom: 1px solid #f1f5f9;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cp-doctor {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .cp-doc-info {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+        }
+
+        .cp-doc-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #f1f5f9;
+        }
+
+        .cp-doc-text h5 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .cp-doc-spec {
+            color: #0d9488;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .cp-call-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #f0fdf9;
+            color: #0d9488;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .cp-call-btn:hover {
+            background: #ccfbf1;
+        }
+
+        .cp-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .cp-btn-type {
+            flex: 1;
+            background: #d1fae5;
+            color: #115e59;
+            border: none;
+            padding: 10px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: default;
+        }
+
+        .cp-btn-start {
+            flex: 1;
+            background: #f8fafc;
+            color: #334155;
+            border: 1px solid #e2e8f0;
+            padding: 10px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .cp-btn-start:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+    </style>
 
     <div id="app" x-data="app">
 
@@ -290,118 +501,76 @@
                                                 </template>
 
 
-                                                <table class="table table-hover">
-                                                    <thead>
-                                                        <tr class="active">
-                                                            <th class="text-center">Atendimento</th>
-                                                            <th>Paciente</th>
-                                                            <th>Tipo Atend</th>
-                                                            <th>Convênio</th>
-                                                            <th>Procedimentos</th>
-                                                            <template x-if="(empresa.sn_pre_exame=='SIM')">
-                                                                <th class="text-center">Pre-Exames</th>
-                                                            </template>
-                                                            <th>Situação</th>
-                                                        </tr>
-                                                    </thead>
+                                                <div class="row" style="margin-top: 10px; padding: 0 10px;">
+                                                    <template x-for="(item, index) in horarios">
+                                                        <div class="col-md-4 col-sm-6" style="padding: 0 10px;">
+                                                            <div class="card-patient" style="padding: 20px; border-radius: 20px; background: #fff; border: 1px solid #eef2f6; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px;">
+                                                                
+                                                                <!-- Header: Initial + Name + Status -->
+                                                                <div class="cp-header" style="display: flex; gap: 12px; align-items: flex-start; margin-bottom: 15px;">
+                                                                    <div style="min-width: 45px; width: 45px; height: 45px; background-color: #f2fcf9; color: #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; border: 1px solid #f0f0f0;">
+                                                                        <span x-text="item.paciente?.nm_paciente ? item.paciente?.nm_paciente.charAt(0) : '?'"></span>
+                                                                    </div>
+                                                                    <div style="flex: 1; overflow: hidden;">
+                                                                        <h3 style="margin: 0; font-size: 15px; font-weight: 700; color: #334155; text-transform: uppercase; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" x-text="item.paciente?.nm_paciente"></h3>
+                                                                        <div style="display: flex; align-items: center; gap: 5px; margin-top: 4px; font-size: 13px; color: #64748b; font-weight: 500;">
+                                                                            <i class="fa fa-check-circle" style="color: #2AB09C; font-size: 14px;"></i>
+                                                                            <span x-text="item.situacao?.nm_situacao"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
-                                                    <tbody>
-                                                     
-                                                        <template x-for="(item, index) in horarios">
+                                                                <!-- Date & Time Separator -->
+                                                                <div style="border-top: 1px solid #eef2f6; padding-top: 12px; margin-bottom: 15px;">
+                                                                    <span style="color: #0d9488; font-size: 14px; font-weight: 600;" 
+                                                                          x-text="(item.dt_agenda ? formatDateLong(item.dt_agenda) : '') + ' • ' + item.hr_agenda"></span>
+                                                                </div>
 
-                                                            <tr >
+                                                                <!-- Doctor Section -->
+                                                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
+                                                                    <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0;">
+                                                                        <!-- Doctor Avatar -->
+                                                                        <div style="position: relative; width: 48px; height: 48px; flex-shrink: 0;">
+                                                                            <div style="width: 100%; height: 100%; border-radius: 50%; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                                                                <i class="fa fa-user-md" style="font-size: 20px; color: #94a3b8;"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                        <!-- Doctor Text -->
+                                                                        <div style="flex: 1; min-width: 0;">
+                                                                            <h5 style="margin: 0; font-size: 14px; font-weight: 700; color: #334155; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" x-text="item.profissional?.nm_profissional"></h5>
+                                                                            <span style="display: block; font-size: 10px; font-weight: 700; color: #0d9488; text-transform: uppercase; margin-top: 2px; letter-spacing: 0.5px;" 
+                                                                                  x-text="item.especialidade?.nm_especialidade || 'CLÍNICO GERAL'"></span>
+                                                                            <span style="display: block; font-size: 12px; color: #0d9488; margin-top: 2px;" 
+                                                                                  x-text="item.celular || '(38) 99999-9999'"></span>
+                                                                        </div>
+                                                                    </div>
 
-                                                                <th class="text-center">
-                                                                    <span style="font-size: 1.2em; font-style: italic;"
-                                                                        class="btn btn-default btn-rounded btn-xs "
-                                                                        x-on:click="clickLog(item,index)"
-                                                                        x-bind:class="(item.sn_pre_exame == true) ? 'btn-success' : ''"
-                                                                        x-html="(item.sn_atendimento=='S') ? item.cd_agendamento : '#####' "></span>
-                                                                    <br><span style="font-weight: 400">
-                                                                        <i class="fa fa-calendar"
-                                                                            style="margin-right: 1px;"></i>
-                                                                        <span x-text="item.hr_agenda"> </span>
-                                                                    </span>
+                                                                    <!-- Side Phone Button -->
+                                                                    <a x-bind:href="'tel:' + item.celular" title="Ligar" 
+                                                                       style="width: 42px; height: 42px; background-color: #f0fdf9; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #0d9488; font-size: 16px; text-decoration: none; border: 1px solid #ccfbf1; flex-shrink: 0;">
+                                                                        <i class="fa fa-phone"></i>
+                                                                    </a>
+                                                                </div>
 
-                                                                </th>
-
-                                                                <td>
-                                                                    <span x-text="item.paciente?.nm_paciente"></span>
-                                                                    <span
-                                                                        style="font-size: 12px; font-style: italic;"><br><b>Nome
-                                                                            Social: </b>
-                                                                        <span
-                                                                            x-text="(item.paciente?.nome_social) ? item.paciente?.nome_social : ' -- '">
-                                                                        </span>
-                                                                    </span>
-                                                                </td>
-
-                                                                <td>
-                                                                    <span x-text="item.tipo_atend?.nm_tipo_atendimento"></span>
-                                                                    <span
-                                                                        style="font-size: 12px; font-style: italic;"><br><b>Idade: </b>
-                                                                        <span x-text="item.paciente?.idade_resumido">
-                                                                        </span>
-                                                                    </span>
-                                                                </td>
-
-                                                                <td>
-                                                                    <span x-text="item.convenio?.nm_convenio"></span>
-                                                                    <span
-                                                                        style="font-size: 12px; font-style: italic;"><br><b>Profissional:
-                                                                        </b>
-                                                                        <span x-text="item.profissional?.nm_profissional">
-                                                                        </span>
-                                                                    </span>
-                                                                </td>
-
-                                                                <td>
-                                                                    <template x-for="(valor, index2) in item.itens">
-                                                                        <code style=" margin-bottom: 5px;"
-                                                                            class="etapaExame">
-                                                                            <span x-text="valor.exame?.nm_exame"> </span>
-                                                                        </code>
-                                                                    </template>
-                                                                </td>
-
-                                                                <template x-if="(empresa.sn_pre_exame=='SIM')">
-                                                                    <td class="text-center">
-                                                                        <code style=" margin-bottom: 7px;"
-                                                                            x-bind:class="(item.auto_refracao?.dt_liberacao != null) ?
-                                                                            'PreExameRealizado' : 'PreExamePendente'">
-                                                                            AutoRefração</code>
-                                                                        <code style=" margin-bottom: 7px;"
-                                                                            x-bind:class="(item.ceratometria?.dt_liberacao != null) ?
-                                                                            'PreExameRealizado' : 'PreExamePendente'">
-                                                                            Ceratometria</code>
-                                                                        <code style=" margin-bottom: 5px;"
-                                                                            x-bind:class="(item.formularios_imagens_ceratometria_comp
-                                                                                ?.dt_exame != null) ? 'PreExameRealizado' :
-                                                                            'PreExamePendente'">
-                                                                            CeratoscopiaComp.</code>
-                                                                    </td>
-                                                                </template>
-
-                                                                <td style="min-width: 80px; text-align: center; cursor: pointer;" 
-                                                                x-on:click="clickHorario(item,index)">
-
-                                                                    <span
-                                                                        x-html="item.situacao?.icone+' '+item.situacao?.nm_situacao"
-                                                                        x-bind:class="'label ' + item.situacao?.class"
-                                                                        style="cursor: pointer;display: block;font-size: 11px; padding-bottom: 5px; padding-top: 3px;">
-                                                                    </span>
-                                                                    <template x-if="item.sn_atendimento=='S'">
-                                                                        <code> <span class="glyphicon glyphicon-time" aria-hidden="true"></span> <span x-text="item.data_atend"></span>  </code>
-                                                                    </template>
+                                                                <!-- Footer Buttons -->
+                                                                <div style="display: flex; gap: 8px;">
+                                                                    <!-- Tipo Atendimento Button -->
+                                                                    <div style="flex: 1; background-color: #d1fae5; color: #115e59; padding: 10px 4px; border-radius: 9999px; text-align: center; display: flex; align-items: center; justify-content: center;">
+                                                                        <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; max-width: 100%;" x-text="item.tipo_atend?.nm_tipo_atendimento || 'Atendimento'"></span>
+                                                                    </div>
                                                                     
-                                                                </td>
-                                                            </tr>
+                                                                    <!-- Atendimento Action Button -->
+                                                                    <button style="flex: 1; background-color: #fff; color: #334155; border: 1px solid #e2e8f0; padding: 10px 4px; border-radius: 9999px; text-align: center; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s;"
+                                                                            x-on:click="clickHorario(item,index)">
+                                                                        Atendimento
+                                                                    </button>
+                                                                </div>
 
-                                                        </template>
-
-
-                                                    </tbody>
-                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                </div>
 
                                                 <template x-if="horarios.length == 0 && !loading">
                                                     <p class="text-center" style="padding: 1.5em">Não há Atendimentos para

@@ -47,68 +47,120 @@
 
 
 
-        <div>
-            <template x-for="agendamento, index in agendamentos" x-bind:key="index">
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 mb-3 p-4 transition-all duration-300 hover:shadow-md hover:border-teal-200">
-                     <div class="flex flex-row gap-3">
-                         <div class="flex-grow">
-                             <!-- Nome do Paciente -->
-                             <div class="flex items-center gap-3 mb-3 border-b border-slate-50 pb-2">
-                                 <div class="w-9 h-9 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center font-bold text-sm border border-teal-100">
-                                     <span x-text="agendamento.paciente.nm_paciente.charAt(0)"></span>
-                                 </div>
-                                 <span class="font-bold text-sm text-slate-800 leading-tight uppercase" x-text="agendamento.paciente.nm_paciente"></span>
-                             </div>
+        <div class="px-2">
+            <template x-for="(agendamento, index) in agendamentos" :key="index">
+                <div class="col-md-4 col-sm-6" style="padding: 0 10px; margin-bottom: 20px;">
+                    <div class="card-patient" style="padding: 20px; border-radius: 20px; background: #fff; border: 1px solid #eef2f6; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                        
+                        <!-- Header: Initial + Name + Status -->
+                        <div class="cp-header" style="display: flex; gap: 12px; align-items: flex-start; margin-bottom: 15px;">
+                            <div style="min-width: 45px; width: 45px; height: 45px; background-color: #f2fcf9; color: #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; border: 1px solid #f0f0f0;">
+                                <span x-text="agendamento.paciente?.nm_paciente ? agendamento.paciente?.nm_paciente.charAt(0) : '?'"></span>
+                            </div>
+                            <div style="flex: 1; overflow: hidden;">
+                                <h3 style="margin: 0; font-size: 15px; font-weight: 700; color: #334155; text-transform: uppercase; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" x-text="agendamento.paciente?.nm_paciente"></h3>
+                                <div style="display: flex; align-items: center; gap: 5px; margin-top: 4px; font-size: 13px; color: #64748b; font-weight: 500;">
+                                    <i class="fa fa-check-circle" style="color: #2AB09C; font-size: 14px;"></i>
+                                    <span x-text="capitalizeFirstLetter(agendamento.situacao)"></span>
+                                </div>
+                            </div>
+                        </div>
 
-                             <div class="space-y-3">
-                                 <!-- Data & Hora -->
-                                 <div class="flex flex-col">
-                                     <span class="text-teal-600 font-bold text-[10px] uppercase tracking-widest mb-0.5">Data & Hora</span>
-                                     <span class="text-slate-700 font-bold text-sm" x-text="agendamento.data_agenda+' às '+agendamento.hr_agenda"></span>
-                                 </div>
+                        <!-- Date & Time Separator -->
+                        <div style="border-top: 1px solid #eef2f6; padding-top: 12px; margin-bottom: 15px;">
+                            <span style="color: #0d9488; font-size: 14px; font-weight: 600;" 
+                                  x-text="(agendamento.data_agenda ? formatDateLong(agendamento.data_agenda) : 'Data indefinida') + ' • ' + agendamento.hr_agenda"></span>
+                        </div>
 
-                                 <div class="grid grid-cols-2 gap-4">
-                                     <div class="flex flex-col">
-                                         <span class="text-teal-600 font-bold text-[10px] uppercase tracking-widest mb-0.5">Profissional</span>
-                                         <span class="text-slate-700 font-semibold text-xs truncate" x-text="agendamento.profissional.nm_profissional"></span>
-                                     </div>
-                                     <div class="flex flex-col">
-                                         <span class="text-teal-600 font-bold text-[10px] uppercase tracking-widest mb-0.5">Especialidade</span>
-                                         <span class="text-slate-700 font-semibold text-xs truncate" x-text="agendamento.especialidade.nm_especialidade"></span>
-                                     </div>
-                                 </div>
-                                 
-                                 <div class="flex flex-col">
-                                     <span class="text-teal-600 font-bold text-[10px] uppercase tracking-widest mb-0.5">Telefone</span>
-                                     <span class="text-slate-700 font-semibold text-sm" x-text="agendamento.celular"></span>
-                                 </div>
-                                 
-                                 <div class="mt-3 flex flex-wrap gap-2 pt-3 border-t border-slate-50">
-                                      <!-- Tipo Atendimento -->
-                                      <div class="flex-grow px-2 py-2 rounded-xl flex items-center justify-center bg-slate-100 border border-slate-200 hover:bg-slate-200 transition-colors">
-                                          <span class="text-[10px] font-bold text-slate-700 text-center uppercase tracking-wide whitespace-nowrap overflow-hidden text-ellipsis" x-text="capitalizeFirstLetter(agendamento.tipo_atend.nm_tipo_atendimento)"></span>
-                                      </div>
-                                      <!-- Situacao -->
-                                      <div class="flex-grow px-2 py-2 rounded-xl flex items-center justify-center bg-slate-100 border border-slate-200 hover:bg-slate-200 transition-colors">
-                                          <span class="text-[10px] font-bold text-slate-700 text-center uppercase tracking-wide whitespace-nowrap overflow-hidden text-ellipsis" x-text="capitalizeFirstLetter(agendamento.situacao)"></span>
-                                      </div>
-                                 </div>
-                             </div>
-                         </div>
-                         
-                         <!-- Action Button (Vertical Center) -->
-                         <div class="flex flex-col justify-center pl-2 border-l border-slate-50">
-                             <a x-bind:href="routeConsultaBase.replace('/0', '/' + agendamento.cd_agendamento)" class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center hover:bg-teal-100 transition-colors border border-teal-100 shadow-sm">
-                                 <i class="fa fa-stethoscope text-xl"></i>
-                             </a>
-                         </div>
-                     </div>
+                        <!-- Doctor Section -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
+                            <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0;">
+                                <!-- Doctor Avatar with Badge -->
+                                <div style="position: relative; width: 48px; height: 48px; flex-shrink: 0;">
+                                    <div style="width: 100%; height: 100%; border-radius: 50%; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                        <i class="fa fa-user-md" style="font-size: 20px; color: #94a3b8;"></i>
+                                    </div>
+                                    <!-- Restored Badge -->
+                                    <div style="position: absolute; bottom: -2px; right: -2px; width: 22px; height: 22px; background-color: #2AB09C; border: 2px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fa fa-phone" style="font-size: 10px; color: #ffffff;"></i>
+                                    </div>
+                                </div>
+                                
+                                <!-- Doctor Text -->
+                                <div style="flex: 1; min-width: 0;">
+                                    <h5 style="margin: 0; font-size: 14px; font-weight: 700; color: #334155; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" x-text="agendamento.profissional?.nm_profissional"></h5>
+                                    <span style="display: block; font-size: 10px; font-weight: 700; color: #0d9488; text-transform: uppercase; margin-top: 2px; letter-spacing: 0.5px;" 
+                                          x-text="agendamento.especialidade?.nm_especialidade || agendamento.tipo_atend?.nm_tipo_atendimento || 'CLÍNICO GERAL'"></span>
+                                    <span style="display: block; font-size: 12px; color: #0d9488; margin-top: 2px;" 
+                                          x-text="agendamento.paciente?.celular || '(38) 99999-9999'"></span>
+                                </div>
+                            </div>
+
+                            <!-- Side Phone Button -->
+                            <a x-bind:href="'tel:' + agendamento.paciente?.celular" title="Ligar" 
+                               style="width: 48px; height: 48px; background-color: #f0fdf9; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #0d9488; font-size: 18px; text-decoration: none; border: 1px solid #e2e8f0; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.03);">
+                                <i class="fa fa-phone" style="transform: rotate(90deg);"></i>
+                            </a>
+                        </div>
+
+                        <!-- Footer Buttons -->
+                        <div style="display: flex; gap: 8px; height: 38px;">
+                            <!-- Tipo Atendimento Button -->
+                            <div style="flex: 1; background-color: #d1fae5; color: #115e59; border-radius: 9999px; display:flex; align-items:center; justify-content:center; padding: 0 10px;">
+                                <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; max-width: 100%;" x-text="agendamento.tipo_atend?.nm_tipo_atendimento || 'Atendimento'"></span>
+                            </div>
+                            
+                            <!-- Atendimento Action Button -->
+                            <a x-bind:href="routeConsultaBase.replace('/0', '/' + agendamento.cd_agendamento)" 
+                               style="flex: 1; background-color: #fff; color: #334155; border: 1px solid #e2e8f0; border-radius: 9999px; text-align: center; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; text-decoration: none;">
+                                Atendimento
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </template>
         </div>
     </div>
     <!--end to page content-->
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('alpine:init', () => {
+             // Make function available to Alpine scope if needed, or just keep global
+        });
+        
+        function formatDateLong(dateStr) {
+            if (!dateStr) return '';
+            // Handle YYYY-MM-DD
+            let parts = dateStr.split('-');
+            if(parts.length === 3) {
+                 const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+                 const year = parts[0];
+                 const monthIndex = parseInt(parts[1]) - 1;
+                 const day = parts[2];
+                 return `${day} de ${months[monthIndex]} de ${year}`;
+            }
+            
+            // If coming as DD/MM/YYYY
+            parts = dateStr.split('/');
+            if(parts.length === 3) {
+                 const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+                 const day = parts[0];
+                 const monthIndex = parseInt(parts[1]) - 1;
+                 const year = parts[2];
+                 return `${day} de ${months[monthIndex]} de ${year}`;
+            }
+            
+            return dateStr;
+        }
+
+        function capitalizeFirstLetter(string) {
+            if (!string) return '';
+            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+        }
+    </script>
+@endpush
 
 @push('styles')
     <style>
