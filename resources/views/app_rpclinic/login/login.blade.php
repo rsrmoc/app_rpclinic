@@ -41,8 +41,8 @@
        <!--start to page content-->
        <div class="page-content bg-transparent w-100">
           <div class="login-body p-4" style="max-width: 450px; margin: 0 auto;">
-
-             
+             <!-- Background Doctor Image -->
+             <div class="bg-watermark"></div>
              <form action="{{ route('app.login.action') }}" method="POST" class="mt-4 bg-transparent p-0 position-relative z-10">
                @csrf
 
@@ -92,6 +92,48 @@
      <!--end to page content-->
 
        <style>
+
+            /* Copied Watermark Style from Global */
+             /* Background Image Style */
+            .bg-watermark {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 0;
+            }
+            
+            .bg-watermark::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url('{{ asset("app/assets/images/doctor_bg.png") }}');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            .bg-watermark::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.7); /* Lighter overlay to see the doctor better */
+                backdrop-filter: blur(2px);
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .bg-watermark::before {
+                    background-position: top center; /* Focus on face for mobile */
+                }
+            }
 
 
             .btn2 {
