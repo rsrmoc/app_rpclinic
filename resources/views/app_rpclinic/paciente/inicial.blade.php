@@ -1,17 +1,16 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-    <div class="d-flex align-items-center gap-3">
-        <div class="brand-logo" style="width: auto;">
+    <div class="d-flex flex-column align-items-center justify-content-center pt-1">
+        <div class="brand-logo mb-0">
             <a href="javascript:;" class="d-flex justify-content-center align-items-center">
                 <img src="{{ asset('assets/images/logo_menu.svg') }}" 
                      alt="Logo" 
-                     style="height: 60px; width: auto;" 
+                     style="height: 45px; width: auto;" 
                      class="">
             </a>
         </div>
-        <div class="border-start border-slate-300 h-6 mx-1"></div>
-        <h6 class="mb-0 text-slate-700 font-bold uppercase tracking-tight">Pacientes</h6>
+        <h6 class="mb-0 text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-0 leading-none">Pacientes</h6>
     </div>
 @endsection
 
@@ -27,11 +26,11 @@
 
         <form x-on:submit.prevent="getPacientes">
             <div class="position-relative">
-                <input type="text" class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-slate-800 font-semibold text-sm placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all shadow-sm" placeholder="Pesquisar Paciente..."
+                <input type="text" class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-slate-800 font-semibold text-sm placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all shadow-sm" placeholder="Pesquisar..."
                     x-model.debounce="search">
-                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500">
+                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
                     <template x-if="!loading">
-                        <i class="bi bi-search text-lg font-bold"></i>
+                        <i class="bi bi-search text-lg"></i>
                     </template>
                     <template x-if="loading">
                         <span class="spinner-border spinner-border-sm text-teal-600" aria-hidden="true"></span>
@@ -54,47 +53,42 @@
 
         <div class="space-y-3 max-w-md mx-auto">
             <template x-for="paciente, index in pacientes" x-bind:key="index">
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden transition-all duration-300 hover:shadow-md group">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden group">
                      
                     <!-- Corpo do Card -->
-                    <div class="p-4">
-                         <div class="flex items-start gap-3">
-                             <!-- Avatar com Iniciais -->
-                             <div class="flex-shrink-0">
-                                 <div class="w-10 h-10 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center text-lg font-bold border border-teal-100">
+                    <div class="p-3">
+                         <div class="flex gap-3">
+                             <!-- Avatar -->
+                             <div class="flex-shrink-0 pt-1">
+                                 <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center text-lg font-bold border border-slate-200">
                                      <span x-text="paciente.nm_paciente.charAt(0).toUpperCase()"></span>
                                  </div>
                              </div>
 
-                             <!-- Info Principal -->
+                             <!-- Info List -->
                              <div class="flex-grow min-w-0">
-                                  <h3 class="text-base font-semibold text-slate-800 leading-tight mb-1" style="word-break: break-word;" x-text="paciente.nm_paciente"></h3>
+                                  <!-- Nome -->
+                                  <h3 class="text-sm font-bold text-slate-800 leading-tight mb-2" style="word-break: break-word;" x-text="paciente.nm_paciente"></h3>
                                   
-                                  <!-- Badges de Info Básica -->
-                                  <div class="flex flex-wrap gap-2 mb-2">
-                                      <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-50 text-slate-500 text-[11px] font-medium border border-slate-100">
-                                          <i class="bi bi-calendar4-week text-teal-500"></i>
-                                          <span x-text="formatDate(paciente.dt_nasc) || 'N/I'"></span>
+                                  <div class="space-y-1.5">
+                                      <!-- Data Nasc -->
+                                      <div class="flex items-center gap-2 text-xs text-slate-600">
+                                          <i class="bi bi-calendar4 text-slate-400"></i>
+                                          <span x-text="formatDate(paciente.dt_nasc) || 'Data não inf.'"></span>
                                       </div>
-                                      <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-50 text-slate-500 text-[11px] font-medium border border-slate-100">
+                                      
+                                      <!-- Celular -->
+                                      <div class="flex items-center gap-2 text-xs text-slate-600">
                                           <i class="bi bi-whatsapp text-emerald-500"></i>
-                                          <span x-text="paciente.celular || 'Sem número'"></span>
+                                          <span x-text="paciente.celular || 'Sem celular'"></span>
                                       </div>
-                                  </div>
 
-                                  <!-- Dados Parentais (Compacto) -->
-                                  <div class="space-y-0.5">
+                                      <!-- Mae/Pai --> 
                                       <template x-if="paciente.nm_mae">
-                                          <div class="flex items-center gap-2 text-xs text-slate-500 truncate">
-                                              <i class="bi bi-person-standing-dress text-rose-400"></i>
-                                              <span class="truncate" x-text="paciente.nm_mae"></span>
-                                          </div>
-                                      </template>
-                                      <template x-if="paciente.nm_pai">
-                                          <div class="flex items-center gap-2 text-xs text-slate-500 truncate">
-                                              <i class="bi bi-person-standing text-blue-400"></i>
-                                              <span class="truncate" x-text="paciente.nm_pai"></span>
-                                          </div>
+                                        <div class="flex items-center gap-2 text-xs text-slate-500 pt-1 border-t border-slate-50 mt-1">
+                                            <span class="text-[10px] uppercase text-slate-400 font-bold w-6">Mãe:</span>
+                                            <span class="truncate" x-text="paciente.nm_mae"></span>
+                                        </div>
                                       </template>
                                   </div>
                              </div>
