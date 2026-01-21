@@ -73,7 +73,27 @@ class Consultorio extends Controller
             'cd_profissional' => $request->cd_profissional
         ]);
        
-        // Query base
+        // DEBUG GLOBAL: Buscar TUDO desta data, independente do profissional
+        $debugDocs = AgendamentoDocumentos::whereDate('created_at', $request->data)
+            ->orWhereHas('agendamento', function($q) use ($request) {
+                $q->whereDate('dt_agenda', $request->data);
+            })->get();
+            
+        \Log::info('🔍 DEBUG RADICAL - TUDO DA DATA ' . $request->data, [
+            'encontrados' => $debugDocs->count(),
+            'dados' => $debugDocs->map(function($d) {
+                return [
+                    'id' => $d->cd_documento,
+                    'cd_prof_doc' => $d->cd_prof,
+                    'created_at' => $d->created_at,
+                    'has_agendamento' => $d->cd_agendamento ? 'SIM' : 'NAO',
+                    'agendamento_prof' => $d->agendamento ? $d->agendamento->cd_profissional : 'N/A',
+                    'agendamento_data' => $d->agendamento ? $d->agendamento->dt_agenda : 'N/A'
+                ];
+            })
+        ]);
+
+        // Query normal (mantida para não quebrar fluxo, mas vamos analisar o log acima)
         $queryBuilder = AgendamentoDocumentos::with(['agendamento.paciente', 'agendamento.especialidade', 'agendamento.profissional']);
 
         // Filtro de Profissional (pode estar no doc ou no agendamento)
