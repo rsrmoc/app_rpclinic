@@ -37,15 +37,13 @@
    <!--end loader-->
 
    <!--start wrapper-->
-    <div class="wrapper" style="background: #f8fafc; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+    <div class="wrapper" style="background: #cbd5e1; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
        <!--start to page content-->
        <div class="page-content bg-transparent w-100">
           <div class="login-body p-4" style="max-width: 450px; margin: 0 auto;">
-             <!-- Background Stethoscope Watermark -->
-             <div class="bg-watermark">
-            </div>
+
              
-             <form action="{{ route('app.login.action') }}" method="POST" class="mt-4 bg-white p-5 rounded-3xl border border-slate-200 shadow-xl position-relative z-10">
+             <form action="{{ route('app.login.action') }}" method="POST" class="mt-4 bg-transparent p-0 position-relative z-10">
                @csrf
 
                <div style="text-align: center" class="mb-5">
@@ -86,7 +84,7 @@
                </div>
 
                <div class="mb-0 w-100">
-                 <button type="submit" class="btn btn2 w-100 py-3 rounded-2xl font-bold shadow-lg shadow-teal-500/20 text-white border-0">ENTRAR NO SISTEMA</button>
+                 <button type="submit" class="btn btn2 w-100 py-3 rounded-2xl font-bold shadow-lg shadow-teal-500/20 text-white border-0">LOGAR</button>
                </div>
              </form>
           </div>
@@ -94,47 +92,7 @@
      <!--end to page content-->
 
        <style>
-            /* Copied Watermark Style from Global */
-             /* Background Image Style */
-            .bg-watermark {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 0;
-            }
-            
-            .bg-watermark::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-image: url('{{ asset("app/assets/images/splash-screen-1.webp") }}');
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
-            }
 
-            .bg-watermark::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(255, 255, 255, 0.85); /* White overlay for Pure White theme */
-                backdrop-filter: blur(2px);
-            }
-
-            /* Responsive adjustments */
-            @media (max-width: 768px) {
-                .bg-watermark::before {
-                    background-position: top center; /* Focus on face for mobile */
-                }
-            }
 
             .btn2 {
                 display: flex !important;
