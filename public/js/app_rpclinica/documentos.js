@@ -24655,7 +24655,13 @@ Alpine.data('appDocumentos', function () {
       this.getDatesWithEvents(today.getMonth(), today.getFullYear()); // Se já existe, destrói
 
       if (this.datepicker) {
-        this.datepicker.destroy();
+        try {
+          this.datepicker.destroy();
+        } catch (e) {
+          console.warn('⚠️ Erro não-crítico ao destruir datepicker:', e);
+        }
+
+        this.datepicker = null;
       }
 
       var el = document.getElementById('documentosDatePicker');
@@ -24730,12 +24736,18 @@ Alpine.data('appDocumentos', function () {
       axios.post(routeAgendamentosDatas, {
         cd_profissional: cdProfissional,
         month: month,
-        year: year
+        year: year,
+        tipo: 'documentos' // ATENÇÃO: Pede datas de documentos, não agendamentos
+
       }).then(function (res) {
-        _this3.datesWithEvents = res.data.dates;
+        _this3.datesWithEvents = res.data.dates; // Proteção contra erro de atualização em instância instável
 
         if (_this3.datepicker) {
-          _this3.datepicker.update();
+          try {
+            _this3.datepicker.update();
+          } catch (e) {
+            console.warn('⚠️ Erro ao atualizar visual do datepicker (ignorado):', e);
+          }
         }
       });
     },

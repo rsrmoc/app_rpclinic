@@ -138,9 +138,9 @@
 
         .air-datepicker-cell.-current- {
             color: #0d9488 !important;
-            font-weight: 800 !important;
-            background: transparent !important; /* Remove fundo do dia atual */
-            border: 1px solid #ccfbf1 !important; /* Adiciona borda sutil */
+            font-weight: bold !important; /* Apenas negrito */
+            background: transparent !important;
+            border: none !important; /* Sem borda para não confundir */
         }
         
         .air-datepicker-cell.-current-.-selected- {

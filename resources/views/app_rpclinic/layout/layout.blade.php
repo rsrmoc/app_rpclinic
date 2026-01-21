@@ -504,6 +504,13 @@
         }
 
         /* LOGO CENTERING FIX */
+        .brand-logo {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 0 !important;
+        }
+
         .brand-logo img {
             max-height: none !important; /* Allow logo to grow */
             height: auto;
@@ -580,8 +587,10 @@
             </div>
 
             <!-- Center: Logo -->
-            <div class="position-absolute top-50 start-50 translate-middle d-flex justify-content-center align-items-center">
-                @yield('button_left')
+            <div class="position-absolute top-50 start-50 translate-middle d-flex flex-column justify-content-center align-items-center" style="width: auto; pointer-events: none;">
+                <div style="pointer-events: auto;">
+                    @yield('button_left')
+                </div>
             </div>
 
             <!-- Right: Actions -->

@@ -101,12 +101,19 @@ Alpine.data('appDocumentos', () => ({
         axios.post(routeAgendamentosDatas, {
             cd_profissional: cdProfissional,
             month: month,
-            year: year
+            year: year,
+            tipo: 'documentos' // ATENÇÃO: Pede datas de documentos, não agendamentos
         })
             .then((res) => {
                 this.datesWithEvents = res.data.dates;
+
+                // Proteção contra erro de atualização em instância instável
                 if (this.datepicker) {
-                    this.datepicker.update();
+                    try {
+                        this.datepicker.update();
+                    } catch (e) {
+                        console.warn('⚠️ Erro ao atualizar visual do datepicker (ignorado):', e);
+                    }
                 }
             });
     },

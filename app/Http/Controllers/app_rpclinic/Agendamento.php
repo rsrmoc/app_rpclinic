@@ -47,25 +47,32 @@ class Agendamento extends Controller
         $request->validate([
             'cd_profissional' => 'required|integer',
             'month' => 'required|integer',
-            'year' => 'required|integer'
+            'year' => 'required|integer',
+            'tipo' => 'nullable|string' // Novo parâmetro opcional
         ]);
 
-        // Datas de Agendamentos
-        $datesAgendamentos = RpclinicaAgendamento::where('cd_profissional', $request->cd_profissional)
+        // MODO DOCUMENTOS: Busca apenas dias com documentos
+        if ($request->tipo === 'documentos') {
+            $dates = \App\Model\rpclinica\AgendamentoDocumentos::query()
+                ->whereYear('created_at', $request->year)
+                ->whereMonth('created_at', $request->month + 1)
+                ->where(function($q) use ($request) {
+                    $q->where('cd_prof', $request->cd_profissional)
+                      ->orWhereHas('agendamento', function($subQ) use ($request) {
+                          $subQ->where('cd_profissional', $request->cd_profissional);
+                      });
+                })
+                ->selectRaw('distinct date(created_at) as date')
+                ->pluck('date');
+                
+            return response()->json(['dates' => $dates]);
+        }
+
+        // MODO PADRÃO (AGENDAMENTOS): Busca dias com agendamentos
+        $dates = RpclinicaAgendamento::where('cd_profissional', $request->cd_profissional)
             ->whereYear('dt_agenda', $request->year)
             ->whereMonth('dt_agenda', $request->month + 1)
-            ->selectRaw('distinct date(dt_agenda) as date');
-
-        // Datas de Documentos (criados nessa data)
-        // Precisamos incluir isso para que dias COM documentos (mas SEM agendamento) tenham bolinha
-        $datesDocumentos = \App\Model\rpclinica\AgendamentoDocumentos::where('cd_prof', $request->cd_profissional)
-            ->whereYear('created_at', $request->year)
-            ->whereMonth('created_at', $request->month + 1)
-            ->selectRaw('distinct date(created_at) as date');
-
-        // Unir tudo
-        $dates = $datesAgendamentos->union($datesDocumentos)
-            ->get()
+            ->selectRaw('distinct date(dt_agenda) as date')
             ->pluck('date');
 
         return response()->json(['dates' => $dates]);
