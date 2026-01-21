@@ -22,7 +22,7 @@
 
 @section('content')
     <!--start to page content-->
-    <div class="px-3 pt-1 pb-6 min-h-screen" x-data="appPacienteList">
+    <div class="px-2 pt-1 pb-6 min-h-screen" x-data="appPacienteList">
 
         <form x-on:submit.prevent="getPacientes">
             <div class="position-relative">
