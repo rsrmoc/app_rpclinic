@@ -13,12 +13,21 @@ Alpine.data('appPacienteList', () => ({
             this.nextPage = null;
             this.getPacientes();
         });
+
+        // Force refresh when returning from another page (Back button/BFCache)
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted || performance.getEntriesByType("navigation")[0].type === 'back_forward') {
+                this.getPacientes();
+            }
+        });
     },
 
     getPacientes() {
         this.loading = true;
 
-        let url = this.nextPage ? this.nextPage : `${routePacienteList}?search=${this.search}`;
+        let baseUrl = this.nextPage ? this.nextPage : `${routePacienteList}?search=${this.search}`;
+        // Cache busting
+        let url = baseUrl + (baseUrl.includes('?') ? '&' : '?') + `t=${new Date().getTime()}`;
 
         axios.get(url)
             .then((res) => {
