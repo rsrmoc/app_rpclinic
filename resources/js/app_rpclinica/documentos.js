@@ -4,7 +4,7 @@ import 'air-datepicker/air-datepicker.css';
 import moment from 'moment';
 import { jsPDF } from 'jspdf';
 
-console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - BUILDE: ' + new Date().toLocaleTimeString());
+console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - v2.0 (MagicBytes Check): ' + new Date().toLocaleTimeString());
 
 Alpine.data('appDocumentos', () => ({
     loading: false,
@@ -173,9 +173,22 @@ Alpine.data('appDocumentos', () => ({
 
                 console.log('🔍 Tipo de conteúdo recebido:', contentType);
 
-                // SÓ compartilha como arquivo se for realmente PDF
+                console.log('🔍 Tipo de conteúdo recebido:', contentType);
+
+                // SÓ compartilha como arquivo se for realmente PDF E tiver conteúdo válido
                 if (contentType && contentType.includes('application/pdf')) {
                     const blob = await response.blob();
+
+                    // Validação extra: Checar Magic Bytes do PDF (%PDF-)
+                    // Isso evita que PDFs corrompidos (com lixo antes ou HTML dentro) sejam passados adiante
+                    const headerCheck = await blob.slice(0, 5).text();
+                    console.log('🧐 Magic Bytes:', headerCheck);
+
+                    if (!headerCheck.startsWith('%PDF-')) {
+                        console.warn('⚠️ O arquivo recebido diz ser PDF, mas não inicia com %PDF-. Provável erro ou HTML retornado.');
+                        throw new Error('Conteúdo não é um PDF válido');
+                    }
+
                     const fileName = `${documento.nm_formulario}_${documento.agendamento.paciente.nm_paciente}.pdf`.replace(/[^a-z0-9]/gi, '_'); // Sanitizar nome
                     const file = new File([blob], fileName, { type: 'application/pdf' });
 

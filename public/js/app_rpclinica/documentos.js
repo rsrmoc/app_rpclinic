@@ -24788,96 +24788,117 @@ Alpine.data('appDocumentos', function () {
       return moment__WEBPACK_IMPORTED_MODULE_3___default()(date).lang('pt-BR').format('LLL');
     },
     compartilharDoc: function compartilharDoc(documento) {
+      var _this5 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var url, fullUrl, response, blob, fileName, file;
+        var url, fullUrl, response, contentType, blob, fileName, file;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                // Ajuste de rota caso precise de uma rota específica para download de PDF
+                // Por enquanto usa a mesma de visualização
                 url = "/rpclinica/json/imprimirDocumentoGeral/".concat(documento.agendamento.cd_agendamento, "/").concat(documento.cd_documento);
-                fullUrl = window.location.origin + url;
+                fullUrl = window.location.origin + url; // Tentar compartilhar via Web Share API
 
                 if (!(navigator.share && navigator.canShare)) {
-                  _context.next = 29;
+                  _context.next = 33;
                   break;
                 }
 
                 _context.prev = 3;
-                _context.next = 6;
+                // Tenta buscar o conteúdo para ver se é PDF real
+                console.log('🔄 Buscando documento para verificar tipo...');
+                _context.next = 7;
                 return fetch(fullUrl);
 
-              case 6:
+              case 7:
                 response = _context.sent;
-                _context.next = 9;
+                contentType = response.headers.get('content-type');
+                console.log('🔍 Tipo de conteúdo recebido:', contentType); // SÓ compartilha como arquivo se for realmente PDF
+
+                if (!(contentType && contentType.includes('application/pdf'))) {
+                  _context.next = 21;
+                  break;
+                }
+
+                _context.next = 13;
                 return response.blob();
 
-              case 9:
+              case 13:
                 blob = _context.sent;
-                // Criar arquivo do blob
-                fileName = "".concat(documento.nm_formulario, "_").concat(documento.agendamento.paciente.nm_paciente, ".pdf");
+                fileName = "".concat(documento.nm_formulario, "_").concat(documento.agendamento.paciente.nm_paciente, ".pdf").replace(/[^a-z0-9]/gi, '_'); // Sanitizar nome
+
                 file = new File([blob], fileName, {
                   type: 'application/pdf'
-                }); // Verificar se pode compartilhar arquivos
+                });
 
                 if (!navigator.canShare({
                   files: [file]
                 })) {
-                  _context.next = 18;
+                  _context.next = 21;
                   break;
                 }
 
-                _context.next = 15;
+                _context.next = 19;
                 return navigator.share({
                   title: documento.nm_formulario,
-                  text: "Documento: ".concat(documento.nm_formulario, " - Paciente: ").concat(documento.agendamento.paciente.nm_paciente),
+                  text: "Documento: ".concat(documento.nm_formulario, "\nPaciente: ").concat(documento.agendamento.paciente.nm_paciente),
                   files: [file]
                 });
 
-              case 15:
-                console.log('PDF compartilhado com sucesso');
-                _context.next = 21;
-                break;
+              case 19:
+                console.log('✅ PDF compartilhado com sucesso');
+                return _context.abrupt("return");
 
-              case 18:
-                _context.next = 20;
+              case 21:
+                // SE não for PDF ou não suportar arquivos, compartilha o LINK
+                console.log('⚠️ Conteúdo não é PDF ou envio de arquivo não suportado. Compartilhando link.');
+                _context.next = 24;
                 return navigator.share({
                   title: documento.nm_formulario,
-                  text: "Documento: ".concat(documento.nm_formulario, " - Paciente: ").concat(documento.agendamento.paciente.nm_paciente),
+                  text: "Acesse o documento digital:\n".concat(documento.nm_formulario, " - ").concat(documento.agendamento.paciente.nm_paciente),
                   url: fullUrl
                 });
 
-              case 20:
-                console.log('Link compartilhado com sucesso');
-
-              case 21:
-                _context.next = 27;
+              case 24:
+                console.log('🔗 Link compartilhado com sucesso');
+                _context.next = 31;
                 break;
-
-              case 23:
-                _context.prev = 23;
-                _context.t0 = _context["catch"](3);
-                console.log('Erro ao compartilhar', _context.t0);
-                alert('Erro ao compartilhar documento');
 
               case 27:
-                _context.next = 30;
+                _context.prev = 27;
+                _context.t0 = _context["catch"](3);
+                console.error('❌ Erro ao compartilhar:', _context.t0); // Último recurso: Copiar link
+
+                _this5.fallbackCopyLink(fullUrl);
+
+              case 31:
+                _context.next = 34;
                 break;
 
-              case 29:
-                // Fallback: copiar link
-                navigator.clipboard.writeText(fullUrl).then(function () {
-                  alert('Link do documento copiado para a área de transferência!');
-                })["catch"](function (err) {
-                  console.error('Erro ao copiar link: ', err);
-                });
+              case 33:
+                // Se navegador não suporta share API
+                _this5.fallbackCopyLink(fullUrl);
 
-              case 30:
+              case 34:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[3, 23]]);
+        }, _callee, null, [[3, 27]]);
       }))();
+    },
+    fallbackCopyLink: function fallbackCopyLink(url) {
+      navigator.clipboard.writeText(url).then(function () {
+        // Usar toastr ou alert amigável se possível
+        // Como estou sem acesso fácil ao toastr aqui, vai alert mesmo ou nada (feedback visual é ideal)
+        // Mas o alert interrompe fluxo, melhor deixar quieto ou usar log se não for crítico
+        alert('Link copiado para área de transferência!');
+      })["catch"](function (err) {
+        console.error('Erro ao copiar link', err);
+        prompt('Copie o link:', url); // Fallback manual
+      });
     },
     downloadPDF: function downloadPDF(name, content) {
       var doc = new jspdf__WEBPACK_IMPORTED_MODULE_4__.jsPDF();
