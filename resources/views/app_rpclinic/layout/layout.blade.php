@@ -540,7 +540,7 @@
    <!--end loader-->
 
    <!--start wrapper-->
-    <div class="wrapper" style="background: #0f172a; min-height: 100vh;">
+    <div class="wrapper">
        <!--start to page content-->
        <div class="page-content bg-transparent">
              <!-- Background Stethoscope Watermark -->
