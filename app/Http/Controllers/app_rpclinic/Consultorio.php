@@ -68,6 +68,11 @@ class Consultorio extends Controller
             'data' => 'required|string|date_format:Y-m-d'
         ]);
        
+        \Log::info('📅 Buscando documentos', [
+            'data' => $request->data,
+            'cd_profissional' => $request->cd_profissional
+        ]);
+       
         // Buscar documentos pela data de criação OU pela data do agendamento
         $documentos = AgendamentoDocumentos::with(['agendamento.paciente', 'agendamento.especialidade', 'agendamento.profissional'])
             ->where('cd_prof', $request->cd_profissional)
@@ -81,6 +86,11 @@ class Consultorio extends Controller
             })
             ->orderBy('created_at', 'desc')
             ->get();
+ 
+        \Log::info('📄 Documentos encontrados', [
+            'total' => $documentos->count(),
+            'ids' => $documentos->pluck('cd_documento')->toArray()
+        ]);
  
         foreach ($documentos as $documento) {
             // Se tiver agendamento, garante o load (caso o with tenha falhado em algum nível ou para consistência)
