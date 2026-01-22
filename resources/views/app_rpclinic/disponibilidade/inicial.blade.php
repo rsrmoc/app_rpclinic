@@ -181,8 +181,10 @@
         }
 
         .air-datepicker-cell.-selected-, 
-        .air-datepicker-cell.-selected-.-current- {
-            background: #0d9488 !important; 
+        .air-datepicker-cell.-selected-.-current-,
+        .air-datepicker-cell.-selected-.-focus-,
+        .air-datepicker-cell.-selected-.-active- {
+            background: #0d9488 !important; /* Force teal-600 */
             color: #ffffff !important;
             font-weight: bold !important;
             border: none !important;
@@ -190,22 +192,22 @@
             border-radius: 50% !important;
         }
 
-        /* Hover, Focus and Active state for non-selected cells */
-        .air-datepicker-cell:hover,
-        .air-datepicker-cell:active,
-        .air-datepicker-cell.-focus- {
-            background: transparent !important;
-            color: inherit !important;
-        }
-
-        /* Ensure selected cell remains teal instantly */
-        .air-datepicker-cell.-selected-,
+        /* Prevent any other color from overriding selected state */
         .air-datepicker-cell.-selected-:hover,
         .air-datepicker-cell.-selected-:active,
         .air-datepicker-cell.-selected-.-focus- {
             background: #0d9488 !important;
             color: #ffffff !important;
         }
+
+        /* Clear backgrounds for non-selected cells */
+        .air-datepicker-cell:not(.-selected-):hover,
+        .air-datepicker-cell:not(.-selected-):active,
+        .air-datepicker-cell:not(.-selected-).-focus- {
+            background: transparent !important;
+            color: #0d9488 !important;
+        }
+
         
         .air-datepicker-cell.-other-month- {
             color: #cbd5e1 !important; 

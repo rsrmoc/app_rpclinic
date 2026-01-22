@@ -233,12 +233,22 @@
         }
 
         .air-datepicker-cell.-selected-, 
-        .air-datepicker-cell.-selected-.-current- {
-            background: #0d9488 !important; /* teal-600 */
+        .air-datepicker-cell.-selected-.-current-,
+        .air-datepicker-cell.-selected-.-focus-,
+        .air-datepicker-cell.-selected-.-active- {
+            background: #0d9488 !important; /* Force teal-600 */
             color: #ffffff !important;
             font-weight: bold !important;
             border: none !important;
             box-shadow: 0 4px 10px rgba(13, 148, 136, 0.4) !important;
+        }
+
+        /* Prevent any other color from overriding selected state */
+        .air-datepicker-cell.-selected-:hover,
+        .air-datepicker-cell.-selected-:active,
+        .air-datepicker-cell.-selected-.-focus- {
+            background: #0d9488 !important;
+            color: #ffffff !important;
         }
 
         /* Focus state for non-selected cells - REMOVED BACKGROUND */
@@ -247,12 +257,12 @@
             color: #0d9488 !important;
         }
 
-        /* Hover, Focus and Active state for non-selected cells */
-        .air-datepicker-cell:hover,
-        .air-datepicker-cell:active,
-        .air-datepicker-cell.-focus- {
+        /* Clear backgrounds for non-selected cells */
+        .air-datepicker-cell:not(.-selected-):hover,
+        .air-datepicker-cell:not(.-selected-):active,
+        .air-datepicker-cell:not(.-selected-).-focus- {
             background: transparent !important;
-            color: inherit !important;
+            color: #0d9488 !important;
         }
 
         /* Ensure selected cell remains teal instantly */
