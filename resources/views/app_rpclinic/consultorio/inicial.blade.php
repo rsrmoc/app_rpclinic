@@ -220,16 +220,25 @@
             background: #f0fdfa !important; /* teal-50 */
         }
 
-        .air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-current- {
+        .air-datepicker-cell.-selected-, 
+        .air-datepicker-cell.-selected-.-current-,
+        .air-datepicker-cell.-selected-.-focus- {
             background: #0d9488 !important; /* teal-600 */
             color: #ffffff !important;
             font-weight: bold !important;
-            box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.3);
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4) !important;
+        }
+
+        /* Focus state for non-selected cells - REMOVED BACKGROUND */
+        .air-datepicker-cell.-focus-:not(.-selected-) {
+            background: transparent !important;
+            color: #0d9488 !important;
         }
 
         /* Hover desabilitado - apenas clique tem efeito */
         .air-datepicker-cell:hover {
             background: transparent !important;
+            color: inherit !important;
         }
         
         .air-datepicker-cell.-other-month- {

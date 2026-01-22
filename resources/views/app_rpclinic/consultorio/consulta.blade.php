@@ -60,7 +60,7 @@
 
         <!-- Abas de Navegação -->
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-1 mb-4 grid grid-cols-4 gap-1">
-            <button @click="tab = 0" 
+            <button type="button" @click="tab = 0" 
                     :class="tab === 0 ? 'bg-white border-teal-200 shadow-sm' : 'bg-transparent border-transparent opacity-60'"
                     class="flex flex-col items-center justify-center py-2 px-1 rounded-xl border transition-all duration-200 group">
                 <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-1 transition-colors bg-teal-50 text-teal-600 group-hover:bg-teal-100">
@@ -68,29 +68,29 @@
                 </div>
                 <span class="text-[0.6rem] font-bold uppercase tracking-wide text-slate-600" :class="tab === 0 ? 'text-teal-700' : ''">Anamnese</span>
             </button>
-            <button @click="tab = 1" 
-                    :class="tab === 1 ? 'bg-white border-blue-200 shadow-sm' : 'bg-transparent border-transparent opacity-60'"
+            <button type="button" @click="tab = 1" 
+                    :class="tab === 1 ? 'bg-white border-teal-200 shadow-sm' : 'bg-transparent border-transparent opacity-60'"
                     class="flex flex-col items-center justify-center py-2 px-1 rounded-xl border transition-all duration-200 group">
-                 <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-1 transition-colors bg-blue-50 text-blue-600 group-hover:bg-blue-100">
+                 <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-1 transition-colors bg-teal-50 text-teal-600 group-hover:bg-teal-100">
                     <i class="bi bi-paperclip text-xl"></i>
                  </div>
-                 <span class="text-[0.6rem] font-bold uppercase tracking-wide text-slate-600" :class="tab === 1 ? 'text-blue-700' : ''">Docs</span>
+                 <span class="text-[0.6rem] font-bold uppercase tracking-wide text-slate-600" :class="tab === 1 ? 'text-teal-700' : ''">Docs</span>
             </button>
-            <button @click="tab = 2" 
-                    :class="tab === 2 ? 'bg-white border-rose-200 shadow-sm' : 'bg-transparent border-transparent opacity-60'"
+            <button type="button" @click="tab = 2" 
+                    :class="tab === 2 ? 'bg-white border-teal-200 shadow-sm' : 'bg-transparent border-transparent opacity-60'"
                     class="flex flex-col items-center justify-center py-2 px-1 rounded-xl border transition-all duration-200 group">
-                <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-1 transition-colors bg-rose-50 text-rose-600 group-hover:bg-rose-100">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-1 transition-colors bg-teal-50 text-teal-600 group-hover:bg-teal-100">
                     <i class="bi bi-exclamation-triangle text-xl"></i>
                 </div>
-                <span class="text-[0.6rem] font-bold uppercase tracking-wide text-slate-600" :class="tab === 2 ? 'text-rose-700' : ''">Alertas</span>
+                <span class="text-[0.6rem] font-bold uppercase tracking-wide text-slate-600" :class="tab === 2 ? 'text-teal-700' : ''">Alertas</span>
              </button>
-             <button @click="tab = 3" 
-                    :class="tab === 3 ? 'bg-white border-indigo-200 shadow-sm' : 'bg-transparent border-transparent opacity-60'"
+             <button type="button" @click="tab = 3" 
+                    :class="tab === 3 ? 'bg-white border-teal-200 shadow-sm' : 'bg-transparent border-transparent opacity-60'"
                     class="flex flex-col items-center justify-center py-2 px-1 rounded-xl border transition-all duration-200 group">
-                 <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-1 transition-colors bg-indigo-50 text-indigo-600 group-hover:bg-indigo-100">
+                 <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-1 transition-colors bg-teal-50 text-teal-600 group-hover:bg-teal-100">
                     <i class="bi bi-clock-history text-xl"></i>
                  </div>
-                 <span class="text-[0.6rem] font-bold uppercase tracking-wide text-slate-600" :class="tab === 3 ? 'text-indigo-700' : ''">Histórico</span>
+                 <span class="text-[0.6rem] font-bold uppercase tracking-wide text-slate-600" :class="tab === 3 ? 'text-teal-700' : ''">Histórico</span>
             </button>
         </div>
 
@@ -108,7 +108,7 @@
                 </div>
 
                 <div class="d-grid mt-3">
-                    <button type="submit" class="btn btn-primary bg-teal-600 border-teal-600 text-white font-bold rounded-xl shadow-md py-3" x-bind:disabled="loadingSaveAnamnese">
+                    <button type="submit" class="btn btn-teal text-white font-bold rounded-xl shadow-md py-3" x-bind:disabled="loadingSaveAnamnese">
                         <template x-if="loadingSaveAnamnese">
                             <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
                         </template>
@@ -144,7 +144,7 @@
                 </div>
 
                 <div class="d-grid mt-3" x-show="docsFormularioSelected">
-                    <button type="submit" class="btn btn-primary bg-teal-600 border-teal-600 text-white font-bold rounded-xl shadow-md py-3" x-bind:disabled="loadingSaveDoc">
+                    <button type="submit" class="btn btn-teal text-white font-bold rounded-xl shadow-md py-3" x-bind:disabled="loadingSaveDoc">
                         <template x-if="loadingSaveDoc">
                             <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
                         </template>
@@ -189,15 +189,15 @@
                 <input type="hidden" name="cd_agendamento" value="{{ $agendamento->cd_agendamento }}" />
                 <input type="hidden" name="cd_paciente" value="{{ $agendamento->paciente->cd_paciente }}" />
                 
-                <div class="bg-rose-50 rounded-2xl shadow-sm border border-rose-100 p-1 mb-3">
-                    <div class="px-3 py-2 border-b border-rose-100 mb-0 flex items-center justify-between">
-                        <label class="text-rose-700 font-bold text-sm mb-0 flex items-center gap-2"><i class="bi bi-exclamation-triangle-fill"></i> Alertas e Alergias</label>
+                <div class="bg-teal-50 rounded-2xl shadow-sm border border-teal-100 p-1 mb-3">
+                    <div class="px-3 py-2 border-b border-teal-100 mb-0 flex items-center justify-between">
+                        <label class="text-teal-700 font-bold text-sm mb-0 flex items-center gap-2"><i class="bi bi-exclamation-triangle-fill"></i> Alertas e Alergias</label>
                     </div>
                     <textarea class="form-control border-0 bg-transparent" cols="30" rows="10" name="conteudo" id='editor-alertas' required>{{ $agendamento->paciente->historico_problemas }}</textarea>
                 </div>
                 
                  <div class="d-grid mt-3">
-                    <button type="submit" class="btn btn-primary bg-teal-600 border-teal-600 text-white font-bold rounded-xl shadow-md py-3" x-bind:disabled="loadingSaveAlertas">
+                    <button type="submit" class="btn btn-teal text-white font-bold rounded-xl shadow-md py-3" x-bind:disabled="loadingSaveAlertas">
                         <template x-if="loadingSaveAlertas">
                             <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
                         </template>
@@ -236,168 +236,99 @@
         </div>
 
 
-        <!-- Modal de Seleção de Modelos (Custom Picker) -->
-        <div class="modal fade" id="modalMeusModelos" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content rounded-2xl border-0 shadow-2xl h-[80vh]">
-                    <div class="modal-header border-b border-slate-100 py-3">
-                        <h5 class="modal-title font-bold text-slate-800 text-sm">Selecione um Modelo</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body p-0 bg-slate-50">
-                        <div class="list-group list-group-flush">
-                            @foreach ($formularios as $formulario)
-                                <button type="button" 
-                                    class="list-group-item list-group-item-action p-4 border-b border-slate-100 hover:bg-teal-50 transition-colors flex items-center justify-between group"
-                                    x-on:click="selectModelo('{{ $formulario->cd_formulario }}', '{{ str_replace("'", "\'", $formulario->nm_formulario) }}')">
-                                    <div class="flex items-center gap-3">
-                                        <i class="bi bi-file-earmark-text-fill text-2xl" style="background: linear-gradient(45deg, #d946ef, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
-                                        <span class="font-bold text-slate-700 group-hover:text-teal-700 text-sm whitespace-normal leading-snug text-left">
-                                            {{ $formulario->nm_formulario }}
-                                        </span>
-                                    </div>
-                                    <i class="bi bi-chevron-right text-slate-300 group-hover:text-teal-400"></i>
-                                </button>
-                            @endforeach
+        <!-- Modal de Seleção de Modelos (Custom Picker) - Movido para fora das abas para manter escopo Alpine -->
+        <template x-teleport="body">
+            <div class="modal fade" id="modalMeusModelos" tabindex="-1" aria-hidden="true" style="z-index: 10006;">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content rounded-2xl border-0 shadow-2xl h-[80vh]">
+                        <div class="modal-header border-b border-slate-100 py-3">
+                            <h5 class="modal-title font-bold text-slate-800 text-sm">Selecione um Modelo</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body p-0 bg-slate-50">
+                            <div class="list-group list-group-flush">
+                                @foreach ($formularios as $formulario)
+                                    <button type="button" 
+                                        class="list-group-item list-group-item-action p-4 border-b border-slate-100 hover:bg-teal-50 transition-colors flex items-center justify-between group"
+                                        x-on:click="selectModelo('{{ $formulario->cd_formulario }}', '{{ str_replace("'", "\'", $formulario->nm_formulario) }}')">
+                                        <div class="flex items-center gap-3">
+                                            <i class="bi bi-file-earmark-text-fill text-2xl" style="background: linear-gradient(45deg, #d946ef, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                                            <span class="font-bold text-slate-700 group-hover:text-teal-700 text-sm whitespace-normal leading-snug text-left">
+                                                {{ $formulario->nm_formulario }}
+                                            </span>
+                                        </div>
+                                        <i class="bi bi-chevron-right text-slate-300 group-hover:text-teal-400"></i>
+                                    </button>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </template>
 
-        <div class="modal fade" tabindex="-1" id="modalFinalizar">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content rounded-2xl border-0 shadow-lg">
-                    <div class="modal-header border-0 bg-slate-50 rounded-t-2xl">
-                        <h5 class="modal-title font-bold text-slate-800">Finalizar consulta</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center py-4">
-                        <div class="bg-teal-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <i class="bi bi-check-lg text-3xl text-teal-600"></i>
+        <template x-teleport="body">
+            <div class="modal fade" tabindex="-1" id="modalFinalizar">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content rounded-2xl border-0 shadow-lg">
+                        <div class="modal-header border-0 bg-slate-50 rounded-t-2xl">
+                            <h5 class="modal-title font-bold text-slate-800">Finalizar consulta</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <p class="text-slate-600 font-medium">Tem certeza que deseja finalizar este atendimento?</p>
-                    </div>
-                    <div class="modal-footer border-0 bg-slate-50 rounded-b-2xl justify-center pb-4">
-                        <button type="button" class="btn btn-light text-slate-500 font-bold rounded-xl px-4" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" id="btnConfirmFinalizar" class="btn bg-teal-600 text-white font-bold rounded-xl px-4 hover:bg-teal-700 shadow-md transition-all"
-                            x-on:click="finalizarConsulta">
-                            <template x-if="loadingFinalizar">
-                                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                            </template>
-                            <span>Sim, finalizar!</span>
-                        </button>
+                        <div class="modal-body text-center py-4">
+                            <div class="bg-teal-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="bi bi-check-lg text-3xl text-teal-600"></i>
+                            </div>
+                            <p class="text-slate-600 font-medium">Tem certeza que deseja finalizar este atendimento?</p>
+                        </div>
+                        <div class="modal-footer border-0 bg-slate-50 rounded-b-2xl justify-center pb-4">
+                            <button type="button" class="btn btn-light text-slate-500 font-bold rounded-xl px-4" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" id="btnConfirmFinalizar" class="btn btn-teal text-white font-bold rounded-xl px-4 shadow-md transition-all"
+                                x-on:click="finalizarConsulta">
+                                <template x-if="loadingFinalizar">
+                                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                </template>
+                                <span>Sim, finalizar!</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </template>
     </div>
     <!--end to page content-->
 @endsection
 
+@push('scripts')
+    <!-- Dados injetados para o JS -->
+    <script id="data-formularios" type="application/json">
+        @json($formularios)
+    </script>
+    <input type="hidden" id="data-cd-agendamento" value="{{ $agendamento->cd_agendamento }}">
+    <input type="hidden" id="data-cd-paciente" value="{{ $agendamento->paciente->cd_paciente }}">
+    <input type="hidden" id="data-initial-atendido" value="{{ $agendamento->situacao == 'atendido' ? 'true' : 'false' }}">
+
+    <!-- Rotas da API -->
+    <input type="hidden" id="route-consulta-finalizar" value="{{ route('app.api.consulta-finalizar', ['idAgendamento' => 0]) }}">
+    <input type="hidden" id="route-consulta-docs" value="{{ route('app.api.consulta-docs', ['cdAgendamento' => 0]) }}">
+    <input type="hidden" id="route-consulta-historico" value="{{ route('app.api.consulta-paciente-historico') }}">
+    <input type="hidden" id="route-consulta-anamnese" value="{{ route('app.api.consulta-paciente-anamnese') }}">
+    <input type="hidden" id="route-consulta-alertas" value="{{ route('app.api.consulta-paciente-alertas') }}">
+    <input type="hidden" id="route-consulta-doc" value="{{ route('app.api.consulta-paciente-doc') }}">
+
+    <script src="{{ asset('/js/app_rpclinica/consulta-paciente.js') }}"></script>
+@endpush
 @push('styles')
     <style>
-        /* Remover efeito hover azul dos botões de salvar - mantém cor teal */
-        .btn-primary.bg-teal-600:hover,
-        .btn-primary.bg-teal-600:focus,
-        .btn-primary.bg-teal-600:active {
+        .btn-teal {
             background-color: #0d9488 !important;
             border-color: #0d9488 !important;
-            box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.3) !important;
+            color: white !important;
         }
-        
-        /* Remover hover de todos os botões btn-primary dentro do page-content */
-        .page-content .btn-primary:hover,
-        .page-content .btn-primary:focus,
-        .page-content .btn-primary:active {
-            background-color: #0d9488 !important;
-            border-color: #0d9488 !important;
-        }
-        
-        /* Remover qualquer efeito de transição de cor */
-        .page-content .btn-primary {
-            transition: box-shadow 0.2s ease !important;
-        }
-        
-        /* Fix z-index do modal de modelos de documentos */
-        #modalMeusModelos {
-            z-index: 10060 !important;
-        }
-        
-        #modalMeusModelos .modal-dialog {
-            z-index: 10061 !important;
-        }
-        
-        #modalMeusModelos .modal-content {
-            z-index: 10062 !important;
-        }
-        
-        /* Garantir que o backdrop do modal de modelos não bloqueie os cliques */
-        #modalMeusModelos + .modal-backdrop,
-        .modal-backdrop.show {
-            z-index: 10050 !important;
-        }
-        
-        /* Garantir que os botões da lista são clicáveis - CRÍTICO para PWA/Touch */
-        #modalMeusModelos .list-group-item {
-            position: relative;
-            z-index: 10063 !important;
-            cursor: pointer !important;
-            /* Habilitando touch-action para melhor resposta em dispositivos móveis */
-            touch-action: manipulation !important;
-            -webkit-tap-highlight-color: rgba(0, 150, 136, 0.2);
-            /* Prevenir seleção de texto durante toque */
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        
-        #modalMeusModelos .list-group-item:hover,
-        #modalMeusModelos .list-group-item:active {
-            background-color: #f0fdfa !important;
-        }
-        
-        /* Feedback visual ao tocar/clicar no item */
-        #modalMeusModelos .list-group-item:active {
-            transform: scale(0.98);
-            transition: transform 0.1s ease;
-        }
-        
-        /* Garantir que nenhum elemento bloqueie os cliques no modal */
-        #modalMeusModelos .modal-body {
-            overflow-y: auto !important;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        /* Evitar que o backdrop capture eventos */
-        .modal-backdrop {
-            pointer-events: none !important;
-        }
-        
-        /* Mas o modal em si deve receber eventos */
-        .modal.show {
-            pointer-events: auto !important;
-        }
-        
-        .modal.show .modal-dialog {
-            pointer-events: auto !important;
+        .btn-teal:hover, .btn-teal:focus, .btn-teal:active {
+            background-color: #0f766e !important;
+            border-color: #0f766e !important;
+            color: white !important;
         }
     </style>
-@endpush
-
-@push('scripts')
-    <script>
-        const cdAgendamento = {{ $agendamento->cd_agendamento }};
-        const cdPaciente = '{{ $agendamento->paciente->cd_paciente }}';
-        const initialAtendido = {{ $agendamento->situacao == 'atendido' ? 'true' : 'false' }};
-        const formularios = @js($formularios);
-        
-        const routeConsultaFinalizar = @js(route('app.api.consulta-finalizar', ['idAgendamento' => 0])).replace(/\/0$/, '');
-        const routeConsultaDocs = @js(route('app.api.consulta-docs', ['cdAgendamento' => 0])).replace(/\/0$/, '');
-        
-        const routeConsultaHistorico = @js(route('app.api.consulta-paciente-historico'));
-        const routeConsultaAnamnese = @js(route('app.api.consulta-paciente-anamnese'));
-        const routeConsultaAlertas = @js(route('app.api.consulta-paciente-alertas'));
-        const routeConsultaDoc = @js(route('app.api.consulta-paciente-doc'));
-    </script>
-    <script src="{{ asset('/js/app_rpclinica/consulta-paciente.js') }}"></script>
 @endpush

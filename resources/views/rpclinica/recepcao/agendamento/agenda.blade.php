@@ -7,7 +7,7 @@
 
     <style>
         .fc-slats table tr, .fc-axis {
-            height: var(--slot-height) !important;
+            height: var(--slot-height, 35px) !important;
         }
 
         .fc-time-grid-event {
@@ -153,10 +153,36 @@
             font-size: 1.4em;
         }
 
-        .event-bg, .status-agendado { background-color: #d9edf7 !important; border-left-color: #31708f !important; color: #31708f !important; }
-        .event-vm, .fc-event[data-situacao="bloqueado"] { background-color: #f2dede !important; border-left-color: #a94442 !important; color: #a94442 !important; }
-        .event-vd { background-color: #dff0d8 !important; border-left-color: #3c763d !important; color: #3c763d !important; }
-        .fc-event[data-situacao="livre"] { background-color: #f4f4f4 !important; border-left: 5px solid #999 !important; color: #555 !important;   opacity: 1 !important; }
+        .event-bg, .status-agendado { 
+            background-color: rgba(56, 189, 248, 0.2) !important; 
+            border-left-color: #38bdf8 !important; 
+            color: #bae6fd !important; 
+            border-left-width: 5px !important;
+        }
+        .event-vm, .fc-event[data-situacao="bloqueado"] { 
+            background-color: rgba(244, 63, 94, 0.2) !important; 
+            border-left-color: #fb7185 !important; 
+            color: #fecdd3 !important; 
+            border-left-width: 5px !important;
+        }
+        .event-vd { 
+            background-color: rgba(34, 197, 94, 0.2) !important; 
+            border-left-color: #4ade80 !important; 
+            color: #bbf7d0 !important; 
+            border-left-width: 5px !important;
+        }
+        .fc-event[data-situacao="livre"] { 
+            background-color: rgba(255, 255, 255, 0.05) !important; 
+            border-left: 5px solid #64748b !important; 
+            color: #94a3b8 !important;   
+            opacity: 1 !important; 
+        }
+
+        /* Selection Highlight Fix */
+        .fc-highlight {
+            background-color: rgba(45, 212, 191, 0.2) !important;
+            opacity: 0.4 !important;
+        }
 
         /* Table Dark Theme Overrides */
         .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
@@ -173,6 +199,62 @@
             color: #cbd5e1 !important;
             border-color: rgba(255,255,255,0.1) !important;
         }
+
+        /* Toolbar and Datepicker Fixes */
+        .fc-toolbar {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            gap: 10px !important;
+            margin-bottom: 20px !important;
+        }
+        .fc-toolbar .fc-left, .fc-toolbar .fc-center, .fc-toolbar .fc-right {
+            float: none !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+        }
+        .fc-toolbar .fc-center {
+            order: 2;
+            flex-grow: 1;
+            justify-content: center;
+        }
+        .fc-toolbar .fc-left { order: 1; }
+        .fc-toolbar .fc-right { order: 3; }
+
+        @media (max-width: 768px) {
+            .fc-toolbar {
+                flex-direction: column !important;
+            }
+            .fc-toolbar .fc-left, .fc-toolbar .fc-center, .fc-toolbar .fc-right {
+                width: 100% !important;
+                justify-content: center !important;
+                margin-bottom: 5px !important;
+            }
+        }
+
+        /* Dark Theme Datepicker (Bootstrap Datepicker) */
+        .datepicker {
+            background: #1e293b !important;
+            color: #cbd5e1 !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            backdrop-filter: blur(10px) !important;
+            z-index: 10000 !important;
+        }
+        .datepicker table tr td.day:hover, .datepicker table tr td.focused {
+            background: rgba(255,255,255,0.1) !important;
+        }
+        .datepicker table tr td.active {
+            background: #2dd4bf !important;
+            color: white !important;
+        }
+        .datepicker .datepicker-switch:hover, .datepicker .prev:hover, .datepicker .next:hover, .datepicker tfoot tr th:hover {
+            background: rgba(255,255,255,0.1) !important;
+        }
+        .datepicker-dropdown:after { border-bottom: 6px solid #1e293b !important; }
+        .datepicker-dropdown:before { border-bottom: 7px solid rgba(255,255,255,0.1) !important; }
+
     </style>
     <div id="app" x-data="app">
         <div id="main-wrapper" style=" ">

@@ -65,39 +65,41 @@
                 </form><!--end form-->
             </div>
         </div>
-        <div class="modal fade" id="modalModeloDocumento" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen-sm-down modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Escolher Modelo de Documento</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                    </div>
-                    <div class="modal-body p-2">
-                        <div class="mb-2">
-                            <input
-                                type="search"
-                                class="form-control rounded-3 border-0 shadow-sm"
-                                placeholder="Buscar..."
-                                x-model="modeloDocumentoQuery"
-                                x-ref="modeloDocumentoSearch"
-                            >
+        <template x-teleport="body">
+            <div class="modal fade" id="modalModeloDocumento" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-fullscreen-sm-down modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Escolher Modelo de Documento</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                         </div>
-
-                        <div class="list-group">
-                            <template x-for="formulario in modeloDocumentoFiltrado" :key="formulario.cd_formulario">
-                                <button
-                                    type="button"
-                                    class="list-group-item list-group-item-action py-3 text-wrap"
-                                    x-on:click="selectModeloDocumento(formulario.cd_formulario)"
+                        <div class="modal-body p-2">
+                            <div class="mb-2">
+                                <input
+                                    type="search"
+                                    class="form-control rounded-3 border-0 shadow-sm"
+                                    placeholder="Buscar..."
+                                    x-model="modeloDocumentoQuery"
+                                    x-ref="modeloDocumentoSearch"
                                 >
-                                    <div class="fw-semibold" x-text="formulario.nm_formulario"></div>
-                                </button>
-                            </template>
+                            </div>
+
+                            <div class="list-group">
+                                <template x-for="formulario in modeloDocumentoFiltrado" :key="formulario.cd_formulario">
+                                    <button
+                                        type="button"
+                                        class="list-group-item list-group-item-action py-3 text-wrap"
+                                        x-on:click="selectModeloDocumento(formulario.cd_formulario)"
+                                    >
+                                        <div class="fw-semibold" x-text="formulario.nm_formulario"></div>
+                                    </button>
+                                </template>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </template>
     </div>
     <!--end to page content-->
 @endsection

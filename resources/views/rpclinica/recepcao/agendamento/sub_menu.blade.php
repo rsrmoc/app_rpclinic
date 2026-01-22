@@ -310,9 +310,10 @@
         color: #cbd5e1;
     }
 
-    #calendar > div.fc-view-container > div > table > tbody > tr > td > div.fc-scroller.fc-time-grid-container > div > div.fc-slats > table > tbody > tr {
+    /* Removido conflito de altura com o slot-height */
+    /* #calendar > div.fc-view-container > div > table > tbody > tr > td > div.fc-scroller.fc-time-grid-container > div > div.fc-slats > table > tbody > tr {
         height: 30px;
-    }
+    } */
 
     .table-responsive .nav-tabs>li>a {
        margin-right: 0px;
@@ -343,18 +344,18 @@
         font-size: 1.2em;
     }
 
-    .fc-center> h2 {
-       
-        height: 2.0em;
-        padding: 3px 15px;
-        font-size: 14px;
-        line-height: 1.42857143; 
-        background-color: transparent;
-        background-image: none;
-        border: 1px solid rgba(255, 255, 255, 0.1); 
-        font-weight: 400;
+    .fc-center > h2 {
+        min-height: 2.0em;
+        height: auto;
+        padding: 5px 20px;
+        font-size: 1.2em;
+        line-height: 1.4;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        font-weight: 600;
         color: #cbd5e1;
-  
+        margin: 0 !important;
     }
  
     

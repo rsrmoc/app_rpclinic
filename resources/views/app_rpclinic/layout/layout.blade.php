@@ -288,11 +288,9 @@
         /* Full Width App Container - WHITE THEME UPDATE */
         body {
             background-color: #f8fafc !important; /* Slate-50 - very light grey/white */
-            overscroll-behavior: none !important;
             -webkit-tap-highlight-color: transparent;
             margin: 0;
             padding: 0;
-            touch-action: manipulation;
             color: #1e293b; /* Slate-800 - Dark text */
         }
 
@@ -524,7 +522,11 @@
             background-color: #ffffff !important;
             background: #ffffff !important;
             font-weight: 500 !important; /* Global Bold */
-            overflow-x: hidden !important; /* Prevent horizontal scroll */
+            overflow-x: clip !important; /* Better than hidden for vertical scroll containers */
+            overflow-y: auto !important;
+            position: relative;
+            height: auto !important;
+            min-height: 100%;
         }
 
         /* Responsive Select Fix */
