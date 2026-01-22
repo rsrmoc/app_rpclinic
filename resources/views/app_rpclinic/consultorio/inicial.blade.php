@@ -208,25 +208,32 @@
 
         .air-datepicker-cell {
             color: #64748b !important; /* slate-500 */
-            font-size: 1.1rem !important;
-            height: 45px !important;
-            border-radius: 12px !important;
+            font-size: 0.9rem !important; /* Slightly smaller for mobile */
+            height: 40px !important;
+            width: 40px !important;
+            margin: 2px auto !important;
+            border-radius: 50% !important;
             font-weight: 600 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: all 0.2s ease !important;
         }
 
         .air-datepicker-cell.-current- {
             color: #0d9488 !important;
             font-weight: 900 !important;
-            background: #f0fdfa !important; /* teal-50 */
+            background: #f0fdfa !important; 
+            border: 1px solid #0d9488 !important;
         }
 
         .air-datepicker-cell.-selected-, 
-        .air-datepicker-cell.-selected-.-current-,
-        .air-datepicker-cell.-selected-.-focus- {
+        .air-datepicker-cell.-selected-.-current- {
             background: #0d9488 !important; /* teal-600 */
             color: #ffffff !important;
             font-weight: bold !important;
-            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4) !important;
+            border: none !important;
+            box-shadow: 0 4px 10px rgba(13, 148, 136, 0.4) !important;
         }
 
         /* Focus state for non-selected cells - REMOVED BACKGROUND */
