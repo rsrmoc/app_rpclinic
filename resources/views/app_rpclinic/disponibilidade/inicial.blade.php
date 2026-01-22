@@ -211,7 +211,7 @@
         .has-event-dot::after {
             content: '' !important;
             position: absolute !important;
-            bottom: 4px !important;
+            bottom: 6px !important;
             left: 50% !important;
             transform: translateX(-50%) !important;
             width: 6px !important;
