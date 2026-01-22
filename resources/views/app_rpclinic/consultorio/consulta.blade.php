@@ -318,17 +318,3 @@
 
     <script src="{{ asset('/js/app_rpclinica/consulta-paciente.js') }}"></script>
 @endpush
-@push('styles')
-    <style>
-        .btn-teal {
-            background-color: #0d9488 !important;
-            border-color: #0d9488 !important;
-            color: white !important;
-        }
-        .btn-teal:hover, .btn-teal:focus, .btn-teal:active {
-            background-color: #0f766e !important;
-            border-color: #0f766e !important;
-            color: white !important;
-        }
-    </style>
-@endpush
