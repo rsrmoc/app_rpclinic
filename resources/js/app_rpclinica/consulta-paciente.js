@@ -39,6 +39,9 @@ Alpine.data('appConsultaPaciente', () => ({
 
     loadingFinalizar: false,
 
+    // Flag para evitar duplo clique no seletor de modelos
+    isSelectingModelo: false,
+
     classStatusAgendamento: {
         livre: 'text-bg-success',
         agendado: 'text-bg-primary',
@@ -57,13 +60,45 @@ Alpine.data('appConsultaPaciente', () => ({
     docsFormularioName: null,
 
     openModalModelos() {
-        if (modalModelosInstance) modalModelosInstance.show();
+        if (modalModelosInstance) {
+            this.isSelectingModelo = false; // Reset flag ao abrir
+            modalModelosInstance.show();
+        }
     },
 
     selectModelo(id, name) {
+        // Evita travamentos causados por duplo clique/touch
+        if (this.isSelectingModelo) {
+            console.log('⏳ Seleção de modelo já em andamento, ignorando click duplicado');
+            return;
+        }
+
+        this.isSelectingModelo = true;
+        console.log('📄 Selecionando modelo:', name, '| ID:', id);
+
+        // Atualiza os valores imediatamente
         this.docsFormularioSelected = id;
         this.docsFormularioName = name;
-        if (modalModelosInstance) modalModelosInstance.hide();
+
+        // Fecha o modal com um pequeno delay para evitar conflitos de eventos em dispositivos touch/PWA
+        if (modalModelosInstance) {
+            // Usa requestAnimationFrame para garantir que a UI atualize antes de fechar
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    try {
+                        modalModelosInstance.hide();
+                    } catch (e) {
+                        console.warn('⚠️ Erro ao fechar modal de modelos:', e);
+                    }
+                    // Reset flag após o modal fechar
+                    setTimeout(() => {
+                        this.isSelectingModelo = false;
+                    }, 300);
+                }, 50);
+            });
+        } else {
+            this.isSelectingModelo = false;
+        }
     },
 
     init() {

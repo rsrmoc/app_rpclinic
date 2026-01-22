@@ -338,15 +338,48 @@
             z-index: 10050 !important;
         }
         
-        /* Garantir que os botões da lista são clicáveis */
+        /* Garantir que os botões da lista são clicáveis - CRÍTICO para PWA/Touch */
         #modalMeusModelos .list-group-item {
             position: relative;
             z-index: 10063 !important;
             cursor: pointer !important;
+            /* Habilitando touch-action para melhor resposta em dispositivos móveis */
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: rgba(0, 150, 136, 0.2);
+            /* Prevenir seleção de texto durante toque */
+            user-select: none;
+            -webkit-user-select: none;
         }
         
-        #modalMeusModelos .list-group-item:hover {
+        #modalMeusModelos .list-group-item:hover,
+        #modalMeusModelos .list-group-item:active {
             background-color: #f0fdfa !important;
+        }
+        
+        /* Feedback visual ao tocar/clicar no item */
+        #modalMeusModelos .list-group-item:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+        
+        /* Garantir que nenhum elemento bloqueie os cliques no modal */
+        #modalMeusModelos .modal-body {
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Evitar que o backdrop capture eventos */
+        .modal-backdrop {
+            pointer-events: none !important;
+        }
+        
+        /* Mas o modal em si deve receber eventos */
+        .modal.show {
+            pointer-events: auto !important;
+        }
+        
+        .modal.show .modal-dialog {
+            pointer-events: auto !important;
         }
     </style>
 @endpush
