@@ -96,8 +96,8 @@
               </template>
       
               <button type="submit"
-              class="btn btn-primary w-100 rounded-3 text-white shadow-sm mt-2"
-              style="height: 55px; font-weight: 600; font-size: 16px; background-color: #0d9488; border-color: #0d9488;"
+              class="btn btn-teal w-100 rounded-3 text-white shadow-sm mt-2"
+              style="height: 55px; font-weight: 600; font-size: 16px;"
               x-bind:disabled="loading">
                 <template x-if="loading">
                   <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
@@ -160,30 +160,47 @@
 
         .air-datepicker-cell {
             color: #64748b !important; 
-            font-size: 1.1rem !important;
-            height: 38px !important; 
-            border-radius: 12px !important;
+            font-size: 0.9rem !important;
+            height: 40px !important;
+            width: 40px !important;
+            margin: 2px auto !important;
+            border-radius: 50% !important;
             font-weight: 600 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
             position: relative; 
+            transition: all 0.2s ease !important;
         }
 
         .air-datepicker-cell.-current- {
             color: #0d9488 !important;
             font-weight: 900 !important;
             background: #f0fdfa !important; 
+            border: 1px solid #0d9488 !important;
         }
 
-        .air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-current- {
+        .air-datepicker-cell.-selected-, 
+        .air-datepicker-cell.-selected-.-current- {
             background: #0d9488 !important; 
             color: #ffffff !important;
             font-weight: bold !important;
-            box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.3);
-            border-radius: 12px !important;
+            border: none !important;
+            box-shadow: 0 4px 10px rgba(13, 148, 136, 0.4) !important;
+            border-radius: 50% !important;
         }
 
-        /* Hover desabilitado - apenas clique tem efeito */
-        .air-datepicker-cell:hover {
+        /* Hover e Focus state for non-selected cells */
+        .air-datepicker-cell:hover,
+        .air-datepicker-cell.-focus- {
             background: transparent !important;
+            color: inherit !important;
+        }
+
+        .air-datepicker-cell.-selected-:hover,
+        .air-datepicker-cell.-selected-.-focus- {
+            background: #0d9488 !important;
+            color: #ffffff !important;
         }
         
         .air-datepicker-cell.-other-month- {
