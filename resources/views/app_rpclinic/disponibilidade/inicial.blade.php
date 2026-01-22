@@ -170,7 +170,7 @@
             align-items: center !important;
             justify-content: center !important;
             position: relative; 
-            transition: all 0.2s ease !important;
+            transition: none !important; /* Remove delay for instant feel */
         }
 
         .air-datepicker-cell.-current- {
@@ -190,14 +190,18 @@
             border-radius: 50% !important;
         }
 
-        /* Hover e Focus state for non-selected cells */
+        /* Hover, Focus and Active state for non-selected cells */
         .air-datepicker-cell:hover,
+        .air-datepicker-cell:active,
         .air-datepicker-cell.-focus- {
             background: transparent !important;
             color: inherit !important;
         }
 
+        /* Ensure selected cell remains teal instantly */
+        .air-datepicker-cell.-selected-,
         .air-datepicker-cell.-selected-:hover,
+        .air-datepicker-cell.-selected-:active,
         .air-datepicker-cell.-selected-.-focus- {
             background: #0d9488 !important;
             color: #ffffff !important;

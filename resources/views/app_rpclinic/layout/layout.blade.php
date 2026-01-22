@@ -448,6 +448,18 @@
             text-transform: uppercase;
         }
 
+        /* Premium Teal Button */
+        .btn-teal {
+            background-color: #0d9488 !important;
+            border-color: #0d9488 !important;
+            color: #ffffff !important;
+        }
+        .btn-teal:hover, .btn-teal:focus, .btn-teal:active {
+            background-color: #0f766e !important;
+            border-color: #0f766e !important;
+            color: #ffffff !important;
+        }
+
         .home-btn-wrap {
             position: relative;
             width: 60px;

@@ -48,8 +48,8 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100 rounded-3 text-white shadow-sm mt-2"
-                        style="height: 55px; font-weight: 600; font-size: 16px; background-color: #0d9488; border-color: #0d9488;"
+                    <button type="submit" class="btn btn-teal w-100 rounded-3 text-white shadow-sm mt-2"
+                        style="height: 55px; font-weight: 600; font-size: 16px;"
                         x-bind:disabled="loading">
                         <template x-if="loading">
                           <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
@@ -67,31 +67,35 @@
         </div>
         <template x-teleport="body">
             <div class="modal fade" id="modalModeloDocumento" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-fullscreen-sm-down modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Escolher Modelo de Documento</h5>
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content rounded-2xl border-0 shadow-2xl h-[80vh]">
+                        <div class="modal-header border-b border-slate-100 py-3">
+                            <h5 class="modal-title font-bold text-slate-800 text-sm">Escolher Modelo de Documento</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                         </div>
-                        <div class="modal-body p-2">
-                            <div class="mb-2">
+                        <div class="modal-body p-0 bg-slate-50">
+                            <div class="p-3 bg-white border-b border-slate-100">
                                 <input
                                     type="search"
-                                    class="form-control rounded-3 border-0 shadow-sm"
-                                    placeholder="Buscar..."
+                                    class="form-control rounded-xl border-slate-200 shadow-sm"
+                                    placeholder="Buscar modelo..."
                                     x-model="modeloDocumentoQuery"
                                     x-ref="modeloDocumentoSearch"
                                 >
                             </div>
 
-                            <div class="list-group">
+                            <div class="list-group list-group-flush">
                                 <template x-for="formulario in modeloDocumentoFiltrado" :key="formulario.cd_formulario">
                                     <button
                                         type="button"
-                                        class="list-group-item list-group-item-action py-3 text-wrap"
+                                        class="list-group-item list-group-item-action p-4 border-b border-slate-100 hover:bg-teal-50 transition-colors flex items-center justify-between group"
                                         x-on:click="selectModeloDocumento(formulario.cd_formulario)"
                                     >
-                                        <div class="fw-semibold" x-text="formulario.nm_formulario"></div>
+                                        <div class="flex items-center gap-3">
+                                            <i class="bi bi-file-earmark-text-fill text-2xl" style="background: linear-gradient(45deg, #d946ef, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                                            <span class="font-bold text-slate-700 group-hover:text-teal-700 text-sm whitespace-normal leading-snug text-left" x-text="formulario.nm_formulario"></span>
+                                        </div>
+                                        <i class="bi bi-chevron-right text-slate-300 group-hover:text-teal-400"></i>
                                     </button>
                                 </template>
                             </div>
