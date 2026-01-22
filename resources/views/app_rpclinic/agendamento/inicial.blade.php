@@ -174,10 +174,18 @@
             color: #0d9488 !important;
         }
 
-        /* Hover desabilitado - apenas clique tem efeito */
-        .air-datepicker-cell:hover {
+        /* Hover e Focus state for non-selected cells */
+        .air-datepicker-cell:hover,
+        .air-datepicker-cell.-focus- {
             background: transparent !important;
             color: inherit !important;
+        }
+
+        /* Ensure selected cell remains teal on hover/focus */
+        .air-datepicker-cell.-selected-:hover,
+        .air-datepicker-cell.-selected-.-focus- {
+            background: #0d9488 !important;
+            color: #ffffff !important;
         }
         
         .air-datepicker-cell.-other-month- {
