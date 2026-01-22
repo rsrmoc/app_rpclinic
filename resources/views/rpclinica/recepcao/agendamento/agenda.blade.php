@@ -75,20 +75,11 @@
         }
 
 
+        /* Removed hover expansion per user request */
         .fc-time-grid-event:hover {
-            /*
             cursor: pointer;
             opacity: 1;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
-            */
-
-            cursor: pointer;
-            opacity: 1;
-            /* Ao passar o mouse, a gente deixa expandir pra ele ler tudo (opcional, mas fica chique) */
-            height: auto !important; 
-            overflow: visible !important;
-            z-index: 999 !important;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3) !important;
+            /* Effect removed */
         }
 
         .fc-time-grid-event .fc-content {
@@ -176,7 +167,7 @@
             background-color: rgba(255,255,255,0.02) !important;
         }
         .table-hover > tbody > tr:hover {
-            background-color: rgba(255,255,255,0.05) !important;
+            background-color: transparent !important;
         }
         .panel-heading {
             color: #cbd5e1 !important;

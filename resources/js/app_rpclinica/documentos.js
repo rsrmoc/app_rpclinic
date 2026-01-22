@@ -4,7 +4,7 @@ import 'air-datepicker/air-datepicker.css';
 import moment from 'moment';
 import { jsPDF } from 'jspdf';
 
-console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - v2.5 (Final Fix): ' + new Date().toLocaleTimeString());
+console.log('✅ ARQUIVO DOCUMENTOS.JS CARREGADO - v2.8 (Zero ID Support): ' + new Date().toLocaleTimeString());
 
 Alpine.data('appDocumentos', () => ({
     loading: false,
@@ -159,12 +159,49 @@ Alpine.data('appDocumentos', () => ({
 
     async compartilharDoc(documento) {
         // Correção de bug: ID undefined na URL
-        // Prioriza a FK direta (cd_agendamento) se existir, senão tenta via relação
-        const cdAgendamento = documento.cd_agendamento || (documento.agendamento ? documento.agendamento.cd_agendamento : null);
+        // Tenta todas as variações possíveis de ID
+        // 1. Tenta obter ID via objeto (propriedades diretas ou aninhadas)
+        // 1. Tenta obter ID via objeto (propriedades diretas ou aninhadas)
+        // Nota: Precisamos aceitar 0 como valor válido
+        let cdAgendamento = documento.cd_agendamento;
+        if (cdAgendamento === undefined || cdAgendamento === null) cdAgendamento = (documento.agendamento ? documento.agendamento.cd_agendamento : null);
+        if (cdAgendamento === undefined || cdAgendamento === null) cdAgendamento = documento.cdAgendamento;
+        if (cdAgendamento === undefined || cdAgendamento === null) cdAgendamento = (documento.agendamento ? documento.agendamento.cdAgendamento : null);
 
-        if (!cdAgendamento) {
-            alert('Erro: ID do agendamento não encontrado para este documento.');
-            console.error('Documento sem cd_agendamento:', documento);
+        // 2. FALLBACK DOM: Tenta recuperar do link de impressão renderizado na tela
+        if (cdAgendamento === null || cdAgendamento === undefined) {
+            console.warn('⚠️ ID não encontrado no objeto JS, tentando recuperar do DOM...');
+            try {
+                // O link tem formato: .../imprimirDocumentoGeral/ID_AGENDAMENTO/ID_DOC
+                // Procuramos um link que contenha o ID do documento atual
+                const printLink = document.querySelector(`a[href*="/${documento.cd_documento}"]`);
+
+                if (printLink) {
+                    const href = printLink.getAttribute('href');
+                    if (href && href.includes('imprimirDocumentoGeral')) {
+                        const parts = href.split('/');
+                        // O ID do documento está na URL, o ID do agendamento deve ser o anterior
+                        // Ex: .../imprimirDocumentoGeral/999/888
+                        const docIndex = parts.indexOf(String(documento.cd_documento));
+                        if (docIndex > 0) {
+                            cdAgendamento = parts[docIndex - 1];
+                            console.log('✅ ID do agendamento recuperado do DOM:', cdAgendamento);
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('❌ Erro no fallback DOM:', e);
+            }
+        }
+
+        if (cdAgendamento === null || cdAgendamento === undefined) {
+            // Tenta serializar para ajudar no debug
+            const dump = JSON.stringify(documento, (key, value) => {
+                if (key === 'conteudo' || key === 'form_conteudo' || key === 'arquivo') return '[BASE64]';
+                return value;
+            }, 2);
+
+            alert(`ERRO CRÍTICO: ID do agendamento não encontrado.\n\nO sistema tentou recuperar o ID do link de impressão mas falhou.\n\nDUMP DO OBJETO:\n${dump}`);
             return;
         }
 

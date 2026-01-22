@@ -139,35 +139,6 @@
                     <input type="hidden" name="cd_formulario" x-model="docsFormularioSelected">
                 </div>
 
-                <!-- Modal de Seleção de Modelos (Custom Picker) -->
-                <div class="modal fade" id="modalMeusModelos" tabindex="-1" aria-hidden="true" style="z-index: 10006;">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                        <div class="modal-content rounded-2xl border-0 shadow-2xl h-[80vh]">
-                            <div class="modal-header border-b border-slate-100 py-3">
-                                <h5 class="modal-title font-bold text-slate-800 text-sm">Selecione um Modelo</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="modal-body p-0 bg-slate-50">
-                                <div class="list-group list-group-flush">
-                                    @foreach ($formularios as $formulario)
-                                        <button type="button" 
-                                            class="list-group-item list-group-item-action p-4 border-b border-slate-100 hover:bg-teal-50 transition-colors flex items-center justify-between group"
-                                            x-on:click="selectModelo('{{ $formulario->cd_formulario }}', '{{ str_replace("'", "\'", $formulario->nm_formulario) }}')">
-                                            <div class="flex items-center gap-3">
-                                                <i class="bi bi-file-earmark-text-fill text-2xl" style="background: linear-gradient(45deg, #d946ef, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
-                                                <span class="font-bold text-slate-700 group-hover:text-teal-700 text-sm whitespace-normal leading-snug text-left">
-                                                    {{ $formulario->nm_formulario }}
-                                                </span>
-                                            </div>
-                                            <i class="bi bi-chevron-right text-slate-300 group-hover:text-teal-400"></i>
-                                        </button>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-1 mb-3" x-show="docsFormularioSelected">
                     <textarea class="form-control border-0" style="height: 300px;" required name="conteudo" id="editor"></textarea>
                 </div>
@@ -265,6 +236,35 @@
         </div>
 
 
+        <!-- Modal de Seleção de Modelos (Custom Picker) -->
+        <div class="modal fade" id="modalMeusModelos" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content rounded-2xl border-0 shadow-2xl h-[80vh]">
+                    <div class="modal-header border-b border-slate-100 py-3">
+                        <h5 class="modal-title font-bold text-slate-800 text-sm">Selecione um Modelo</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-0 bg-slate-50">
+                        <div class="list-group list-group-flush">
+                            @foreach ($formularios as $formulario)
+                                <button type="button" 
+                                    class="list-group-item list-group-item-action p-4 border-b border-slate-100 hover:bg-teal-50 transition-colors flex items-center justify-between group"
+                                    x-on:click="selectModelo('{{ $formulario->cd_formulario }}', '{{ str_replace("'", "\'", $formulario->nm_formulario) }}')">
+                                    <div class="flex items-center gap-3">
+                                        <i class="bi bi-file-earmark-text-fill text-2xl" style="background: linear-gradient(45deg, #d946ef, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                                        <span class="font-bold text-slate-700 group-hover:text-teal-700 text-sm whitespace-normal leading-snug text-left">
+                                            {{ $formulario->nm_formulario }}
+                                        </span>
+                                    </div>
+                                    <i class="bi bi-chevron-right text-slate-300 group-hover:text-teal-400"></i>
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="modal fade" tabindex="-1" id="modalFinalizar">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content rounded-2xl border-0 shadow-lg">
@@ -294,6 +294,62 @@
     </div>
     <!--end to page content-->
 @endsection
+
+@push('styles')
+    <style>
+        /* Remover efeito hover azul dos botões de salvar - mantém cor teal */
+        .btn-primary.bg-teal-600:hover,
+        .btn-primary.bg-teal-600:focus,
+        .btn-primary.bg-teal-600:active {
+            background-color: #0d9488 !important;
+            border-color: #0d9488 !important;
+            box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.3) !important;
+        }
+        
+        /* Remover hover de todos os botões btn-primary dentro do page-content */
+        .page-content .btn-primary:hover,
+        .page-content .btn-primary:focus,
+        .page-content .btn-primary:active {
+            background-color: #0d9488 !important;
+            border-color: #0d9488 !important;
+        }
+        
+        /* Remover qualquer efeito de transição de cor */
+        .page-content .btn-primary {
+            transition: box-shadow 0.2s ease !important;
+        }
+        
+        /* Fix z-index do modal de modelos de documentos */
+        #modalMeusModelos {
+            z-index: 10060 !important;
+        }
+        
+        #modalMeusModelos .modal-dialog {
+            z-index: 10061 !important;
+        }
+        
+        #modalMeusModelos .modal-content {
+            z-index: 10062 !important;
+        }
+        
+        /* Garantir que o backdrop do modal de modelos não bloqueie os cliques */
+        #modalMeusModelos + .modal-backdrop,
+        .modal-backdrop.show {
+            z-index: 10050 !important;
+        }
+        
+        /* Garantir que os botões da lista são clicáveis */
+        #modalMeusModelos .list-group-item {
+            position: relative;
+            z-index: 10063 !important;
+            cursor: pointer !important;
+        }
+        
+        #modalMeusModelos .list-group-item:hover {
+            background-color: #f0fdfa !important;
+        }
+    </style>
+@endpush
 
 @push('scripts')
     <script>

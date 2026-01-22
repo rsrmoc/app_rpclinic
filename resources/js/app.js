@@ -54,6 +54,11 @@ window.parseErrorsAPI = (error) => {
 };
 
 
+window.capitalizeFirstLetter = function (string) {
+    if (!string) return '';
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+};
+
 window.delete_cadastro = function (url, el) {
     Swal.fire({
         title: 'Confirmação',

@@ -2,14 +2,12 @@ import moment from 'moment';
 import { jsPDF } from 'jspdf';
 
 const modalElement = document.getElementById('modalFinalizar');
-if (modalElement) {
-    document.body.appendChild(modalElement);
-}
+// Removed manual appendChild to keep Alpine scope context
+// if (modalElement) { document.body.appendChild(modalElement); }
 
 const modalModelosElement = document.getElementById('modalMeusModelos');
-if (modalModelosElement) {
-    document.body.appendChild(modalModelosElement);
-}
+// Removed manual appendChild to keep Alpine scope context
+// if (modalModelosElement) { document.body.appendChild(modalModelosElement); }
 
 const modal = new bootstrap.Modal(modalElement, {
     backdrop: 'static',

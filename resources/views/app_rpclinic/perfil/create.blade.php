@@ -27,48 +27,47 @@
               id="formProfile">
                @csrf
                 <div class="col-12">
-                   <div class="mb-3">
-                     <label class="form-label text-slate-700 font-bold text-sm">Nome do Profissional</label>
-                     <input type="text" class="form-control rounded-3 p-3" placeholder="Nome do Profissional"
-                       value="{{ auth()->guard('rpclinica')->user()->nm_header_doc }}" name="nm_header_doc">
-                   </div>
-               </div>
+                    <div class="form-floating">
+                      <input type="text" class="form-control rounded-3 border-0 shadow-sm" id="nm_header_doc" placeholder="Nome do Profissional"
+                        value="{{ auth()->guard('rpclinica')->user()->nm_header_doc }}" name="nm_header_doc">
+                      <label for="nm_header_doc">Nome do Profissional</label>
+                    </div>
+                </div>
                <div class="col-12">
-                   <div class="mb-3">
-                     <label class="form-label text-slate-700 font-bold text-sm">Especialidade(s) do Profissional</label>
-                     <input type="text" class="form-control rounded-3 p-3" placeholder="Especialidade(s) do Profissional"
+                   <div class="form-floating">
+                     <input type="text" class="form-control rounded-3 border-0 shadow-sm" id="espec_header_doc" placeholder="Especialidade(s) do Profissional"
                        value="{{ auth()->guard('rpclinica')->user()->espec_header_doc }}" name="espec_header_doc">
+                     <label for="espec_header_doc">Especialidade(s) do Profissional</label>
                    </div>
                </div>
                <div class="col-12">
-                   <div class="mb-3">
-                     <label class="form-label text-slate-700 font-bold text-sm">Conselho do Profissional No</label>
-                     <input type="text" class="form-control rounded-3 p-3" placeholder="Conselho do Profissional No"
+                   <div class="form-floating">
+                     <input type="text" class="form-control rounded-3 border-0 shadow-sm" id="conselho_header_doc" placeholder="Conselho do Profissional No"
                        value="{{ auth()->guard('rpclinica')->user()->conselho_header_doc }}" name="conselho_header_doc">
+                     <label for="conselho_header_doc">Conselho do Profissional No</label>
                    </div>
                </div>
                <div class="col-12">
-                 <div class="mb-3">
-                   <label class="form-label text-slate-700 font-bold text-sm">Email</label>
-                   <input type="text" class="form-control rounded-3 p-3" placeholder="Email"
+                 <div class="form-floating">
+                   <input type="email" class="form-control rounded-3 border-0 shadow-sm" id="email" placeholder="Email"
                     value="{{ auth()->guard('rpclinica')->user()->email_contato }}" name="email">
+                   <label for="email">Email</label>
                  </div>
                </div>
                <div class="col-12">
-                 <div class="mb-3">
-                   <label class="form-label text-slate-700 font-bold text-sm">Celular</label>
-                   <input type="text" class="form-control rounded-3 p-3" placeholder="Celular"
+                 <div class="form-floating">
+                   <input type="text" class="form-control rounded-3 border-0 shadow-sm" id="celular" placeholder="Celular"
                     value="{{ auth()->guard('rpclinica')->user()->nm_celular }}" name="celular">
+                   <label for="celular">Celular</label>
                  </div>
                </div>
-               {{-- <a href="addresses.html#AddNewAddress" data-bs-toggle="offcanvas" class="btn btn-ecomm rounded-3 btn-dark flex-fill" style="  height: 60px; font-weight: 600;
-               padding: 1.2rem 1.5rem;">Salvar</a> --}}
+               
                <button type="submit"
-                class="btn btn-ecomm rounded-3 flex-fill text-white"
-                style="height: 60px; font-weight: 600; padding: 1.2rem 1.5rem; background-color: #0d9488; border-color: #0d9488;"
+                class="btn btn-primary w-100 rounded-3 text-white shadow-sm mt-4"
+                style="height: 55px; font-weight: 600; font-size: 16px; background-color: #0d9488; border-color: #0d9488;"
                 x-bind:disabled="loading">
                   <template x-if="loading">
-                    <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                    <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
                   </template>
                   <span>Salvar</span>
                 </button>

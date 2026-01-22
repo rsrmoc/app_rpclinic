@@ -608,6 +608,56 @@
         border-color: rgba(251, 146, 60, 0.2) !important;
     }
 
+    /* ============ CORREÇÃO DEFINITIVA (MATA HOVER) ============ */
+    /* Remove fundo de qualquer célula de calendário ao passar o mouse */
+    .datepicker table tr td:hover,
+    .datepicker table tr td.day:hover,
+    .datepicker table tr td.focused,
+    .datepicker table tr td.day.focused,
+    .datepicker table tr td.today:hover,
+    .datepicker table tr td.today.focused,
+    #calendar .datepicker table tr td.day:hover,
+    #calendar .datepicker table tr td.focused,
+    .calendar .day:hover,
+    .fc-day:hover,
+    .fc-state-hover {
+        background: transparent !important;
+        background-color: transparent !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        outline: none !important;
+        text-shadow: none !important;
+    }
+
+    /* Limpa especificamente o efeito de "rounded box" cinza do bootstrap datepicker */
+    .datepicker table tr td.day:hover,
+    .datepicker table tr td.focused,
+    .datepicker table tr td.day.focused {
+        border-radius: 0 !important;
+        background-image: none !important;
+    }
+
+    /* 2. O ÚNICO EFEITO: VERDE PREMIUM AO CLICAR */
+    .datepicker table tr td.active,
+    .datepicker table tr td.active:hover,
+    .datepicker table tr td.selected,
+    .datepicker table tr td.selected:hover,
+    .datepicker table tr td.day.active {
+        background-color: #22baa0 !important;
+        color: white !important;
+        border-radius: 4px !important;
+        opacity: 1 !important;
+        font-weight: bold !important;
+    }
+
+    /* Garante que o cursor continue sendo a mãozinha sem mudar a cor */
+    .datepicker table tr td.day, 
+    .fc-day, 
+    .calendar .day {
+        cursor: pointer !important;
+    }
+    /* ============ FIM DA CORREÇÃO ============ */
   </style>
 
   

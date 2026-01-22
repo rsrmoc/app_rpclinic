@@ -31,11 +31,11 @@
               </template>
       
               <button type="submit"
-              class="btn btn-ecomm rounded-3 flex-fill text-white"
-              style="height: 60px; font-weight: 600; padding: 1.2rem 1.5rem; background-color: #0d9488; border-color: #0d9488;"
+              class="btn btn-primary w-100 rounded-3 text-white shadow-sm mt-2"
+              style="height: 55px; font-weight: 600; font-size: 16px; background-color: #0d9488; border-color: #0d9488;"
               x-bind:disabled="loading">
                 <template x-if="loading">
-                  <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                  <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
                 </template>
                 <span>Salvar</span>
               </button>
@@ -105,9 +105,9 @@
             font-weight: 800 !important;
         }
 
+        /* Hover desabilitado - apenas clique tem efeito */
         .air-datepicker-cell:hover {
-            background: rgba(15, 23, 42, 0.1) !important;
-            color: #0f172a !important;
+            background: transparent !important;
         }
 
         .air-datepicker-cell.-other-month- {

@@ -155,9 +155,9 @@
             box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.3);
         }
 
+        /* Hover desabilitado - apenas clique tem efeito */
         .air-datepicker-cell:hover {
-            background: #f1f5f9 !important; /* slate-100 */
-            color: #0f172a !important;
+            background: transparent !important;
         }
         
         .air-datepicker-cell.-other-month- {

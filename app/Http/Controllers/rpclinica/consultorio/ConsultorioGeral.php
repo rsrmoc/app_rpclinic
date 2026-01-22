@@ -486,7 +486,7 @@ class ConsultorioGeral extends Controller
         }
     }
  
-    public function imprimirDocumento(Request $request, Agendamento $agendamento, AgendamentoDocumentos $documento)
+    public function imprimirDocumento(Request $request, $agendamento, AgendamentoDocumentos $documento)
     {
        
         try { 

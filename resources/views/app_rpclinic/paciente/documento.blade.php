@@ -31,28 +31,25 @@
                 <form x-on:submit.prevent="saveDoc" class="row g-3 needs-validation">
                     <div class="col-12">
                         <div class="form-floating">
-
-                            <select class="form-select rounded-3" required x-model="dataDoc.cd_formulario">
-                                <option value="">Selecione</option>
-                                @foreach ($formularios as $formulario)
-                                    <option value="{{ $formulario->cd_formulario }}">{{ $formulario->nm_formulario }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <input
+                                type="text"
+                                class="form-control rounded-3 border-0 shadow-sm modelo-documento-picker"
+                                placeholder=" "
+                                readonly
+                                x-bind:value="selectedModeloDocumentoLabel"
+                                x-on:click="openModeloDocumentoPicker()"
+                            >
                             <label>Escolher Modelo de Documento</label>
-                            <div class="invalid-feedback">
-                                Please provide a valid city.
-                            </div>
                         </div>
                     </div>
                     <div class="col-12">
                         <div>
-                            <textarea class="form-control rounded-3" style="height: 150px;" required id="editor"></textarea>
+                            <textarea class="form-control rounded-3 border-0 shadow-sm" style="height: 150px;" required id="editor"></textarea>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-ecomm rounded-3 flex-fill text-white"
-                        style="height: 60px; font-weight: 600; padding: 1.2rem 1.5rem; background-color: #0d9488; border-color: #0d9488;"
+                    <button type="submit" class="btn btn-primary w-100 rounded-3 text-white shadow-sm mt-2"
+                        style="height: 55px; font-weight: 600; font-size: 16px; background-color: #0d9488; border-color: #0d9488;"
                         x-bind:disabled="loading">
                         <template x-if="loading">
                           <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
@@ -68,16 +65,68 @@
                 </form><!--end form-->
             </div>
         </div>
+        <div class="modal fade" id="modalModeloDocumento" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-sm-down modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Escolher Modelo de Documento</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body p-2">
+                        <div class="mb-2">
+                            <input
+                                type="search"
+                                class="form-control rounded-3 border-0 shadow-sm"
+                                placeholder="Buscar..."
+                                x-model="modeloDocumentoQuery"
+                                x-ref="modeloDocumentoSearch"
+                            >
+                        </div>
+
+                        <div class="list-group">
+                            <template x-for="formulario in modeloDocumentoFiltrado" :key="formulario.cd_formulario">
+                                <button
+                                    type="button"
+                                    class="list-group-item list-group-item-action py-3 text-wrap"
+                                    x-on:click="selectModeloDocumento(formulario.cd_formulario)"
+                                >
+                                    <div class="fw-semibold" x-text="formulario.nm_formulario"></div>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!--end to page content-->
 @endsection
 
 
 @push('scripts')
-    <script>
-      const cdPaciente = {{ $paciente->cd_paciente }};
-      const formularios = @js($formularios);
-      const routePacienteAddDoc = @js(url('app_rpclinic/api/paciente-add-doc'));
+    <!-- Dados para o JS -->
+    <script id="data-formularios" type="application/json">
+        @json($formularios)
     </script>
+    <input type="hidden" id="data-cd-paciente" value="{{ $paciente->cd_paciente }}">
+    <input type="hidden" id="data-route-add-doc" value="{{ url('app_rpclinic/api/paciente-add-doc') }}">
+
     <script src="{{ asset('js/app_rpclinica/paciente-add-doc.js') }}"></script>
+@endpush
+
+
+
+@push('styles')
+  <style>
+    .modelo-documento-picker {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 12px;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+  </style>
+
+  </style>
 @endpush

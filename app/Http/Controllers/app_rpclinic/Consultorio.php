@@ -116,6 +116,7 @@ class Consultorio extends Controller
                 $profissional = Profissional::find($documento->cd_prof);
                 
                 $fakeAgendamento = new Agendamento();
+                $fakeAgendamento->cd_agendamento = 0; // Define ID 0 para evitar undefined no front
                 $fakeAgendamento->setRelation('paciente', $paciente);
                 $fakeAgendamento->setRelation('profissional', $profissional);
                 

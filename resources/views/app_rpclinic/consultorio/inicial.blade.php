@@ -50,9 +50,10 @@
         <!-- Espaço entre calendário e cards -->
         <div style="height: 20px;"></div>
 
-        <div class="px-2">
+        <!-- Container responsivo: grid no desktop, coluna no mobile -->
+        <div class="px-2 cards-container">
             <template x-for="(agendamento, index) in agendamentos" :key="index">
-                <div class="col-md-4 col-sm-6" style="padding: 0 10px; margin-bottom: 20px;">
+                <div class="card-wrapper">
                     <div class="card-patient" style="padding: 20px; border-radius: 20px; background: #fff; border: 1px solid #eef2f6; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
                         
                         <!-- Header: Initial + Name + Status -->
@@ -226,9 +227,9 @@
             box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.3);
         }
 
+        /* Hover desabilitado - apenas clique tem efeito */
         .air-datepicker-cell:hover {
-            background: #f1f5f9 !important; /* slate-100 */
-            color: #0f172a !important;
+            background: transparent !important;
         }
         
         .air-datepicker-cell.-other-month- {
@@ -259,6 +260,23 @@
         
         .air-datepicker-cell.-selected-.has-event-dot::after {
             background-color: #ffffff !important;
+        }
+
+        /* Cards em coluna única ocupando toda a largura - igual à aba Agenda */
+        .cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .card-wrapper {
+            width: 100%;
+        }
+
+        /* Remover margin-bottom inline do card, usar gap do container */
+        .card-wrapper .card-patient {
+            margin-bottom: 0;
         }
     </style>
 @endpush
