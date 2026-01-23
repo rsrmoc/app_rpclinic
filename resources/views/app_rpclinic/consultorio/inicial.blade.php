@@ -58,8 +58,19 @@
                         
                         <!-- Header: Initial + Name + Status -->
                         <div class="cp-header" style="display: flex; gap: 12px; align-items: flex-start; margin-bottom: 15px;">
-                            <div style="min-width: 45px; width: 45px; height: 45px; background-color: #f2fcf9; color: #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; border: 1px solid #f0f0f0;">
-                                <span x-text="agendamento.paciente?.nm_paciente ? agendamento.paciente?.nm_paciente.charAt(0) : '?'"></span>
+                            <!-- Avatar com Badge WhatsApp do Paciente -->
+                            <div style="position: relative; min-width: 45px; width: 45px; height: 45px;">
+                                <div style="width: 100%; height: 100%; background-color: #f2fcf9; color: #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; border: 1px solid #f0f0f0;">
+                                    <span x-text="agendamento.paciente?.nm_paciente ? agendamento.paciente?.nm_paciente.charAt(0) : '?'"></span>
+                                </div>
+                                <!-- WhatsApp Badge no Paciente -->
+                                <template x-if="agendamento.paciente?.nr_celular">
+                                    <a x-bind:href="'https://wa.me/55' + (agendamento.paciente.nr_celular.replace(/\D/g, ''))" 
+                                       target="_blank"
+                                       style="position: absolute; bottom: -2px; right: -2px; width: 22px; height: 22px; background-color: #25D366; border: 2px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                                        <i class="fab fa-whatsapp" style="font-size: 12px; color: #ffffff;"></i>
+                                    </a>
+                                </template>
                             </div>
                             <div style="flex: 1; overflow: hidden;">
                                 <h3 style="margin: 0; font-size: 15px; font-weight: 700; color: #334155; text-transform: uppercase; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" x-text="agendamento.paciente?.nm_paciente"></h3>
@@ -67,6 +78,15 @@
                                     <i class="fa fa-check-circle" style="color: #2AB09C; font-size: 14px;"></i>
                                     <span x-text="capitalizeFirstLetter(agendamento.situacao)"></span>
                                 </div>
+                                <!-- Telefone do Paciente com WhatsApp -->
+                                <template x-if="agendamento.paciente?.nr_celular">
+                                    <a x-bind:href="'https://wa.me/55' + (agendamento.paciente.nr_celular.replace(/\D/g, ''))" 
+                                       target="_blank"
+                                       style="display: flex; align-items: center; gap: 5px; margin-top: 4px; font-size: 12px; color: #25D366; font-weight: 600; text-decoration: none;">
+                                        <i class="fab fa-whatsapp"></i>
+                                        <span x-text="agendamento.paciente.nr_celular"></span>
+                                    </a>
+                                </template>
                             </div>
                         </div>
 
@@ -76,36 +96,21 @@
                                   x-text="(agendamento.data_agenda ? formatDateLong(agendamento.data_agenda) : 'Data indefinida') + ' • ' + agendamento.hr_agenda"></span>
                         </div>
 
-                        <!-- Doctor Section - Botão WhatsApp ao lado do número, Atendimento na lateral -->
+                        <!-- Doctor Section - Apenas info do médico -->
                         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
                             <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0;">
-                                <!-- Doctor Avatar with WhatsApp Badge -->
-                                <div style="position: relative; width: 48px; height: 48px; flex-shrink: 0;">
+                                <!-- Doctor Avatar -->
+                                <div style="width: 48px; height: 48px; flex-shrink: 0;">
                                     <div style="width: 100%; height: 100%; border-radius: 50%; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                                         <i class="fa fa-user-md" style="font-size: 20px; color: #94a3b8;"></i>
                                     </div>
-                                    <!-- WhatsApp Badge -->
-                                    <div style="position: absolute; bottom: -2px; right: -2px; width: 22px; height: 22px; background-color: #25D366; border: 2px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fab fa-whatsapp" style="font-size: 12px; color: #ffffff;"></i>
-                                    </div>
                                 </div>
                                 
-                                <!-- Doctor Text com botão WhatsApp ao lado do telefone -->
+                                <!-- Doctor Text -->
                                 <div style="flex: 1; min-width: 0;">
                                     <h5 style="margin: 0; font-size: 14px; font-weight: 700; color: #334155; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" x-text="agendamento.profissional?.nm_profissional"></h5>
                                     <span style="display: block; font-size: 10px; font-weight: 700; color: #0d9488; text-transform: uppercase; margin-top: 2px; letter-spacing: 0.5px;" 
                                           x-text="agendamento.especialidade?.nm_especialidade || agendamento.tipo_atend?.nm_tipo_atendimento || 'CLÍNICO GERAL'"></span>
-                                    <!-- Telefone com botão WhatsApp ao lado -->
-                                    <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
-                                        <span style="font-size: 12px; color: #0d9488;" 
-                                              x-text="agendamento.paciente?.celular || '(38) 99999-9999'"></span>
-                                        <a x-bind:href="'https://wa.me/' + (agendamento.paciente?.celular ? agendamento.paciente.celular.replace(/\D/g, '') : '')" 
-                                           target="_blank"
-                                           title="WhatsApp"
-                                           style="width: 24px; height: 24px; background-color: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 12px; text-decoration: none; flex-shrink: 0;">
-                                            <i class="fab fa-whatsapp"></i>
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
 
