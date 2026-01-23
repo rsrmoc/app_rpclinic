@@ -57,38 +57,32 @@
                     <div class="card-patient" style="padding: 20px; border-radius: 20px; background: #fff; border: 1px solid #eef2f6; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
                         
                         <!-- Header: Initial + Name + Status -->
-                        <div class="cp-header" style="display: flex; gap: 12px; align-items: flex-start; margin-bottom: 15px;">
+                        <div class="cp-header" style="display: flex; gap: 12px; align-items: center; margin-bottom: 15px;">
                             <!-- Avatar com Badge WhatsApp do Paciente -->
-                            <div style="position: relative; min-width: 45px; width: 45px; height: 45px;">
-                                <div style="width: 100%; height: 100%; background-color: #f2fcf9; color: #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; border: 1px solid #f0f0f0;">
+                            <div style="position: relative; min-width: 50px; width: 50px; height: 50px;">
+                                <div style="width: 100%; height: 100%; background-color: #f2fcf9; color: #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 600; border: 2px solid #e2e8f0;">
                                     <span x-text="agendamento.paciente?.nm_paciente ? agendamento.paciente?.nm_paciente.charAt(0) : '?'"></span>
                                 </div>
                                 <!-- WhatsApp Badge no Paciente -->
-                                <template x-if="agendamento.paciente?.nr_celular">
-                                    <a x-bind:href="'https://wa.me/55' + (agendamento.paciente.nr_celular.replace(/\D/g, ''))" 
+                                <template x-if="agendamento.paciente?.celular">
+                                    <a x-bind:href="'https://wa.me/55' + (agendamento.paciente.celular.replace(/\D/g, ''))" 
                                        target="_blank"
-                                       style="position: absolute; bottom: -2px; right: -2px; width: 22px; height: 22px; background-color: #25D366; border: 2px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                                       style="position: absolute; bottom: -2px; right: -2px; width: 22px; height: 22px; background-color: #25D366; border: 2px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
                                         <i class="fab fa-whatsapp" style="font-size: 12px; color: #ffffff;"></i>
                                     </a>
                                 </template>
                             </div>
                             <div style="flex: 1; overflow: hidden;">
-                                <h3 style="margin: 0; font-size: 15px; font-weight: 700; color: #334155; text-transform: uppercase; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" x-text="agendamento.paciente?.nm_paciente"></h3>
-                                <div style="display: flex; align-items: center; gap: 5px; margin-top: 4px; font-size: 13px; color: #64748b; font-weight: 500;">
-                                    <i class="fa fa-check-circle" style="color: #2AB09C; font-size: 14px;"></i>
-                                    <span x-text="capitalizeFirstLetter(agendamento.situacao)"></span>
+                                <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #1e293b; text-transform: uppercase; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" x-text="agendamento.paciente?.nm_paciente"></h3>
+                                <div style="display: flex; align-items: center; gap: 6px; margin-top: 5px;">
+                                    <span style="display: inline-flex; align-items: center; gap: 4px; background-color: #f0fdfa; color: #0d9488; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; border: 1px solid #99f6e4;">
+                                        <i class="fa fa-check-circle" style="font-size: 11px;"></i>
+                                        <span x-text="capitalizeFirstLetter(agendamento.situacao)"></span>
+                                    </span>
                                 </div>
-                                <!-- Telefone do Paciente com WhatsApp -->
-                                <template x-if="agendamento.paciente?.nr_celular">
-                                    <a x-bind:href="'https://wa.me/55' + (agendamento.paciente.nr_celular.replace(/\D/g, ''))" 
-                                       target="_blank"
-                                       style="display: flex; align-items: center; gap: 5px; margin-top: 4px; font-size: 12px; color: #25D366; font-weight: 600; text-decoration: none;">
-                                        <i class="fab fa-whatsapp"></i>
-                                        <span x-text="agendamento.paciente.nr_celular"></span>
-                                    </a>
-                                </template>
                             </div>
                         </div>
+
 
                         <!-- Date & Time Separator -->
                         <div style="border-top: 1px solid #eef2f6; padding-top: 12px; margin-bottom: 15px;">
