@@ -255,6 +255,11 @@ Alpine.data('appConsultaPaciente', () => {
         },
 
         saveDoc() {
+            if (!this.docsFormularioSelected) {
+                toastr.error('Selecione um modelo de documento.');
+                return;
+            }
+
             this.loadingSaveDoc = true;
 
             let formElement = document.querySelector('#formDoc');

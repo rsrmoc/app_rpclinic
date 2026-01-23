@@ -139,11 +139,11 @@
                     <input type="hidden" name="cd_formulario" x-model="docsFormularioSelected">
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-1 mb-3" x-show="docsFormularioSelected">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-1 mb-3">
                     <textarea class="form-control border-0" style="height: 300px;" required name="conteudo" id="editor"></textarea>
                 </div>
 
-                <div class="d-grid mt-3" x-show="docsFormularioSelected">
+                <div class="d-grid mt-3">
                     <button type="submit" class="btn btn-teal text-white font-bold rounded-xl shadow-md py-3" x-bind:disabled="loadingSaveDoc">
                         <template x-if="loadingSaveDoc">
                             <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>

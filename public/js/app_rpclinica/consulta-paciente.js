@@ -24421,6 +24421,11 @@ Alpine.data('appConsultaPaciente', function () {
     saveDoc: function saveDoc() {
       var _this7 = this;
 
+      if (!this.docsFormularioSelected) {
+        toastr.error('Selecione um modelo de documento.');
+        return;
+      }
+
       this.loadingSaveDoc = true;
       var formElement = document.querySelector('#formDoc');
       var form = new FormData(formElement);
