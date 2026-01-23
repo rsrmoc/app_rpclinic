@@ -121,7 +121,7 @@
 
         {{-- Documentos --}}
         <div x-show="(tab == 1)" x-transition.opacity class="mb-3">
-            <h5 class="text-slate-800 font-bold text-sm mb-3 pl-1">Tela de Documentos</h5>
+            <h5 class="mb-0 text-dark mb-3">Tela de Documentos</h5>
             
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 mb-3">
                 <form x-on:submit.prevent="saveDoc" id="formDoc">
