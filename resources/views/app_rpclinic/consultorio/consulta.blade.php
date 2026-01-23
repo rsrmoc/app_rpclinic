@@ -120,38 +120,45 @@
         </div>
 
         {{-- Documentos --}}
-        <div x-show="(tab == 1)" x-transition.opacity>
-            <form x-on:submit.prevent="saveDoc" class="py-1 mb-3" id="formDoc">
-                <input type="hidden" name="cd_agendamento" value="{{ $agendamento->cd_agendamento }}" />
-                <input type="hidden" name="cd_paciente" value="{{ $agendamento->paciente->cd_paciente }}" />
+        <div x-show="(tab == 1)" x-transition.opacity class="mb-3">
+            <h5 class="text-slate-800 font-bold text-sm mb-3 pl-1">Tela de Documentos</h5>
+            
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 mb-3">
+                <form x-on:submit.prevent="saveDoc" id="formDoc">
+                    <input type="hidden" name="cd_agendamento" value="{{ $agendamento->cd_agendamento }}" />
+                    <input type="hidden" name="cd_paciente" value="{{ $agendamento->paciente->cd_paciente }}" />
 
-                <div class="mb-4">
-                    <label class="text-slate-700 font-bold text-sm mb-2 block">Modelo de Documento</label>
-                    
-                    <!-- Simulated Select Trigger -->
-                    <div class="form-select w-full rounded-xl border-slate-200 text-slate-700 font-bold shadow-sm h-12 flex items-center justify-between cursor-pointer bg-white" 
-                         x-on:click="openModalModelos">
-                        <span x-text="docsFormularioName || 'Selecione um modelo...'" :class="!docsFormularioName ? 'text-slate-500' : ''"></span>
-                        <i class="bi bi-chevron-down text-slate-400"></i>
+                    <div class="mb-4">
+                        <div class="form-floating position-relative">
+                            <input
+                                type="text"
+                                class="form-control rounded-xl border-slate-200 shadow-sm font-bold text-slate-700"
+                                placeholder=" "
+                                readonly
+                                x-bind:value="docsFormularioName || 'Selecione'"
+                                x-on:click="openModalModelos"
+                                style="height: 60px; padding-top: 1.625rem;"
+                            >
+                            <label class="text-slate-500 font-bold">Escolher Modelo de Documento</label>
+                            <i class="bi bi-chevron-down position-absolute end-3 top-50 translate-middle-y text-slate-400" style="margin-top: 5px;"></i>
+                        </div>
+                        <input type="hidden" name="cd_formulario" x-model="docsFormularioSelected">
                     </div>
-                    
-                    <!-- Hidden input for form submission compatibility -->
-                    <input type="hidden" name="cd_formulario" x-model="docsFormularioSelected">
-                </div>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-1 mb-3">
-                    <textarea class="form-control border-0" style="height: 300px;" required name="conteudo" id="editor"></textarea>
-                </div>
+                    <div class="border border-slate-200 rounded-2xl overflow-hidden mb-4">
+                        <textarea class="form-control border-0" style="height: 300px;" required name="conteudo" id="editor"></textarea>
+                    </div>
 
-                <div class="d-grid mt-3">
-                    <button type="submit" class="btn btn-teal text-white font-bold rounded-xl shadow-md py-3" x-bind:disabled="loadingSaveDoc">
-                        <template x-if="loadingSaveDoc">
-                            <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
-                        </template>
-                        <span>Salvar Documento</span>
-                    </button>
-                </div>
-            </form>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-teal text-white font-bold rounded-xl shadow-md py-3" x-bind:disabled="loadingSaveDoc">
+                            <template x-if="loadingSaveDoc">
+                                <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+                            </template>
+                            <span>Salvar Documento</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
 
             <div x-show="docs.length > 0" class="mt-4">
                 <label class="text-slate-500 font-bold text-xs uppercase mb-3 pl-1 block">Documentos desta consulta</label>

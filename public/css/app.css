@@ -568,6 +568,9 @@ video {
 .top-1\/2 {
   top: 50%;
 }
+.end-3 {
+  inset-inline-end: 0.75rem;
+}
 .isolate {
   isolation: isolate;
 }
