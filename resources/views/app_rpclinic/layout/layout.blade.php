@@ -581,7 +581,7 @@
    <!--start wrapper-->
     <div class="wrapper">
        <!--start to page content-->
-       <div class="page-content bg-transparent">
+       <div class="page-content bg-transparent" style="padding-left: 4px !important; padding-right: 4px !important;">
              <!-- Background Stethoscope Watermark -->
              <div class="bg-watermark">
             </div>
