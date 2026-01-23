@@ -34,6 +34,14 @@
                         <span>{{ idadeAluno($agendamento->paciente->dt_nasc) }}</span>
                      </div>
                      <div class="text-sm font-bold text-slate-600 mb-1">{{ $agendamento->paciente->nm_mae }}</div>
+                     
+                     @if($agendamento->paciente->nr_celular)
+                     <a href="https://wa.me/55{{ preg_replace('/[^0-9]/', '', $agendamento->paciente->nr_celular) }}" target="_blank" class="flex items-center gap-2 text-sm font-bold text-emerald-600 mb-1 hover:underline">
+                         <i class="bi bi-whatsapp"></i>
+                         <span>{{ $agendamento->paciente->nr_celular }}</span>
+                     </a>
+                     @endif
+                     
                      <div class="text-xs font-bold text-teal-600 uppercase">{{ $agendamento->convenio->nm_convenio ?? 'Particular' }}</div>
                      
                      <div class="mt-2">
