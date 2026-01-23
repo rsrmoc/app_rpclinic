@@ -129,35 +129,51 @@
 
         .air-datepicker-cell {
             color: #64748b !important; /* slate-500 */
-            font-size: 1.1rem !important;
-            height: 45px !important;
-            border-radius: 12px !important;
+            font-size: 0.9rem !important;
+            height: 40px !important;
+            width: 40px !important;
+            margin: 2px auto !important;
+            border-radius: 50% !important;
             font-weight: 600 !important;
-            position: relative; /* Necessário para o ::after */
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            position: relative;
+            transition: none !important;
         }
 
         .air-datepicker-cell.-current- {
             color: #0d9488 !important;
-            font-weight: bold !important; /* Apenas negrito */
-            background: transparent !important;
-            border: none !important; /* Sem borda para não confundir */
-        }
-        
-        .air-datepicker-cell.-current-.-selected- {
-             background: #0d9488 !important; /* Se for atual E selecionado, fundo verde */
-             color: #ffffff !important;
+            font-weight: 900 !important;
+            background: #f0fdfa !important;
+            border: 1px solid #0d9488 !important;
         }
 
-        .air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-current- {
-            background: #0d9488 !important; /* teal-600 */
+        .air-datepicker-cell.-selected-, 
+        .air-datepicker-cell.-selected-.-current-,
+        .air-datepicker-cell.-selected-.-focus-,
+        .air-datepicker-cell.-selected-.-active- {
+            background: #0d9488 !important;
             color: #ffffff !important;
             font-weight: bold !important;
-            box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.3);
+            border: none !important;
+            box-shadow: 0 4px 10px rgba(13, 148, 136, 0.4) !important;
         }
 
-        /* Hover desabilitado - apenas clique tem efeito */
-        .air-datepicker-cell:hover {
+        /* Prevent hover from overriding selected state */
+        .air-datepicker-cell.-selected-:hover,
+        .air-datepicker-cell.-selected-:active,
+        .air-datepicker-cell.-selected-.-focus- {
+            background: #0d9488 !important;
+            color: #ffffff !important;
+        }
+
+        /* Clear backgrounds for non-selected cells */
+        .air-datepicker-cell:not(.-selected-):hover,
+        .air-datepicker-cell:not(.-selected-):active,
+        .air-datepicker-cell:not(.-selected-).-focus- {
             background: transparent !important;
+            color: #0d9488 !important;
         }
         
         .air-datepicker-cell.-other-month- {

@@ -1,13 +1,15 @@
 @extends('app_rpclinic.layout.layout')
 
 @section('button_left')
-    <div class="brand-logo pt-0 m-0" style="width: auto;">
-        <a href="javascript:;" class="d-flex justify-content-center align-items-center">
-            <img src="{{ asset('assets/images/logo_menu.svg') }}" 
-                 alt="Logo" 
-                 style="height: 60px; width: auto;" 
-                 class="">
-        </a>
+    <div class="d-flex flex-column align-items-center justify-content-center pt-0 m-0">
+        <div class="brand-logo mb-0">
+            <a href="javascript:;" class="d-flex justify-content-center align-items-center">
+                <img src="{{ asset('assets/images/logo_menu.svg') }}" 
+                     alt="Logo" 
+                     style="height: 40px; width: auto;">
+            </a>
+        </div>
+        <h6 class="mb-0 text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-0 leading-none">Produção</h6>
     </div>
 @endsection
 
@@ -87,31 +89,55 @@
         }
 
         .air-datepicker-cell {
-            color: #0f172a !important; /* Dark Slate - High Contrast */
-            font-size: 1.2rem !important; 
-            font-weight: 700 !important; /* Bold */
-            height: 45px !important;
-            border-radius: 12px !important;
+            color: #64748b !important; /* slate-500 */
+            font-size: 0.9rem !important;
+            height: 40px !important;
+            width: 40px !important;
+            margin: 2px auto !important;
+            border-radius: 50% !important;
+            font-weight: 600 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: none !important;
         }
 
         .air-datepicker-cell.-current- {
-            color: #2dd4bf !important;
-            font-weight: 800 !important;
+            color: #0d9488 !important;
+            font-weight: 900 !important;
+            background: #f0fdfa !important;
+            border: 1px solid #0d9488 !important;
         }
 
-        .air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-current- {
-            background: #2dd4bf !important;
+        .air-datepicker-cell.-selected-, 
+        .air-datepicker-cell.-selected-.-current-,
+        .air-datepicker-cell.-selected-.-focus-,
+        .air-datepicker-cell.-selected-.-active- {
+            background: #0d9488 !important;
             color: #ffffff !important;
-            font-weight: 800 !important;
+            font-weight: bold !important;
+            border: none !important;
+            box-shadow: 0 4px 10px rgba(13, 148, 136, 0.4) !important;
         }
 
-        /* Hover desabilitado - apenas clique tem efeito */
-        .air-datepicker-cell:hover {
+        /* Prevent hover from overriding selected state */
+        .air-datepicker-cell.-selected-:hover,
+        .air-datepicker-cell.-selected-:active,
+        .air-datepicker-cell.-selected-.-focus- {
+            background: #0d9488 !important;
+            color: #ffffff !important;
+        }
+
+        /* Clear backgrounds for non-selected cells */
+        .air-datepicker-cell:not(.-selected-):hover,
+        .air-datepicker-cell:not(.-selected-):active,
+        .air-datepicker-cell:not(.-selected-).-focus- {
             background: transparent !important;
+            color: #0d9488 !important;
         }
 
         .air-datepicker-cell.-other-month- {
-            color: rgba(255, 255, 255, 0.15) !important;
+            color: #cbd5e1 !important;
         }
 
         /* Marcador de evento (Ponto) */
