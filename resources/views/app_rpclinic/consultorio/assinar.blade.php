@@ -127,6 +127,11 @@
             font-size: 0.8rem !important;
         }
 
+        .air-datepicker-body--cells.-days- {
+            grid-template-columns: repeat(7, 1fr) !important;
+            row-gap: 8px !important; /* Increase vertical spacing */
+        }
+
         .air-datepicker-cell {
             color: #64748b !important; /* slate-500 */
             font-size: 0.9rem !important;
