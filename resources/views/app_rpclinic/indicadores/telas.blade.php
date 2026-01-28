@@ -176,12 +176,12 @@
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer border-top border-slate-100 p-4 bg-slate-50">
-                    <button type="button" class="btn btn-light rounded-xl px-4 py-2 shadow-sm border border-slate-300" data-bs-dismiss="modal" style="color: #475569; background-color: #f8fafc;">
-                        <i class="bi bi-x-lg me-2"></i>Cancelar
+                <div class="modal-footer border-top border-slate-100 p-3 bg-slate-50 justify-content-center">
+                    <button type="button" class="btn btn-sm btn-light rounded-lg px-3 py-1 shadow-sm border border-slate-300" data-bs-dismiss="modal" style="color: #475569; background-color: #f8fafc; font-size: 0.875rem;">
+                        <i class="bi bi-x-lg me-1" style="font-size: 0.75rem;"></i>Cancelar
                     </button>
-                    <button type="button" class="btn btn-primary rounded-xl px-4 py-2 shadow-sm" onclick="aplicarFiltro()" style="background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%); border: none;">
-                        <i class="bi bi-check2-circle me-2"></i>Aplicar Filtro
+                    <button type="button" class="btn btn-sm btn-primary rounded-lg px-3 py-1 shadow-sm" onclick="aplicarFiltro()" style="background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%); border: none; font-size: 0.875rem;">
+                        <i class="bi bi-check2-circle me-1" style="font-size: 0.85rem;"></i>Aplicar Filtro
                     </button>
                 </div>
             </div>
