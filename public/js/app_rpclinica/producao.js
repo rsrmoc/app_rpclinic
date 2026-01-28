@@ -22162,28 +22162,15 @@ __webpack_require__.r(__webpack_exports__);
 Alpine.data('appProducao', function () {
   return {
     loading: false,
-    agendamentos: [],
+    producoes: [],
     datesWithEvents: [],
     currentDate: new Date(),
     capitalizeFirstLetter: function capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.substring(1);
     },
-    classLabelSituacao: {
-      livre: 'label-success',
-      agendado: 'label-primary',
-      confirmado: 'label-info',
-      atendido: 'label-warning',
-      bloqueado: 'label-danger',
-      cancelado: 'label-danger',
-      aguardando: 'label-aguardando',
-      atendimento: 'label-aguardando'
-    },
     init: function init() {
       var _this = this;
 
-      // Initialize with distinct years if needed, or just let calendar handle it.
-      // For 'months' view, we might want to highlight months with production?
-      // For now, sticking to basic Month Picker functionality as requested.
       this.datepicker = new air_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"]('#dataAgendamento', {
         classes: 'datePickerAgendamento',
         locale: air_datepicker_locale_pt_BR__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -22196,11 +22183,12 @@ Alpine.data('appProducao', function () {
         // Format: "Janeiro 2025"
         onSelect: function onSelect(_ref) {
           var date = _ref.date;
+          console.log('asddasd33');
           if (!date) return; // Parse date to start of month 'YYYY-MM-01' for backend compatibility
 
           var formattedDate = moment__WEBPACK_IMPORTED_MODULE_3___default()(date).startOf('month').format('YYYY-MM-DD');
 
-          _this.getAgendamentos(formattedDate);
+          _this.getProducoes(formattedDate);
         },
         // We can add dots for months with events if API supports it, 
         // but for now let's just make the month picker work.
@@ -22212,36 +22200,33 @@ Alpine.data('appProducao', function () {
 
       var dt = new Date();
       var formattedDate = moment__WEBPACK_IMPORTED_MODULE_3___default()(dt).startOf('month').format('YYYY-MM-DD');
-      this.getAgendamentos(formattedDate);
+      this.getProducoes(formattedDate);
     },
     // Not strictly used for month/year view indicators yet, but kept structure
     getDatesWithEvents: function getDatesWithEvents(month, year) {// This API returns specific DAYS. It might not be useful for Month view dots
       // unless we want to show dots on months within a year view.
       // For now, keeping it minimal to avoid errors if called.
     },
-    getAgendamentos: function getAgendamentos(date) {
+    getProducoes: function getProducoes(date) {
       var _this2 = this;
 
-      this.loading = true; // Using global route variable for 404 fix
-
-      axios.post(routeAgendamentos, {
+      this.loading = true;
+      axios.post(routeProducoes, {
         cd_profissional: cdProfissional,
-        data: date // Sending YYYY-MM-01. Backend filters whereDate('dt_agenda', $date).
-        // This means it will only find appointments ON THE 1ST DAY OF THE MONTH.
-        // This is likely NOT what the user wants if they switch to Monthly view.
-        // They probably want the whole month's production.
-        // However, changing backend logic requires permission/scope check.
-        // Given the user request is strictly "change calendar to show months", I will do that.
-        // If the data is empty, they might ask to fix data next.
-        // But I'll TRY to be smart: if I can send a range or modify backend, I should.
-        // I'll stick to the requested UI change first.
-
+        data: date
       }).then(function (res) {
-        return _this2.agendamentos = res.data.agendamentos;
+        console.log(res.data);
+        _this2.producoes = res.data.producoes || [];
       })["catch"](function (err) {
-        return parseErrorsAPI(err);
+        console.error('Erro ao carregar produções:', err);
+        toastr.error('Erro ao carregar produções.', 'Erro', {
+          timeOut: 5000,
+          closeButton: true,
+          progressBar: true,
+          positionClass: "toast-top-center"
+        });
       })["finally"](function () {
-        return _this2.loading = false;
+        _this2.loading = false;
       });
     },
     formatDate: function formatDate(date) {

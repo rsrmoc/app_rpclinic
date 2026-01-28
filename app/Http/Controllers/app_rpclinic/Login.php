@@ -6,6 +6,7 @@ namespace App\Http\Controllers\app_rpclinic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\rpclinica\procedimento\ProcedimentosRequest;
+use App\Model\rpclinica\AppConfig;
 use App\Model\rpclinica\Classificacao;
 use App\Model\rpclinica\Procedimento;
 use Exception;
@@ -66,6 +67,14 @@ class Login extends Controller
             config(['database.connections.mysql.database' => $database->database]);
            */
            
+            $telas = AppConfig::where('id','app')->first();  
+            if($telas==null){
+              throw new Exception('App não configurado!');
+            }   
+            if($telas->app=='nao'){
+              throw new Exception('Base de dados não esta permitido para esse App!');
+            } 
+
             if (!Auth::guard('rpclinica')->attempt($request->only(['email', 'password']), ($request->remember ? true: false)))
                 throw new Exception('Email ou senha inválidos!');
           
@@ -83,7 +92,7 @@ class Login extends Controller
                 2628000
             );
             */
-
+           
             Cookie::queue(
                 'business',
                 json_encode([
@@ -91,10 +100,14 @@ class Login extends Controller
                     'host' => 'localhost',
                     'username' => 'root',
                     'password' => '',
-                    'database' => 'rpclinic_castelo'
+                    'database' => 'castelo'
                 ]),
                 2628000
             );
+             
+            $user = Auth::guard('rpclinica')->user();
+            $user->update(['app_name' => $telas->app_name 
+            ]);
 
             return redirect()->route('app.inicial');
         }

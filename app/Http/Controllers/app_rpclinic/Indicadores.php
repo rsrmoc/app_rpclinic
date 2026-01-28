@@ -5,6 +5,7 @@ namespace App\Http\Controllers\app_rpclinic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\rpclinica\Agendamento;
+use App\Model\rpclinica\EscalaMedica;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,53 +14,59 @@ class Indicadores extends Controller
 
     public function index(Request $request)
     {
+        // Recebe mês e ano do filtro ou usa o mês/ano atual
+        $mes = $request->get('mes', date('m'));
+        $ano = $request->get('ano', date('Y'));
+        $Data = $ano . '-' . $mes;
+        
         // Pega profissional logado
         $user = auth()->guard('rpclinica')->user();
         $cdProfissional = $user->cd_profissional ?? 0;
 
-        // 1. KPI: Total de Atendimentos Hoje
-        $totalHoje = Agendamento::where('cd_profissional', $cdProfissional)
-            ->whereDate('dt_agenda', date('Y-m-d'))
-            ->count();
-
-        // Faturamento (Vou deixar fixo ou buscar se encontrar tabela, por enquanto foco nos graficos)
-        // Se quiser implementar depois: Somar valor procedimentos realizados.
-
-        // 2. Gráfico Pizza: Distribuição por Convênio (Ano Atual)
-        // Join com tabela convenio para pegar o nome
-        $pizzaQuery = Agendamento::select('convenio.nm_convenio as label', DB::raw('count(*) as value'))
-            ->join('convenio', 'agendamento.cd_convenio', '=', 'convenio.cd_convenio')
-            ->where('agendamento.cd_profissional', $cdProfissional)
-            ->whereYear('agendamento.dt_agenda', date('Y'))
-            ->groupBy('convenio.nm_convenio')
-            ->orderByDesc('value')
-            ->limit(6) // Top 6 convenios
-            ->get();
-
+   
+ 
+        $pizzaQuery = EscalaMedica::selectRaw('escala_localidade.nm_localidade as label,count(*) as value' )
+            ->join('escala_localidade', 'escala_localidade.cd_escala_localidade', '=', 'escala_medica.cd_escala_localidade')
+            ->where('escala_medica.cd_profissional', $cdProfissional)
+            ->whereRaw("escala_medica.dt_escala like '".$Data."%'")  
+            ->groupBy('escala_localidade.nm_localidade')
+            ->orderByRaw('2 desc')
+            ->limit(10) // Top 10 convenios
+            ->get(); 
         $pizzaLabels = $pizzaQuery->pluck('label');
-        $pizzaSeries = $pizzaQuery->pluck('value');
-
+        $pizzaSeries = $pizzaQuery->pluck('value'); 
         // Se vazia, envia flag para o front não bugar ou mostra vazio
         $hasDataPizza = $pizzaQuery->isNotEmpty();
 
+        $pizzaQueryPessoa = EscalaMedica::selectRaw('escala_localidade.nm_localidade as label,sum(qtde_final) as value' )
+            ->join('escala_localidade', 'escala_localidade.cd_escala_localidade', '=', 'escala_medica.cd_escala_localidade')
+            ->where('escala_medica.cd_profissional', $cdProfissional)
+            ->whereRaw("escala_medica.dt_escala like '".$Data."%'")  
+            ->groupBy('escala_localidade.nm_localidade')
+            ->orderByRaw('2 desc')
+            ->limit(10) // Top 10 convenios
+            ->get(); 
+        $pizzaLabelsPessoa = $pizzaQueryPessoa->pluck('label');
+        $pizzaSeriesPessoa = $pizzaQueryPessoa->pluck('value'); 
+        // Se vazia, envia flag para o front não bugar ou mostra vazio
+        $hasDataPizzaPessoa = $pizzaQueryPessoa->isNotEmpty();
+  
+        $pizzaSituacao = EscalaMedica::selectRaw('situacao as label,count(*) as value' ) 
+            ->where('escala_medica.cd_profissional', $cdProfissional)
+            ->whereRaw("escala_medica.dt_escala like '".$Data."%'")  
+            ->groupBy('escala_medica.situacao')
+            ->orderByRaw('2 desc')
+            ->limit(10) // Top 10 convenios
+            ->get(); 
+        $pizzaSituacaoLabels = $pizzaSituacao->pluck('label');
+        $pizzaSituacaoSeries = $pizzaSituacao->pluck('value');
+        // Se vazia, envia flag para o front não bugar ou mostra vazio
+        $hasDataPizzaSituacao = $pizzaSituacao->isNotEmpty();
 
-        // 3. Gráfico Barras: Evolução Mensal (Ano Atual)
-        $barQuery = Agendamento::select(
-                DB::raw("DATE_FORMAT(dt_agenda, '%b') as label"),
-                DB::raw("count(*) as value"),
-                DB::raw("MONTH(dt_agenda) as mes_num")
-            )
-            ->where('cd_profissional', $cdProfissional)
-            ->whereYear('dt_agenda', date('Y'))
-            ->groupBy(DB::raw("MONTH(dt_agenda)"), DB::raw("DATE_FORMAT(dt_agenda, '%b')"))
-            ->orderBy('mes_num')
-            ->get();
-
-        $barLabels = $barQuery->pluck('label');
-        $barSeries = $barQuery->pluck('value');
+ 
 
 
-        return view('app_rpclinic.indicadores.telas', compact('totalHoje', 'pizzaLabels', 'pizzaSeries', 'barLabels', 'barSeries', 'hasDataPizza'));
+        return view('app_rpclinic.indicadores.telas', compact( 'Data', 'pizzaLabels', 'pizzaSeries', 'pizzaLabelsPessoa', 'pizzaSeriesPessoa', 'pizzaSituacaoLabels', 'pizzaSituacaoSeries', 'hasDataPizza', 'hasDataPizzaPessoa', 'hasDataPizzaSituacao'));
     }
 
     public function agendamentos(Request $request) {

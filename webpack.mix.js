@@ -74,3 +74,4 @@ mix.js('resources/js/app_rpclinica/consulta-paciente.js', 'public/js/app_rpclini
 mix.js('resources/js/app_rpclinica/disponibilidade.js', 'public/js/app_rpclinica');
 mix.js('resources/js/app_rpclinica/producao.js', 'public/js/app_rpclinica');
 mix.js('resources/js/app_rpclinica/indicadores.js', 'public/js/app_rpclinica');
+mix.js('resources/js/app_rpclinica/escala.js', 'public/js/app_rpclinica');

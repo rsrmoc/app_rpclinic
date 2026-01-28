@@ -9,6 +9,9 @@ Alpine.data('appAgendamento', () => ({
     datesWithEvents: [],
     multipleSelect: true, // Ativado por padrão
     selectedDates: [], // Array de datas selecionadas para exibição
+    currentMonth: new Date().getMonth(),
+    currentYear: new Date().getFullYear(),
+    showClearModal: false,
 
     capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.substring(1);
@@ -25,29 +28,22 @@ Alpine.data('appAgendamento', () => ({
         atendimento: 'label-aguardando'
     },
 
-    init() {
-        this.getDatesWithEvents(new Date().getMonth(), new Date().getFullYear());
+    init() { 
 
         this.datepicker = new AirDatepicker('#dataAgendamento', {
             classes: 'datePickerAgendamento',
             locale: LocalePTBR,
-            selectedDates: [new Date()],
+            selectedDates: [],
             dateFormat: 'yyyy-MM-dd',
             multipleDates: this.multipleSelect, // Baseado no toggle
-            onSelect: ({ formattedDate, date }) => {
-                // Atualizar a lista de datas selecionadas
-                this.selectedDates = this.datepicker.selectedDates || [];
-
-                // Se apenas 1 data selecionada, buscar agendamentos
-                if (this.selectedDates.length === 1) {
-                    const formattedSingleDate = moment(this.selectedDates[0]).format('YYYY-MM-DD');
-                    this.getAgendamentos(formattedSingleDate);
-                } else {
-                    // Limpar agendamentos se múltiplas datas
-                    this.agendamentos = [];
-                }
+            onSelect: ({ formattedDate }) => {
+                console.log(formattedDate);
+                if (!formattedDate) return;
+                
             },
+           
             onRenderCell: ({ date, cellType }) => {
+               
                 if (cellType === 'day') {
                     const formattedCellDate = moment(date).format('YYYY-MM-DD');
                     const hasEvent = this.datesWithEvents.includes(formattedCellDate);
@@ -60,93 +56,63 @@ Alpine.data('appAgendamento', () => ({
                 }
             },
             onChangeViewDate: ({ month, year }) => {
-                this.getDatesWithEvents(month, year);
+                console.log('inicio');
+                this.currentMonth = month;
+                this.currentYear = year; 
+                this.loadSavedDates();
             }
         });
+
+        // Carrega as datas salvas
+        this.loadSavedDates();
 
         // Inicializar selectedDates
         this.selectedDates = this.datepicker.selectedDates || [];
     },
 
-    toggleMultipleSelect() {
-        // Destruir e recriar o datepicker com a nova configuração
-        const currentDates = this.datepicker.selectedDates || [];
-        this.datepicker.destroy();
-
-        this.datepicker = new AirDatepicker('#dataAgendamento', {
-            classes: 'datePickerAgendamento',
-            locale: LocalePTBR,
-            selectedDates: this.multipleSelect ? currentDates : (currentDates[0] ? [currentDates[0]] : []),
-            dateFormat: 'yyyy-MM-dd',
-            multipleDates: this.multipleSelect,
-            onSelect: ({ formattedDate, date }) => {
-                this.selectedDates = this.datepicker.selectedDates || [];
-
-                // Se apenas 1 data selecionada, buscar agendamentos
-                if (this.selectedDates.length === 1) {
-                    const formattedSingleDate = moment(this.selectedDates[0]).format('YYYY-MM-DD');
-                    this.getAgendamentos(formattedSingleDate);
-                } else {
-                    this.agendamentos = [];
-                }
-            },
-            onRenderCell: ({ date, cellType }) => {
-                if (cellType === 'day') {
-                    const formattedCellDate = moment(date).format('YYYY-MM-DD');
-                    const hasEvent = this.datesWithEvents.includes(formattedCellDate);
-
-                    if (hasEvent) {
-                        return {
-                            classes: 'has-event-dot'
-                        };
+    loadSavedDates() {
+        axios.get(routeDisponibilidadeGet, {
+            params: {
+                month: this.currentMonth,
+                year: this.currentYear
+            }
+        })
+            .then((res) => {
+                if (res.data.success && res.data.dates) {
+                    // Converter strings de data em objetos Date
+                    const datesToSelect = res.data.dates.map(dateStr => {
+                        return new Date(dateStr + 'T00:00:00');
+                    });
+                    // Selecionar as datas no datepicker
+                    if (this.datepicker) {
+                        this.datepicker.selectDate(datesToSelect);
+                        this.selectedDates = datesToSelect;
                     }
                 }
-            },
-            onChangeViewDate: ({ month, year }) => {
-                this.getDatesWithEvents(month, year);
-            }
-        });
-
-        this.selectedDates = this.datepicker.selectedDates || [];
-
-        // Se ficou com apenas 1 data após toggle, buscar agendamentos
-        if (this.selectedDates.length === 1) {
-            const formattedSingleDate = moment(this.selectedDates[0]).format('YYYY-MM-DD');
-            this.getAgendamentos(formattedSingleDate);
-        }
-    },
+            })
+            .catch((err) => {
+                console.error('Erro ao carregar datas salvas:', err);
+            });
+    }, 
 
     formatDateDisplay(date) {
         return moment(date).format('DD/MM/YYYY');
     },
 
-    removeDate(index) {
-        const dates = this.datepicker.selectedDates || [];
-        dates.splice(index, 1);
-        this.datepicker.selectDate(dates);
-        this.selectedDates = dates;
-    },
-
-    getDatesWithEvents(month, year) {
-        axios.post(routeAgendamentosDatas, {
-            cd_profissional: cdProfissional,
-            month: month,
-            year: year
-        })
-            .then((res) => {
-                this.datesWithEvents = res.data.dates;
-                if (this.datepicker) {
-                    this.datepicker.update();
-                }
-            });
-    },
-
+      
     // New function to save availability
     saveDisponibilidade() {
         const selectedDates = this.datepicker.selectedDates;
 
         if (!selectedDates || selectedDates.length === 0) {
-            alert('Selecione pelo menos uma data.');
+            toastr.warning('Selecione pelo menos uma data.', 'Aviso', {
+                timeOut: 7000,
+                closeButton: true,
+                progressBar: true,
+                positionClass: "toast-top-center",
+                showMethod: "slideDown",
+                hideMethod: "slideUp"
+            });
             return;
         }
 
@@ -156,39 +122,83 @@ Alpine.data('appAgendamento', () => ({
 
         axios.post(routeDisponibilidadeSave, {
             cd_profissional: cdProfissional,
-            dates: formattedDates
+            dates: formattedDates,
+            month: this.currentMonth,
+            year: this.currentYear
         })
             .then((res) => {
                 if (res.data.success) {
-                    // alert('Disponibilidade salva com sucesso!');
-                    // Maybe refresh events?
-                    this.getDatesWithEvents(new Date().getMonth(), new Date().getFullYear());
-
-                    // Clear selection? Or keep it? keeping it is fine.
-                    // this.datepicker.clear();
-
-                    // Show a toast or something? Browser alert for now is consistent with legacy apps
-                    alert('Salvo com sucesso!');
+                 
+                    // Mostrar mensagem de sucesso com mais destaque
+                    toastr.success(res.data.message, 'Sucesso', {
+                        timeOut: 7000,
+                        closeButton: true,
+                        progressBar: true,
+                        positionClass: "toast-top-center",
+                        showMethod: "slideDown",
+                        hideMethod: "slideUp"
+                    }); 
                 }
             })
             .catch((err) => {
                 console.error(err);
-                alert('Erro ao salvar disponibilidade.');
+                toastr.error(err.response?.data?.message || 'Erro ao salvar disponibilidade.', 'Erro', {
+                    timeOut: 7000,
+                    closeButton: true,
+                    progressBar: true,
+                    positionClass: "toast-top-center",
+                    showMethod: "slideDown",
+                    hideMethod: "slideUp"
+                });
             })
             .finally(() => this.loading = false);
     },
 
-    getAgendamentos(date) {
+    clearDates() {
         this.loading = true;
-
-        axios.post(routeAgendamentos, {
-            cd_profissional: cdProfissional,
-            data: date
+        
+        axios.delete(routeDisponibilidadeDelete, {
+            params: {
+                month: this.currentMonth,
+                year: this.currentYear
+            }
         })
-            .then((res) => this.agendamentos = res.data.agendamentos)
-            .catch((err) => parseErrorsAPI(err))
-            .finally(() => this.loading = false);
+        .then((res) => {
+            if (res.data.success) {
+                // Limpar o datepicker
+                if (this.datepicker) {
+                    this.datepicker.clear();
+                    this.selectedDates = [];
+                }
+                
+                this.showClearModal = false;
+                
+                toastr.success(res.data.message || 'Datas limpas com sucesso!', 'Sucesso', {
+                    timeOut: 7000,
+                    closeButton: true,
+                    progressBar: true,
+                    positionClass: "toast-top-center",
+                    showMethod: "slideDown",
+                    hideMethod: "slideUp"
+                });
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            toastr.error(err.response?.data?.message || 'Erro ao limpar datas.', 'Erro', {
+                timeOut: 7000,
+                closeButton: true,
+                progressBar: true,
+                positionClass: "toast-top-center",
+                showMethod: "slideDown",
+                hideMethod: "slideUp"
+            });
+        })
+        .finally(() => {
+            this.loading = false;
+        });
     },
+ 
     formatDate(date) {
         return moment(date).lang('pt-BR').format('LLL');
     }

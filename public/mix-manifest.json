@@ -61,6 +61,7 @@
     "/js/app_rpclinica/disponibilidade.js": "/js/app_rpclinica/disponibilidade.js",
     "/js/app_rpclinica/producao.js": "/js/app_rpclinica/producao.js",
     "/js/app_rpclinica/indicadores.js": "/js/app_rpclinica/indicadores.js",
+    "/js/app_rpclinica/escala.js": "/js/app_rpclinica/escala.js",
     "/css/login.css": "/css/login.css",
     "/css/app.css": "/css/app.css"
 }

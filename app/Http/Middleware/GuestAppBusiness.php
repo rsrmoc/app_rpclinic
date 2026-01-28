@@ -17,9 +17,13 @@ class GuestAppBusiness
      */
     public function handle($request, Closure $next)
     {
+       
         if (Cookie::has('business') && Auth::guard('rpclinica')->check() ) {
             return redirect()->route('app.inicial');
         }
+        
+
+        
 
         return $next($request);
     }

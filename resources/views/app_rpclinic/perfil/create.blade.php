@@ -22,8 +22,8 @@
        <!--start to page content-->
        <div class="page-content p-0" x-data="appPerfil" style="margin-top: -30px !important;">
         <div class="border-0 bg-transparent">
-          <div class="">
-             <form x-on:submit.prevent="saveProfile" class="row g-3 needs-validation"
+          <div >
+             <form x-on:submit.prevent="saveProfile" class="row g-3 needs-validation px-2"
               id="formProfile">
                @csrf
                 <div class="col-12">
@@ -62,6 +62,7 @@
                  </div>
                </div>
                
+               <div class="col-12 px-2">
                <button type="submit"
                 class="btn btn-primary w-100 rounded-3 text-white shadow-sm mt-4"
                 style="height: 55px; font-weight: 600; font-size: 16px; background-color: #0d9488; border-color: #0d9488;"
@@ -69,8 +70,12 @@
                   <template x-if="loading">
                     <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
                   </template>
+                  <template x-if="!loading">
+                    <i class="bi bi-check-circle me-2"></i>
+                  </template>
                   <span>Salvar</span>
                 </button>
+               </div>
              </form><!--end form-->
 
           </div>

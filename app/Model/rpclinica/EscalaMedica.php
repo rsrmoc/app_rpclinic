@@ -29,6 +29,8 @@ class EscalaMedica extends Model
         'qtde_profissional',
         'qtde_final',
         'situacao',
+        'app_confirmacao_user',
+        'app_confirmacao_dt',
         'obs',
         'informativo',
         'cd_usuario_agenda',
@@ -47,6 +49,10 @@ class EscalaMedica extends Model
 
     public function tipo_escala() {
         return $this->hasOne(EscalaTipo::class, 'cd_escala_tipo', 'cd_escala_tipo');
+    }
+
+    public function especialidade() {
+        return $this->hasOne(Especialidade::class, 'cd_especialidade', 'cd_especialidade');
     }
 
     public function usuario() {

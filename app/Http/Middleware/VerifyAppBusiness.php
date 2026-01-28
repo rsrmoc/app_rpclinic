@@ -16,6 +16,7 @@ class VerifyAppBusiness
      */
     public function handle($request, Closure $next)
     {
+        /*
         if (Cookie::has('business')) {
             
             $database = json_decode(Cookie::get('business'));
@@ -27,6 +28,7 @@ class VerifyAppBusiness
             config(['database.connections.mysql.database' => $database->database]);
             
         }
+        */
 
         return $next($request);
     }

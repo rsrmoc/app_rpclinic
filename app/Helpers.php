@@ -20,6 +20,8 @@ use App\Model\rpclinica\Usuario;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
+ 
+
 const ESTADOS = [
     ["nome" => "Acre", "sigla" => "AC"],
     ["nome" => "Alagoas", "sigla" => "AL"],
@@ -1453,3 +1455,4 @@ function helperDiaSemana($dia){
     return (isset($diasdasemana[$dia])) ? $diasdasemana[$dia] : 'Erro';
 
 }
+

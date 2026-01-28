@@ -12,9 +12,23 @@ Alpine.data('appPerfil', function () {
       this.loading = true;
       var form = new FormData(document.querySelector('#formProfile'));
       axios.post(routePerfilUpdate, form).then(function (res) {
-        return toastr.success(res.data.message);
+        toastr.success(res.data.message, 'Sucesso', {
+          timeOut: 7000,
+          closeButton: true,
+          progressBar: true,
+          positionClass: "toast-top-center",
+          showMethod: "slideDown",
+          hideMethod: "slideUp"
+        });
       })["catch"](function (err) {
-        return toastr.success(err.response.data.message);
+        toastr.error(err.response.data.message, 'Erro', {
+          timeOut: 7000,
+          closeButton: true,
+          progressBar: true,
+          positionClass: "toast-top-center",
+          showMethod: "slideDown",
+          hideMethod: "slideUp"
+        });
       })["finally"](function () {
         return _this.loading = false;
       });

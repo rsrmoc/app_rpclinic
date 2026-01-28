@@ -22146,9 +22146,9 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/*!*******************************************************!*\
-  !*** ./resources/js/app_rpclinica/disponibilidade.js ***!
-  \*******************************************************/
+/*!**********************************************!*\
+  !*** ./resources/js/app_rpclinica/escala.js ***!
+  \**********************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var air_datepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! air-datepicker */ "./node_modules/air-datepicker/index.es.js");
 /* harmony import */ var air_datepicker_locale_pt_BR__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! air-datepicker/locale/pt-BR */ "./node_modules/air-datepicker/locale/pt-BR.js");
@@ -22164,13 +22164,8 @@ Alpine.data('appAgendamento', function () {
     loading: false,
     agendamentos: [],
     datesWithEvents: [],
-    multipleSelect: true,
-    // Ativado por padrão
-    selectedDates: [],
-    // Array de datas selecionadas para exibição
-    currentMonth: new Date().getMonth(),
-    currentYear: new Date().getFullYear(),
-    showClearModal: false,
+    showConfirmModal: false,
+    escalaToConfirm: null,
     capitalizeFirstLetter: function capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.substring(1);
     },
@@ -22187,17 +22182,17 @@ Alpine.data('appAgendamento', function () {
     init: function init() {
       var _this = this;
 
+      this.getDatesWithEvents(new Date().getMonth(), new Date().getFullYear());
       this.datepicker = new air_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"]('#dataAgendamento', {
         classes: 'datePickerAgendamento',
         locale: air_datepicker_locale_pt_BR__WEBPACK_IMPORTED_MODULE_1__["default"],
-        selectedDates: [],
+        selectedDates: [new Date()],
         dateFormat: 'yyyy-MM-dd',
-        multipleDates: this.multipleSelect,
-        // Baseado no toggle
         onSelect: function onSelect(_ref) {
           var formattedDate = _ref.formattedDate;
-          console.log(formattedDate);
           if (!formattedDate) return;
+
+          _this.getAgendamentos(formattedDate);
         },
         onRenderCell: function onRenderCell(_ref2) {
           var date = _ref2.date,
@@ -22218,134 +22213,81 @@ Alpine.data('appAgendamento', function () {
         onChangeViewDate: function onChangeViewDate(_ref3) {
           var month = _ref3.month,
               year = _ref3.year;
-          console.log('inicio');
-          _this.currentMonth = month;
-          _this.currentYear = year;
 
-          _this.loadSavedDates();
+          _this.getDatesWithEvents(month, year);
         }
-      }); // Carrega as datas salvas
-
-      this.loadSavedDates(); // Inicializar selectedDates
-
-      this.selectedDates = this.datepicker.selectedDates || [];
+      });
+      var dt = new Date();
+      var formattedDate = "".concat(dt.getFullYear(), "-").concat((dt.getMonth() + 1).toString().padStart(2, 0), "-").concat(dt.getDate().toString().padStart(2, 0));
+      this.getAgendamentos(formattedDate);
     },
-    loadSavedDates: function loadSavedDates() {
+    getDatesWithEvents: function getDatesWithEvents(month, year) {
       var _this2 = this;
 
-      axios.get(routeDisponibilidadeGet, {
-        params: {
-          month: this.currentMonth,
-          year: this.currentYear
-        }
+      axios.post(routeAgendamentosDatas, {
+        cd_profissional: cdProfissional,
+        month: month,
+        year: year
       }).then(function (res) {
-        if (res.data.success && res.data.dates) {
-          // Converter strings de data em objetos Date
-          var datesToSelect = res.data.dates.map(function (dateStr) {
-            return new Date(dateStr + 'T00:00:00');
-          }); // Selecionar as datas no datepicker
+        _this2.datesWithEvents = res.data.dates;
 
-          if (_this2.datepicker) {
-            _this2.datepicker.selectDate(datesToSelect);
-
-            _this2.selectedDates = datesToSelect;
-          }
+        if (_this2.datepicker) {
+          // This might trigger recursion if not careful, but usually it's fine if we just want to update display.
+          // Actually, the best way to refresh cells is calling update()
+          _this2.datepicker.update();
         }
-      })["catch"](function (err) {
-        console.error('Erro ao carregar datas salvas:', err);
       });
     },
-    formatDateDisplay: function formatDateDisplay(date) {
-      return moment__WEBPACK_IMPORTED_MODULE_3___default()(date).format('DD/MM/YYYY');
-    },
-    // New function to save availability
-    saveDisponibilidade: function saveDisponibilidade() {
+    getAgendamentos: function getAgendamentos(date) {
       var _this3 = this;
 
-      var selectedDates = this.datepicker.selectedDates;
-
-      if (!selectedDates || selectedDates.length === 0) {
-        toastr.warning('Selecione pelo menos uma data.', 'Aviso', {
-          timeOut: 7000,
-          closeButton: true,
-          progressBar: true,
-          positionClass: "toast-top-center",
-          showMethod: "slideDown",
-          hideMethod: "slideUp"
-        });
-        return;
-      }
-
-      var formattedDates = selectedDates.map(function (date) {
-        return moment__WEBPACK_IMPORTED_MODULE_3___default()(date).format('YYYY-MM-DD');
-      });
       this.loading = true;
-      axios.post(routeDisponibilidadeSave, {
+      axios.post(routeAgendamentos, {
         cd_profissional: cdProfissional,
-        dates: formattedDates,
-        month: this.currentMonth,
-        year: this.currentYear
+        data: date
       }).then(function (res) {
-        if (res.data.success) {
-          // Mostrar mensagem de sucesso com mais destaque
-          toastr.success(res.data.message, 'Sucesso', {
-            timeOut: 7000,
-            closeButton: true,
-            progressBar: true,
-            positionClass: "toast-top-center",
-            showMethod: "slideDown",
-            hideMethod: "slideUp"
-          });
-        }
+        console.log(res.data);
+        _this3.agendamentos = res.data.agendamentos;
       })["catch"](function (err) {
-        var _err$response, _err$response$data;
-
-        console.error(err);
-        toastr.error(((_err$response = err.response) === null || _err$response === void 0 ? void 0 : (_err$response$data = _err$response.data) === null || _err$response$data === void 0 ? void 0 : _err$response$data.message) || 'Erro ao salvar disponibilidade.', 'Erro', {
-          timeOut: 7000,
-          closeButton: true,
-          progressBar: true,
-          positionClass: "toast-top-center",
-          showMethod: "slideDown",
-          hideMethod: "slideUp"
-        });
+        return parseErrorsAPI(err);
       })["finally"](function () {
         return _this3.loading = false;
       });
     },
-    clearDates: function clearDates() {
+    formatDate: function formatDate(date) {
+      return moment__WEBPACK_IMPORTED_MODULE_3___default()(date).lang('pt-BR').format('LLL');
+    },
+    confirmarEscala: function confirmarEscala(cdEscala) {
       var _this4 = this;
 
-      this.loading = true;
-      axios["delete"](routeDisponibilidadeDelete, {
-        params: {
-          month: this.currentMonth,
-          year: this.currentYear
-        }
+      // Implementar a lógica de confirmação da escala aqui
+      console.log('Confirmar escala:', cdEscala); // Exemplo de chamada para confirmar a escala
+
+      axios.post('/app_rpclinic/api/escalas/confirmar', {
+        cd_escala_medica: cdEscala
       }).then(function (res) {
-        if (res.data.success) {
-          // Limpar o datepicker
-          if (_this4.datepicker) {
-            _this4.datepicker.clear();
+        // Fechar o modal
+        _this4.showConfirmModal = false; // Mostrar mensagem de sucesso com mais destaque
 
-            _this4.selectedDates = [];
-          }
+        toastr.success('Escala confirmada com sucesso!', 'Sucesso', {
+          timeOut: 7000,
+          closeButton: true,
+          progressBar: true,
+          positionClass: "toast-top-center",
+          showMethod: "slideDown",
+          hideMethod: "slideUp"
+        }); // Recarregar os agendamentos após confirmar
 
-          _this4.showClearModal = false;
-          toastr.success(res.data.message || 'Datas limpas com sucesso!', 'Sucesso', {
-            timeOut: 7000,
-            closeButton: true,
-            progressBar: true,
-            positionClass: "toast-top-center",
-            showMethod: "slideDown",
-            hideMethod: "slideUp"
-          });
+        var selectedDate = _this4.datepicker.selectedDates[0];
+
+        if (selectedDate) {
+          var formattedDate = "".concat(selectedDate.getFullYear(), "-").concat((selectedDate.getMonth() + 1).toString().padStart(2, '0'), "-").concat(selectedDate.getDate().toString().padStart(2, '0'));
+
+          _this4.getAgendamentos(formattedDate);
         }
       })["catch"](function (err) {
-        var _err$response2, _err$response2$data;
-
-        console.error(err);
-        toastr.error(((_err$response2 = err.response) === null || _err$response2 === void 0 ? void 0 : (_err$response2$data = _err$response2.data) === null || _err$response2$data === void 0 ? void 0 : _err$response2$data.message) || 'Erro ao limpar datas.', 'Erro', {
+        console.error('Erro ao confirmar escala:', err);
+        toastr.error('Erro ao confirmar escala. Tente novamente.', 'Erro', {
           timeOut: 7000,
           closeButton: true,
           progressBar: true,
@@ -22353,12 +22295,7 @@ Alpine.data('appAgendamento', function () {
           showMethod: "slideDown",
           hideMethod: "slideUp"
         });
-      })["finally"](function () {
-        _this4.loading = false;
       });
-    },
-    formatDate: function formatDate(date) {
-      return moment__WEBPACK_IMPORTED_MODULE_3___default()(date).lang('pt-BR').format('LLL');
     }
   };
 });

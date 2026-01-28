@@ -64,7 +64,6 @@ class Agendamento extends Controller
                 })
                 ->selectRaw('distinct date(created_at) as date')
                 ->pluck('date');
-                
             return response()->json(['dates' => $dates]);
         }
 
@@ -74,7 +73,7 @@ class Agendamento extends Controller
             ->whereMonth('dt_agenda', $request->month + 1)
             ->selectRaw('distinct date(dt_agenda) as date')
             ->pluck('date');
-
+ 
         return response()->json(['dates' => $dates]);
     }
 }

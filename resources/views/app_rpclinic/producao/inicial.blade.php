@@ -4,9 +4,7 @@
     <div class="d-flex flex-column align-items-center justify-content-center pt-0 m-0">
         <div class="brand-logo mb-0">
             <a href="javascript:;" class="d-flex justify-content-center align-items-center">
-                <img src="{{ asset('assets/images/logo_menu.svg') }}" 
-                     alt="Logo" 
-                     style="height: 40px; width: auto;">
+                <img src="{{ asset('assets/images/logo_menu.svg') }}" alt="Logo" style="height: 40px; width: auto;">
             </a>
         </div>
         <h6 class="mb-0 text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-0 leading-none">Produção</h6>
@@ -17,37 +15,38 @@
     <!--start to page content-->
     <div class="page-content" x-data="appProducao" style="padding-top: 0px !important; margin-top: -30px !important;">
         <div class="card-body">
-            <form x-on:submit.prevent="saveProfile" class="row g-3 needs-validation"
-             id="formProfile">
-              @csrf
+            <form x-on:submit.prevent="saveProfile" class="row g-3 needs-validation" id="formProfile">
+                @csrf
 
-              <div id="dataAgendamento"></div>
+                <div id="dataAgendamento"></div>
 
-              <div class="py-2"></div>
-      
-              <template x-if="loading">
-                  <div class="mb-3">
-                      <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>&ensp;
-                      <span>Carregando...</span>
-                  </div>
-              </template>
-      
-              <button type="submit"
-              class="btn btn-primary w-100 rounded-3 text-white shadow-sm mt-2"
-              style="height: 55px; font-weight: 600; font-size: 16px; background-color: #0d9488; border-color: #0d9488;"
-              x-bind:disabled="loading">
-                <template x-if="loading">
-                  <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
-                </template>
-                <span>Salvar</span>
-              </button>
+                <div class="py-2"></div>
+
+                <!-- Loading -->
+                <div x-show="loading" class="mb-3 text-center p-4">
+                    <div class="spinner-border text-teal-600" role="status"></div>
+                    <div class="text-teal-600 font-bold mt-2">Carregando Produção...</div>
+                </div>
+
+
+                <div>
+                    <template x-if="producoes.length==0">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-center align-items-center mt-3">
+                                <img src="{{ asset('app/assets/images/producao.png') }}"
+                                    style="max-width: 65%; opacity: 0.5; filter: grayscale(1);" class="img-fluid"
+                                    alt="">
+                            </div>
+                        </div>
+                    </template>
+                </div>
 
             </form>
 
         </div>
 
- 
-      
+
+
     </div>
     <!--end to page content-->
 @endsection
@@ -64,32 +63,36 @@
             color: #0f172a !important;
             font-family: inherit !important;
         }
-        
+
         .air-datepicker-nav {
             border-bottom: 1px solid rgba(15, 23, 42, 0.1) !important;
             background: transparent !important;
             margin-bottom: 15px !important;
         }
 
-        .air-datepicker-nav--title, .air-datepicker-nav--action {
-            color: #0f172a !important; /* Dark text */
+        .air-datepicker-nav--title,
+        .air-datepicker-nav--action {
+            color: #0f172a !important;
+            /* Dark text */
             font-weight: 800 !important;
             font-size: 1.1rem !important;
         }
-        
+
         .air-datepicker-nav--action:hover {
             background: rgba(15, 23, 42, 0.05) !important;
         }
 
         .air-datepicker-body--day-name {
-            color: #0f766e !important; /* teal-700 - Much Darker for contrast */
+            color: #0f766e !important;
+            /* teal-700 - Much Darker for contrast */
             font-weight: 800 !important;
             text-transform: uppercase !important;
             font-size: 0.9rem !important;
         }
 
         .air-datepicker-cell {
-            color: #64748b !important; /* slate-500 */
+            color: #64748b !important;
+            /* slate-500 */
             font-size: 0.9rem !important;
             height: 40px !important;
             width: 40px !important;
@@ -109,7 +112,7 @@
             border: 1px solid #0d9488 !important;
         }
 
-        .air-datepicker-cell.-selected-, 
+        .air-datepicker-cell.-selected-,
         .air-datepicker-cell.-selected-.-current-,
         .air-datepicker-cell.-selected-.-focus-,
         .air-datepicker-cell.-selected-.-active- {
@@ -144,7 +147,7 @@
         .has-event-dot {
             position: relative !important;
         }
-        
+
         .has-event-dot::after {
             content: '' !important;
             position: absolute !important;
@@ -153,13 +156,15 @@
             transform: translateX(-50%) !important;
             width: 5px !important;
             height: 5px !important;
-            background-color: #2dd4bf !important; /* teal dot */
+            background-color: #2dd4bf !important;
+            /* teal dot */
             border-radius: 50% !important;
             box-shadow: 0 0 8px #2dd4bf !important;
         }
 
         .air-datepicker-cell.-selected-.has-event-dot::after {
-            background-color: #0f172a !important; /* Dark dot if cell is teal */
+            background-color: #0f172a !important;
+            /* Dark dot if cell is teal */
             box-shadow: none !important;
         }
     </style>
@@ -168,8 +173,7 @@
 @push('scripts')
     <script>
         const cdProfissional = {{ auth()->guard('rpclinica')->user()->cd_profissional ?? 'null' }};
-        const routeAgendamentos = @js(url('app_rpclinic/api/agendamentos'));
-        const routeAgendamentosDatas = @js(url('app_rpclinic/api/agendamentos-datas'));
+        const routeProducoes = @js(route('app.api.producoes'));
     </script>
     <script src="{{ asset('/js/app_rpclinica/producao.js') }}"></script>
 @endpush

@@ -68,7 +68,9 @@ class Usuario extends Authenticatable
         'sn_data_header_doc',
         'sn_historia_pregressa',
         'sn_carregar_historia_pregressa',
-        'sn_titulo_header_doc'
+        'sn_titulo_header_doc',
+        'app_name', 
+
     ];
 
     public function perfil() {

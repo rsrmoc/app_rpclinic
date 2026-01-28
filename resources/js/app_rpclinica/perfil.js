@@ -7,8 +7,26 @@ Alpine.data('appPerfil', () => ({
         const form = new FormData(document.querySelector('#formProfile'));
 
         axios.post(routePerfilUpdate, form)
-            .then((res) => toastr.success(res.data.message))
-            .catch((err) => toastr.success(err.response.data.message))
+            .then((res) => { 
+                toastr.success(res.data.message, 'Sucesso', {
+                    timeOut: 7000,
+                    closeButton: true,
+                    progressBar: true,
+                    positionClass: "toast-top-center",
+                    showMethod: "slideDown",
+                    hideMethod: "slideUp"
+                });  
+            })
+            .catch((err) => {
+            toastr.error(err.response.data.message, 'Erro', {
+                timeOut: 7000,
+                closeButton: true,
+                progressBar: true,
+                positionClass: "toast-top-center",
+                showMethod: "slideDown",
+                hideMethod: "slideUp"
+            });
+            })
             .finally(() => this.loading = false);
     }
 }));
